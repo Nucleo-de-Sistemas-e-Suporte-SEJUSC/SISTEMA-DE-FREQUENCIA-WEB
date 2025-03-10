@@ -1,5 +1,6 @@
 import './style.css'
 import * as Dialog from "@radix-ui/react-dialog";
+import { toast } from 'sonner';
 
 export function FormCadastrarFuncionarios() {
     return (
@@ -53,7 +54,12 @@ export function FormCadastrarFuncionarios() {
                         <Dialog.Close asChild>
                             <button className='container__button__cancelar__servidor'>Cancelar</button>
                         </Dialog.Close>
-                        <button className='container__button__cadastrar__servidor'>Cadastrar Servidor</button>
+                        <button className='container__button__cadastrar__servidor' onClick={() => { 
+                            toast.success("Cadastrado", {
+                                description: "Este Servidor foi Cadastrado com sucesso!",
+                                duration: 3000
+                            })
+                        } }>Cadastrar Servidor</button>
                     </div>
                 </form>
             </Dialog.Content>

@@ -1,11 +1,13 @@
 import "./style.css"
 import * as Dialog from "@radix-ui/react-dialog";
+import { toast } from "sonner";
 
 export function FormCadastrarSetor() {
     return (
         <Dialog.Portal>
             <Dialog.Overlay className="DialogOverlay" />
             <Dialog.Content className="DialogContent">
+                <Dialog.Title>Servidor</Dialog.Title>
                 <form action="#" className='form__dialog'>
                     <div>
                         <label htmlFor="nome" className='form__dialog__label'>Nome</label>
@@ -28,7 +30,13 @@ export function FormCadastrarSetor() {
                         <Dialog.Close asChild>
                             <button className='container__button__cancelar__servidor'>Cancelar</button>
                         </Dialog.Close>
-                        <button className='container__button__cadastrar__servidor'>Cadastrar Setor</button>
+
+                        <button className='container__button__cadastrar__servidor' onClick={() => {
+                             toast.success("Cadastrado", {
+                                description: "Setor cadastrado com sucesso!",
+                                duration: 3000
+                            })
+                        }}>Cadastrar Setor</button>
                     </div>
                 </form>
             </Dialog.Content>

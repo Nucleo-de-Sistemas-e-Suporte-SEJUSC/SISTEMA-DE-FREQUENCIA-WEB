@@ -6,6 +6,7 @@ import { testeServidores, testeSetor } from "./utils/teste";
 import * as Dialog from "@radix-ui/react-dialog";
 import { FormCadastrarFuncionarios } from "../form-cadastrar-funcionarios";
 import { FormCadastrarSetor } from "../form-cadastrar-setor";
+import { toast } from "sonner";
 
 export function Main() {
     const [filtro, setFiltro] = useState("setor")
