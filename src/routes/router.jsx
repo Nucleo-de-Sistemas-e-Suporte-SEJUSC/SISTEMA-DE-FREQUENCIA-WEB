@@ -3,6 +3,7 @@ import { Login } from "../pages/login"
 import { Gerar } from "../pages/gerar"
 import { Visualizar } from "../pages/visualizar";
 import { Home } from "../pages/home";
+import { FrequenciaMensal } from "../pages/frequencia-mensal";
 
 export default function Router() {
     
@@ -14,6 +15,7 @@ export default function Router() {
                 <Route path="/login" element={<Login />} />
                 <Route path="/gerar" element={<Gerar />} />
                 <Route path="/visualizar" element={<Visualizar />} />
+                <Route path="/frequencia-mensal" element={<FrequenciaMensal />} />
             </Routes>
        </BrowserRouter>     
     )

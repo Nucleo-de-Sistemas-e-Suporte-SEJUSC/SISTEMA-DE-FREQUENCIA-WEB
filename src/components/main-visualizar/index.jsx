@@ -2,9 +2,7 @@ import { Link } from "react-router-dom";
 import { meses } from "../main/utils/meses";
 import "./style.css";
 
-export function MainVisualizar(props) {
-    const { nome, setor } = props;
-
+export function MainVisualizar() {
     const data = new Date()
     const mesAtual = data.getMonth()
     const mes = meses[mesAtual]
@@ -30,8 +28,8 @@ export function MainVisualizar(props) {
                 <div className="container__visualizar__header">
                     <div className="card__container__details">
                         <details className="card__details">
-                            <summary className="card__summary">{ nome }</summary>
-                            <p>{ setor }</p>
+                            <summary className="card__summary"> Lucas</summary>
+                            <p>GTI</p>
                         </details>
                     </div>
 
@@ -54,8 +52,8 @@ export function MainVisualizar(props) {
                     <div className="card__servidores--visualizar">
                         <div className="card__container__details">
                             <details className="card__details">
-                                <summary className="card__summary">{ nome }</summary>
-                                <p>{ setor }</p>
+                                <summary className="card__summary">Lucas</summary>
+                                <p>GTI</p>
                             </details>
                         </div>
                     </div>
@@ -64,7 +62,7 @@ export function MainVisualizar(props) {
 
             <div className="container__buttons--visualizar">
                 <button className="container__buttons--visualizar-button">
-                    <Link to="/">Voltar</Link>
+                    <Link to="/gerar">Voltar</Link>
                 </button>
                 <button className="container__buttons--visualizar-button">Mesclar Arquivos</button>
                 <button className="container__buttons--visualizar-button">Visualizar Arquivos</button>

@@ -1,0 +1,14 @@
+.details__verde {
+    background-color: var(--verde-claro);
+}
+
+.details__amarelo {
+    background-color: var(--amarelo-claro);
+}
+
+.details__vermelho {
+    background-color: var(--vermelho-claro);
+}
+.details__branco{
+    background-color: var(--branco);
+}

@@ -8,7 +8,7 @@ export function Visualizar() {
             <Header cabecalhoLogin={false} />
             <Navigation />
 
-            <MainVisualizar nome="Lucas Nather" setor="GTI" />
+            <MainVisualizar />
         </>
     )
 }

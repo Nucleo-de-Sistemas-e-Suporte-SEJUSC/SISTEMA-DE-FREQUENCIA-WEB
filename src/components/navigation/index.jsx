@@ -26,6 +26,16 @@ export function Navigation() {
                             Visualizar
                         </NavLink>
                     </div>
+                    <div>
+                        <NavLink 
+                            to="/frequencia-mensal" 
+                            className={({ isActive }) => 
+                                isActive ? "link active" : "link"
+                            }
+                        >
+                            Frequência Mensal
+                        </NavLink>
+                    </div>
                 </div>
             </nav>
         </section>
