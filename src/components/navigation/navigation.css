@@ -1,0 +1,35 @@
+.container__navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 20px;
+    padding-right: 5px;
+    margin-top: -42px;
+}
+
+.navigation {
+    width: 95%;
+    padding: 10px 0;
+    border-radius: 5px 5px 0 0;
+    background-color: #EDEBEB;
+}  
+
+.navigation__list {
+    width: 30%;
+    display: flex;
+    align-items: center;
+}
+
+.link {
+    border-radius: 5px 5px 0 0;;
+    padding: 10px 40px;
+    color: var(--preto);
+    text-decoration: none;
+}
+
+.link.active {
+    background-color: var(--branco);
+}
+
+
+

@@ -1,0 +1,18 @@
+.cabecalho__home{
+    background-color: var(--lilas);
+    color: var(--branco);
+    padding: 40px 20px;
+}
+
+.cabecalho__login{
+    text-align: center;
+    color: var(--branco);
+}
+
+.container__header {
+    padding: 5px;
+}
+
+.titulo{
+    font-size: 30px;
+}

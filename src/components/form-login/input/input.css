@@ -1,0 +1,18 @@
+.container__input {
+    margin-bottom: 16px;
+}
+
+.label__form {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+    color: var(--azul-escuro);
+}
+
+.input__form {
+    box-sizing: border-box;
+    width: 100%;
+    border-radius: 5px;
+    padding: 12px;
+    border: 1px solid var(--cor-borda);
+}
