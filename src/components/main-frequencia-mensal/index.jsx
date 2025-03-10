@@ -13,7 +13,7 @@ export function MainFrequenciaMensal() {
                 <form action="#" className="form__visualizar">
                     <div className="form__visualizar__container">
                         <input
-                            type="search"
+                            type="text"
                             name="pesquisa"
                             id="pesquisa"
                             placeholder="Pesquisa pelo servidor ou setor"

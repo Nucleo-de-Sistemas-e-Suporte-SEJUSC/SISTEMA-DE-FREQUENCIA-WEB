@@ -77,7 +77,7 @@ export function Main() {
                     <form action="#" className="filtros">
                                 <div className="filtros__container">
                                     <input
-                                        type="search"
+                                        type="text"
                                         name="setor"
                                         id="setor"
                                         placeholder="Pesquisa pelo setor"

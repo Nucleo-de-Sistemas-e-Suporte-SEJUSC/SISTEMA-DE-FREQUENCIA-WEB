@@ -7,7 +7,6 @@ export function FormCadastrarSetor() {
         <Dialog.Portal>
             <Dialog.Overlay className="DialogOverlay" />
             <Dialog.Content className="DialogContent">
-                <Dialog.Title>Servidor</Dialog.Title>
                 <form action="#" className='form__dialog'>
                     <div>
                         <label htmlFor="nome" className='form__dialog__label'>Nome</label>
