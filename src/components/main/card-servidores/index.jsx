@@ -1,3 +1,4 @@
+import { toast } from "sonner"
 import "./style.css"
 
 export function CardServidores(props) {
@@ -14,7 +15,18 @@ export function CardServidores(props) {
                 <div className="card__details__container__button">
                     <button className="card__details__historico__button card__details__button">Histórico</button>
                     <button className="card__details__atualizar__button card__details__button">Atualizar</button>
-                    <button className="card__details__arquivar__button card__details__button">Arquivar</button>
+                    <button className="card__details__arquivar__button card__details__button" onClick={() => {
+                         toast.error("Arquivar Servidor", {
+                            description: "Esta ação moverá o Servidor para os Arquivados",
+                            duration: 15000,
+                            cancel: {
+                                label: "X"
+                            },
+                            action: {
+                                label: "Arquivar"
+                            }
+                        })
+                    }}>Arquivar</button>
                 </div>
             </details>
 
