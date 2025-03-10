@@ -19,6 +19,17 @@ export function FormCadastrarSetor() {
                         <label htmlFor="funcao" className='form__dialog__label'>Função</label>
                         <input type="text" name="funcao" id="funcao" className='form__dialog__input' />
                     </div>
+
+                    <div className='container__button__anexar'>
+                        <button>Anexar Documentos</button>
+                    </div>
+
+                    <div className='container__button__acoes__servidor'>
+                        <Dialog.Close asChild>
+                            <button className='container__button__cancelar__servidor'>Cancelar</button>
+                        </Dialog.Close>
+                        <button className='container__button__cadastrar__servidor'>Cadastrar Setor</button>
+                    </div>
                 </form>
             </Dialog.Content>
         </Dialog.Portal>
