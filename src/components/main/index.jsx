@@ -169,8 +169,8 @@ export function Main() {
                 }
 
                 <div className="container__gerar__button">
-                    <button>Gerar servidores selecionados</button>
-                    <button>Gerar todos os servidores</button>
+                    <button>Gerar servidores  { filtro === 'servidor' ? "servidores" : "setores" } </button>
+                    <button>Gerar todos os { filtro === 'servidor' ? "servidores" : "setores" } </button>
                 </div>
             </section>
         </main>
