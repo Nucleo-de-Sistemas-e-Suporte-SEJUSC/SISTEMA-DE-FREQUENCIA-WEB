@@ -1,5 +1,5 @@
 .cabecalho__home{
-    background-color: var(--lilas);
+    background-color: var(--branco);
     color: var(--branco);
     padding: 40px 20px;
 }
@@ -15,4 +15,5 @@
 
 .titulo{
     font-size: 30px;
+    color: var(--lilas);
 }
