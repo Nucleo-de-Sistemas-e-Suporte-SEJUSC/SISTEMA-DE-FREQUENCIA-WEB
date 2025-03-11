@@ -19,7 +19,10 @@ export function Gerar() {
             />
 
             <section>
-                <Header cabecalhoLogin={false} />
+                <Header 
+                    cabecalhoLogin={false}
+                    titulo="Gerador de Frequência"
+                 />
                 <Navigation />
                 <Main />
             </section> 

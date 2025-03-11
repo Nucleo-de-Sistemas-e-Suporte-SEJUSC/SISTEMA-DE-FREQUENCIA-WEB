@@ -18,8 +18,13 @@ export function Visualizar() {
             />
 
             <section>
-                <Header cabecalhoLogin={false} />
-                <Navigation estaNaPaginaVizualizar={true}  />
+                <Header 
+                    cabecalhoLogin={false}
+                    titulo="Visualização de Frequência"
+                 />
+                <Navigation 
+                    estaNaPaginaVizualizar={true}  
+                />
                 <MainVisualizar />
             </section>
         </section>
