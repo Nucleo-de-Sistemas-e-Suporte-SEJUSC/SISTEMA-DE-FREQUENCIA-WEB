@@ -28,7 +28,7 @@ export function MainVisualizar() {
                 <div className="container__visualizar__header">
                     <div className="card__container__details">
                         <details className="card__details">
-                            <summary className="card__summary"> Lucas</summary>
+                            <summary className="card__summary">Lucas</summary>
                             <p>GTI</p>
                         </details>
                     </div>

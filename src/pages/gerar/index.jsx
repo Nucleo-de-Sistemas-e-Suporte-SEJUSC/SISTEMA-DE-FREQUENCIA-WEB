@@ -21,7 +21,8 @@ export function Gerar() {
             <section>
                 <Header cabecalhoLogin={false} />
                 <Navigation />
-                <Main /></section> 
+                <Main />
+            </section> 
         </section>
     )
 }

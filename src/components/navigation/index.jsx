@@ -1,39 +1,40 @@
 import { NavLink } from "react-router-dom";
 import "./navigation.css";
 
-export function Navigation() {
+export function Navigation({ estaNaPaginaVizualizar = false }) {
+
     return (
         <section className="container__navigation">
             <nav className="navigation">
                 <div className="navigation__list">
-                    <div>
-                        <NavLink 
-                            to="/gerar" 
-                            className={({ isActive }) => 
-                                isActive ? "link active" : "link"
-                            }
-                        >
-                            Gerar
-                        </NavLink>
+                    <div className="navigation__list__buttons">
+                        <div>
+                            <NavLink
+                                to="/gerar"
+                                className={({ isActive }) =>
+                                    isActive ? "link active" : "link"
+                                }
+                            >
+                                Servidores
+                            </NavLink>
+                        </div>
+                        <div>
+                            <NavLink
+                                to="/"
+                                className={({ isActive }) =>
+                                    isActive ? "link active" : "link"
+                                }
+                            >
+                                Estagiários
+                            </NavLink>
+                        </div>
                     </div>
                     <div>
                         <NavLink 
-                            to="/visualizar" 
-                            className={({ isActive }) => 
-                                isActive ? "link active" : "link"
-                            }
+                            className="link__visualizar"
+                            to={ estaNaPaginaVizualizar ? "/gerar" : "/visualizar" } 
                         >
-                            Visualizar
-                        </NavLink>
-                    </div>
-                    <div>
-                        <NavLink 
-                            to="/frequencia-mensal" 
-                            className={({ isActive }) => 
-                                isActive ? "link active" : "link"
-                            }
-                        >
-                            Frequência Mensal
+                            { estaNaPaginaVizualizar ? "Voltar" : "Visualizar" }
                         </NavLink>
                     </div>
                 </div>

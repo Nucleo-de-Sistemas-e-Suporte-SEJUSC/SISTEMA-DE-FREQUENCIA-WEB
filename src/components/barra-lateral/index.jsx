@@ -19,40 +19,40 @@ export function BarraLateral(props) {
                     onClick={() => handleMenu(!menuOpen)}
                 >Menu</div>
                 <div>
-                    <div className="container__buttons__menu">
+                    <div className="container__buttons__menu--hamburger">
                         <img src={GeradorFrequencia} alt="" />
                         {
                             menuOpen && ( <p>Gerador de Frequência</p> )
                         }
                     </div>
-                    <div className="container__buttons__menu">
+                    <div className="container__buttons__menu--hamburger">
                         <img src={ControleDePonto} alt="" />
                         {
                             menuOpen && ( <p>Controle de Ponto</p> )
                         }
                     </div>
-                    <div className="container__buttons__menu">
+                    <div className="container__buttons__menu--hamburger">
                         <img src={Arquivados} alt="" />
                         {
                             menuOpen && ( <p>Arquivados</p>)
                         }
                         
                     </div>
-                    <div className="container__buttons__menu">
+                    <div className="container__buttons__menu--hamburger">
                         <img src={Histórico} alt="" />
                         {
                             menuOpen && (  <p>Histórico</p>)
                         }
                        
                     </div>
-                    <div className="container__buttons__menu">
+                    <div className="container__buttons__menu--hamburger">
                         <img src={Frequência} alt="" />
                         {
                             menuOpen && ( <p>Frequência</p> )
                         }
                     
                     </div>
-                    <div className="container__buttons__menu">
+                    <div className="container__buttons__menu--hamburger">
                         <img src={Férias} alt="" />
                         {
                             menuOpen && ( <p>Férias</p>)
@@ -63,7 +63,7 @@ export function BarraLateral(props) {
                
             </div>
 
-            <div className="container__buttons__menu container__buttons__menu__admin">
+            <div className="container__buttons__menu--hamburger container__buttons__menu__admin">
                 <img src={Admin} alt="" />
                 {
                     menuOpen && ( <p>Administrador</p>)

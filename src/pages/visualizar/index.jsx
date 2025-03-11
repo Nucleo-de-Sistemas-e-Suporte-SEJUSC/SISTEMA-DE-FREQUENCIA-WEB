@@ -1,14 +1,27 @@
+import { useState } from "react";
+import { BarraLateral } from "../../components/barra-lateral";
 import { Header } from "../../components/header";
 import { MainVisualizar } from "../../components/main-visualizar";
 import { Navigation } from "../../components/navigation";
 
 export function Visualizar() {
-    return (
-        <>
-            <Header cabecalhoLogin={false} />
-            <Navigation />
+    const [menu, setMenu] =  useState(false)
 
-            <MainVisualizar />
-        </>
+    return (
+        <section className={
+            menu ? "container__principal" : "container__principal__menu__fechado"
+        }
+        >
+             <BarraLateral 
+                menuOpen={menu}
+                handleMenu={setMenu}
+            />
+
+            <section>
+                <Header cabecalhoLogin={false} />
+                <Navigation estaNaPaginaVizualizar={true}  />
+                <MainVisualizar />
+            </section>
+        </section>
     )
 }

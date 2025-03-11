@@ -7,7 +7,7 @@
     padding: 30px 20px;
 }
 
-.container__buttons__menu {
+.container__buttons__menu--hamburger {
     position: relative;
     display: flex;
     align-items: center;
@@ -15,7 +15,7 @@
     margin-bottom: 25px;
 }
 
-.container__buttons__menu::after {
+.container__buttons__menu--hamburger::after {
     content: " ";
     position: absolute;
     left: -20px;
@@ -30,12 +30,12 @@
     padding-left:  5px;
 }
 
-.container__buttons__menu img {
+.container__buttons__menu--hamburger img {
     width: 40px;
     height: 40px;
 }
 
-.container__buttons__menu p {
+.container__buttons__menu--hamburger p {
     font-size: 16px;
     color: #fff;
 }
