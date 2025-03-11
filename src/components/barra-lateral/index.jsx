@@ -6,6 +6,7 @@ import Histórico from "../../assets/icones-menu/historia.svg"
 import Frequência from "../../assets/icones-menu/folha.svg"
 import Férias from "../../assets/icones-menu/ferias-de-verao.svg"
 import Admin from "../../assets/icones-menu/admin.svg"
+import MenuHamburguer from "../../assets/icones-menu/menu-ham.svg"
 
 export function BarraLateral(props) {
     const { menuOpen, handleMenu } =  props
@@ -14,10 +15,17 @@ export function BarraLateral(props) {
         <aside className="barra-lateral">
 
             <div>
-                <div 
+                <img 
                     className="icone-hamburguer"
-                    onClick={() => handleMenu(!menuOpen)}
-                >Menu</div>
+                    src={MenuHamburguer} 
+                    alt="" 
+                    onClick={() => handleMenu(!menuOpen)} 
+                />
+
+                {/* <div 
+                    className="icone-hamburguer"
+                    
+                >Menu</div> */}
                 <div>
                     <div className="container__buttons__menu--hamburger">
                         <img src={GeradorFrequencia} alt="" />
