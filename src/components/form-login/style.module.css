@@ -7,7 +7,7 @@
 
 .container__form__titulo {
     font-size: 27px;
-    color: var(--branco);
+    color: var(--azul-escuro);
 }
 
 .container__section__form {
@@ -40,4 +40,23 @@
 .form__button:hover {
     transition: .5;
     background-color: var(--roxo-900);
+}
+
+.container__input {
+    margin-bottom: 16px;
+}
+
+.label__form {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+    color: var(--azul-escuro);
+}
+
+.input__form {
+    box-sizing: border-box;
+    width: 100%;
+    border-radius: 5px;
+    padding: 12px;
+    border: 1px solid var(--cor-borda);
 }

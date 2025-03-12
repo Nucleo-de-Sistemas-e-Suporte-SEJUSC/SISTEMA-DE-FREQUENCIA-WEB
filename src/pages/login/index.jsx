@@ -1,11 +1,14 @@
 import { FormLogin } from "../../components/form-login";
 import { Header } from "../../components/header";
-import './login.css'
+import styles from './style.module.css'
 
 export function Login() {
     return (
-        <section className="container__login">
-            <Header cabecalhoLogin={true} />
+        <section className={styles["container__login"]}>
+            <Header 
+                cabecalhoLogin={true} 
+                titulo="Gestão do RH"
+            />
             <FormLogin />
         </section>
     )
