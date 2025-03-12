@@ -1,16 +1,19 @@
 import "./style.css"
 import { useState } from "react";
-import { CardServidores } from "./card-servidores";
 import { meses } from "./utils/meses";
 import { testeServidores, testeSetor } from "./utils/teste";
 import * as Dialog from "@radix-ui/react-dialog";
 import { FormCadastrarFuncionarios } from "../form-cadastrar-funcionarios";
 import { FormCadastrarSetor } from "../form-cadastrar-setor";
-import { toast } from "sonner";
+import { CardFuncionarios } from "../card-funcionarios";
 
 export function Main() {
     const [filtro, setFiltro] = useState("setor")
     const [checkedStates, setCheckedStates] = useState({});
+
+    const data = new Date()
+    const mesAtual = data.getMonth()
+    const mes = meses[mesAtual]
 
     const handleCheckboxChange = (id) => {
         setCheckedStates(prevState => ({
@@ -27,10 +30,6 @@ export function Main() {
         const filtraSetor = testeServidores.filter(servidor => servidor.setor === setor)
         return filtraSetor.length
     }
-
-    const data = new Date()
-    const mesAtual = data.getMonth()
-    const mes = meses[mesAtual]
 
     return (
         <main>
@@ -109,7 +108,7 @@ export function Main() {
                     <section className="container__servidores">
                         {
                             testeServidores.map(servidor => {
-                                return <CardServidores 
+                                return <CardFuncionarios 
                                     key={servidor.id} 
                                     nome={servidor.nome} 
                                     id={servidor.id}
@@ -129,7 +128,7 @@ export function Main() {
 
                             testeSetor.map(setor => {
                                 const quantidadeDeServidoresNoSetor = filtraSetores(setor.nome)
-                                return <CardServidores 
+                                return <CardFuncionarios 
                                     key={setor.id} 
                                     nome={setor.nome}
                                     id={setor.id}

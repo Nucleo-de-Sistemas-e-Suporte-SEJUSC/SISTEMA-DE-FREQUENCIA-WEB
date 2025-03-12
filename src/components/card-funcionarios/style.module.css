@@ -12,6 +12,8 @@
     position: relative;
     border: 1px solid var(--cor-borda);
     padding: 15px;
+    background: #F5F5F5;
+
 }
 
 .card__summary {

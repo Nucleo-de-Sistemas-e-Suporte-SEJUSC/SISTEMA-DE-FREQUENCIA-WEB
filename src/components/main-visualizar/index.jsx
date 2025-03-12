@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { BuscaServidores } from "../busca-servidores";
 import { meses } from "../main/utils/meses";
 import "./style.css";
 
@@ -25,28 +26,7 @@ export function MainVisualizar() {
             </form>
 
             <div className="container__visualizar__content">
-                <div className="container__visualizar__header">
-                    <div className="card__container__details">
-                        <details className="card__details">
-                            <summary className="card__summary">Lucas</summary>
-                            <p>GTI</p>
-                        </details>
-                    </div>
-
-                    <div className="form__filtro__select__container form__filtro__select__container--visualizar">
-                        <label htmlFor="selecione">Selecione o mês:</label>
-                        <select name="meses" id="meses" className="form__filtro__select form__siltro__select--visualizar" defaultValue={mes}>
-                            { meses.map((mes, index) => {
-                                return <option key={index} value={mes}>{mes}</option>
-                            }) }
-                        </select>
-                    </div>
-
-                    <div className="container__button__form--visualizar">
-                        <button>Ir</button>
-                    </div>
-                    
-                </div>
+               <BuscaServidores meses={meses} mes={mes}/>
 
                 <div className="container__visualizar__info">
                     <div className="card__servidores--visualizar">
