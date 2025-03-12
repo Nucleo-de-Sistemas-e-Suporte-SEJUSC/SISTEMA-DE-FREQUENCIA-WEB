@@ -28,60 +28,60 @@ export function BarraLateral(props) {
                         isActive ? "container__buttons__menu--hamburger" : "container__buttons__menu--hamburger--nao-ativo"
                     }>
                         <div >
-                            <img src={GeradorFrequencia} alt="" />
+                            <img src={GeradorFrequencia} alt="" className="container__buttons__menu-img"/>
                             {
                                 menuOpen && ( <p>Gerador de Frequência</p> )
                             }
                         </div>
                     </NavLink>
-                    <NavLink to="/" className={({isActive}) =>
+                    <NavLink to="/nao-encontrado" className={({isActive}) =>
                         isActive ? "container__buttons__menu--hamburger" : "container__buttons__menu--hamburger--nao-ativo"
                     }>
                         <div>
-                            <img src={ControleDePonto} alt="" />
+                            <img src={ControleDePonto} alt="" className="container__buttons__menu-img"/>
                             {
                                 menuOpen && ( <p>Controle de Ponto</p> )
                             }
                         </div>
                     </NavLink>
-                    <NavLink to="/" className={({isActive}) =>
+                    <NavLink to="/nao-encontrado" className={({isActive}) =>
                         isActive ? "container__buttons__menu--hamburger" : "container__buttons__menu--hamburger--nao-ativo"
                     }>
                         <div>
-                            <img src={Arquivados} alt="" />
+                            <img src={Arquivados} alt="" className="container__buttons__menu-img"/>
                             {
                                 menuOpen && ( <p>Arquivados</p>)
                             }
                         
                         </div>
                     </NavLink>
-                    <NavLink to="/" className={({isActive}) =>
+                    <NavLink to="/nao-encontrado" className={({isActive}) =>
                         isActive ? "container__buttons__menu--hamburger" : "container__buttons__menu--hamburger--nao-ativo"
                     }>
                         <div>
-                            <img src={Histórico} alt="" />
+                            <img src={Histórico} alt="" className="container__buttons__menu-img"/>
                             {
                                 menuOpen && (  <p>Histórico</p>)
                             }
                         
                         </div>
                     </NavLink>
-                    <NavLink to="/" className={({isActive}) =>
+                    <NavLink to="/nao-encontrado" className={({isActive}) =>
                         isActive ? "container__buttons__menu--hamburger" : "container__buttons__menu--hamburger--nao-ativo"
                     }>
                         <div>
-                            <img src={Frequência} alt="" />
+                            <img src={Frequência} alt="" className="container__buttons__menu-img"/>
                             {
                                 menuOpen && ( <p>Frequência</p> )
                             }
                         
                         </div>
                     </NavLink>
-                    <NavLink to="/" className={({isActive}) =>
+                    <NavLink to="/nao-encontrado" className={({isActive}) =>
                         isActive ? "container__buttons__menu--hamburger" : "container__buttons__menu--hamburger--nao-ativo"
                     }>
                         <div>
-                            <img src={Férias} alt="" />
+                            <img src={Férias} alt="" className="container__buttons__menu-img"/>
                             {
                                 menuOpen && ( <p>Férias</p>)
                             }
@@ -93,7 +93,7 @@ export function BarraLateral(props) {
             </div>
 
             <div className="container__buttons__menu--hamburger container__buttons__menu__admin">
-                <img src={Admin} alt="" />
+                <img src={Admin} alt="" className="container__buttons__menu-img"/>
                 {
                     menuOpen && ( <p>Administrador</p>)
                 }
