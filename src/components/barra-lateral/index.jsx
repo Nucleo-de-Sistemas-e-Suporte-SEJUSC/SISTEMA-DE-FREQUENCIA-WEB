@@ -7,6 +7,7 @@ import Frequência from "../../assets/icones-menu/folha.svg"
 import Férias from "../../assets/icones-menu/ferias-de-verao.svg"
 import Admin from "../../assets/icones-menu/admin.svg"
 import MenuHamburguer from "../../assets/icones-menu/menu-ham.svg"
+import { NavLink } from "react-router-dom"
 
 export function BarraLateral(props) {
     const { menuOpen, handleMenu } =  props
@@ -22,51 +23,71 @@ export function BarraLateral(props) {
                     onClick={() => handleMenu(!menuOpen)} 
                 />
 
-                {/* <div 
-                    className="icone-hamburguer"
-                    
-                >Menu</div> */}
                 <div>
-                    <div className="container__buttons__menu--hamburger">
-                        <img src={GeradorFrequencia} alt="" />
-                        {
-                            menuOpen && ( <p>Gerador de Frequência</p> )
-                        }
-                    </div>
-                    <div className="container__buttons__menu--hamburger">
-                        <img src={ControleDePonto} alt="" />
-                        {
-                            menuOpen && ( <p>Controle de Ponto</p> )
-                        }
-                    </div>
-                    <div className="container__buttons__menu--hamburger">
-                        <img src={Arquivados} alt="" />
-                        {
-                            menuOpen && ( <p>Arquivados</p>)
-                        }
+                    <NavLink to="/gerar" className={({isActive}) =>
+                        isActive ? "container__buttons__menu--hamburger" : "container__buttons__menu--hamburger--nao-ativo"
+                    }>
+                        <div >
+                            <img src={GeradorFrequencia} alt="" />
+                            {
+                                menuOpen && ( <p>Gerador de Frequência</p> )
+                            }
+                        </div>
+                    </NavLink>
+                    <NavLink to="/" className={({isActive}) =>
+                        isActive ? "container__buttons__menu--hamburger" : "container__buttons__menu--hamburger--nao-ativo"
+                    }>
+                        <div>
+                            <img src={ControleDePonto} alt="" />
+                            {
+                                menuOpen && ( <p>Controle de Ponto</p> )
+                            }
+                        </div>
+                    </NavLink>
+                    <NavLink to="/" className={({isActive}) =>
+                        isActive ? "container__buttons__menu--hamburger" : "container__buttons__menu--hamburger--nao-ativo"
+                    }>
+                        <div>
+                            <img src={Arquivados} alt="" />
+                            {
+                                menuOpen && ( <p>Arquivados</p>)
+                            }
                         
-                    </div>
-                    <div className="container__buttons__menu--hamburger">
-                        <img src={Histórico} alt="" />
-                        {
-                            menuOpen && (  <p>Histórico</p>)
-                        }
-                       
-                    </div>
-                    <div className="container__buttons__menu--hamburger">
-                        <img src={Frequência} alt="" />
-                        {
-                            menuOpen && ( <p>Frequência</p> )
-                        }
-                    
-                    </div>
-                    <div className="container__buttons__menu--hamburger">
-                        <img src={Férias} alt="" />
-                        {
-                            menuOpen && ( <p>Férias</p>)
-                        }
-                       
-                    </div>
+                        </div>
+                    </NavLink>
+                    <NavLink to="/" className={({isActive}) =>
+                        isActive ? "container__buttons__menu--hamburger" : "container__buttons__menu--hamburger--nao-ativo"
+                    }>
+                        <div>
+                            <img src={Histórico} alt="" />
+                            {
+                                menuOpen && (  <p>Histórico</p>)
+                            }
+                        
+                        </div>
+                    </NavLink>
+                    <NavLink to="/" className={({isActive}) =>
+                        isActive ? "container__buttons__menu--hamburger" : "container__buttons__menu--hamburger--nao-ativo"
+                    }>
+                        <div>
+                            <img src={Frequência} alt="" />
+                            {
+                                menuOpen && ( <p>Frequência</p> )
+                            }
+                        
+                        </div>
+                    </NavLink>
+                    <NavLink to="/" className={({isActive}) =>
+                        isActive ? "container__buttons__menu--hamburger" : "container__buttons__menu--hamburger--nao-ativo"
+                    }>
+                        <div>
+                            <img src={Férias} alt="" />
+                            {
+                                menuOpen && ( <p>Férias</p>)
+                            }
+                        
+                        </div>
+                    </NavLink>
                 </div>
                
             </div>
