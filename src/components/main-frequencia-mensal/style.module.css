@@ -1,3 +1,4 @@
+
 .container__visualizar {
     width: 95%;
     padding-left: 20px;
@@ -81,4 +82,19 @@
     padding: 10px;
     border-radius: 10px;
     margin-bottom: 20px;
+}
+
+.details__verde {
+    background-color: var(--verde-claro);
+}
+
+.details__amarelo {
+    background-color: var(--amarelo-claro);
+}
+
+.details__vermelho {
+    background-color: var(--vermelho-claro);
+}
+.details__branco{
+    background-color: var(--branco);
 }

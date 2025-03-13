@@ -3,7 +3,7 @@ import { meses } from "../../utils/meses";
 import { CardBuscaServidores } from "../cards/card-busca-servidores";
 import { CardVisualizarServidores } from "../cards/card-visualizar-servidores";
 
-export function MainFrequenciaMensal(props) {
+export function MainArquivados(props) {
         const { funcionarios } = props
 
         const data = new Date()
@@ -36,12 +36,24 @@ export function MainFrequenciaMensal(props) {
                     <CardVisualizarServidores>
                         <details className={styles["card__details"]}>
                             <summary className={styles["card__summary"]}>Lucas</summary>
-                            <p>GTI</p>
-                        </details>
+                            <p>Arquivado</p>
 
-                        <details className={styles["card__details"]}>
-                            <summary className={styles["card__summary"]}>Felipe</summary>
-                            <p>GTI</p>
+                            <div className={styles["card__details__container__button"]}>
+                                <button className={`${styles["card__details__historico__button"]} ${styles["card__details__button"]} `}>Histórico</button>
+                                <button className={`${styles["card__details__atualizar__button"]} ${styles["card__details__button"]} `}>Atualizar</button>
+                                <button className={`${styles["card__details__arquivar__button"]} ${styles["card__details__button"]} `} onClick={() => {
+                                    toast.error("Arquivar Servidor", {
+                                        description: "Esta ação moverá o Servidor para os Arquivados",
+                                        duration: 15000,
+                                        cancel: {
+                                            label: "X"
+                                        },
+                                        action: {
+                                            label: "Arquivar"
+                                        }
+                                    })
+                                }}>Arquivar</button>
+                            </div>
                         </details>
                     </CardVisualizarServidores>
                 </div>

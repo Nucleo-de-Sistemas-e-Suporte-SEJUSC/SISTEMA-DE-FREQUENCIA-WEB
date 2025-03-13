@@ -5,6 +5,7 @@ import { FrequenciaMensal } from "../pages/frequencia-mensal";
 import { NotFound } from "../pages/not-found";
 import { GerarServidores } from "../pages/gerar-servidores";
 import { GerarEstagiarios } from "../pages/gerar-estagiarios";
+import { Arquivados } from "../pages/arquivados";
 
 export default function Router() {
     
@@ -17,6 +18,7 @@ export default function Router() {
                 <Route path="/estagiarios" element={<GerarEstagiarios />} />
                 <Route path="/visualizar" element={<Visualizar />} />
                 <Route path="/frequencia/mensal" element={<FrequenciaMensal />} />
+                <Route path="/arquivados" element={<Arquivados />} />
                 <Route path="/naoencontrado" element={<NotFound />} />
             </Routes>
        </BrowserRouter>     

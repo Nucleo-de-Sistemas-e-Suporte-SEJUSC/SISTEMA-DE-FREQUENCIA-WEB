@@ -34,7 +34,7 @@ export function BarraLateral(props) {
                             }
                         </div>
                     </NavLink>
-                    <NavLink to="/nao-encontrado" className={({isActive}) =>
+                    <NavLink to="/naoencontrado" className={({isActive}) =>
                         isActive ? "container__buttons__menu--hamburger" : "container__buttons__menu--hamburger--nao-ativo"
                     }>
                         <div>
@@ -44,7 +44,7 @@ export function BarraLateral(props) {
                             }
                         </div>
                     </NavLink>
-                    <NavLink to="/nao-encontrado" className={({isActive}) =>
+                    <NavLink to="/arquivados" className={({isActive}) =>
                         isActive ? "container__buttons__menu--hamburger" : "container__buttons__menu--hamburger--nao-ativo"
                     }>
                         <div>
@@ -55,7 +55,7 @@ export function BarraLateral(props) {
                         
                         </div>
                     </NavLink>
-                    <NavLink to="/nao-encontrado" className={({isActive}) =>
+                    <NavLink to="/naoencontrado" className={({isActive}) =>
                         isActive ? "container__buttons__menu--hamburger" : "container__buttons__menu--hamburger--nao-ativo"
                     }>
                         <div>
@@ -77,7 +77,7 @@ export function BarraLateral(props) {
                         
                         </div>
                     </NavLink>
-                    <NavLink to="/nao-encontrado" className={({isActive}) =>
+                    <NavLink to="/naoencontrado" className={({isActive}) =>
                         isActive ? "container__buttons__menu--hamburger" : "container__buttons__menu--hamburger--nao-ativo"
                     }>
                         <div>

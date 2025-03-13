@@ -29,7 +29,12 @@ export function MainVisualizar() {
             <div className={styles["container__visualizar__content"]}>
                <CardBuscaServidores meses={meses} mes={mes}/>
 
-               <CardVisualizarServidores />
+               <CardVisualizarServidores>
+                    <details className={styles["card__details"]}>
+                            <summary className={styles["card__summary"]}>Lucas</summary>
+                            <p>GTI</p>
+                    </details>
+               </CardVisualizarServidores>
             </div>
 
             <div className={styles["container__buttons--visualizar"]}>

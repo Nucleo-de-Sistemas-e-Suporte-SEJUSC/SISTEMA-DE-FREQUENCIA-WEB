@@ -3,8 +3,9 @@ import { useState } from "react"
 import { BarraLateral } from "../../components/comuns/barra-lateral"
 import { Header } from "../../components/comuns/header"
 import { MainFrequenciaMensal } from "../../components/main-frequencia-mensal"
+import { MainArquivados } from "../../components/main-arquivados"
 
-export function FrequenciaMensal() {
+export function Arquivados() {
     const [menu, setMenu] =  useState(false)
     const [filtro, setFiltro] = useState("Servidores")
 
@@ -24,7 +25,7 @@ export function FrequenciaMensal() {
             <section>
                 <Header
                     cabecalhoLogin={false} 
-                    titulo="Frequência Mensal"
+                    titulo="Arquivados"
                 />
 
                 <div className={"navigation__list__buttons"}>
@@ -50,7 +51,7 @@ export function FrequenciaMensal() {
                     </div>
                 </div>
 
-                <MainFrequenciaMensal funcionarios={filtro} />
+                <MainArquivados funcionarios={filtro} />
             </section>
         </section>
     )
