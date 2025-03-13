@@ -5,6 +5,7 @@
     align-items: center;
     background-color: var(--lilas);
     padding: 30px 20px;
+    height: 100vh;
 }
 
 .container__buttons__menu--hamburger {

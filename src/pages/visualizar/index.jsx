@@ -1,9 +1,9 @@
 import "./style.css"
 import { useState } from "react";
-import { BarraLateral } from "../../components/barra-lateral";
-import { Header } from "../../components/header";
 import { MainVisualizar } from "../../components/main-visualizar";
-import { Navigation } from "../../components/navigation";
+import { BarraLateral } from "../../components/comuns/barra-lateral";
+import { Header } from "../../components/comuns/header";
+import { Navigation } from "../../components/comuns/navigation";
 
 export function Visualizar() {
     const [menu, setMenu] =  useState(false)
@@ -23,7 +23,7 @@ export function Visualizar() {
                     cabecalhoLogin={false}
                     titulo="Visualização de Frequência"
                  />
-                <Navigation 
+                <Navigation
                     estaNaPaginaVizualizar={true}  
                 />
                 <MainVisualizar />

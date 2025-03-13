@@ -1,5 +1,6 @@
-import { FormLogin } from "../../components/form-login";
-import { Header } from "../../components/header";
+
+import { Header } from "../../components/comuns/header";
+import { FormLogin } from "../../components/formularios/form-login";
 import styles from './style.module.css'
 
 export function Login() {

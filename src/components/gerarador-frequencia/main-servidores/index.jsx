@@ -1,13 +1,13 @@
-import styles from "./style.module.css"
+import "./style.css"
 import { useState } from "react";
-import { meses } from "../../utils/meses";
-import { testeServidores, testeSetor } from "../../utils/teste";
+import { meses } from "../../../utils/meses";
+import { testeServidores, testeSetor } from "../../../utils/teste";
 import * as Dialog from "@radix-ui/react-dialog";
-import { FormCadastrarFuncionarios } from "../form-cadastrar-funcionarios";
-import { FormCadastrarSetor } from "../form-cadastrar-setor";
-import { CardFuncionarios } from "../card-funcionarios";
+import { FormCadastrarSetor } from "../../formularios/form-cadastrar-setor";
+import { FormCadastrarFuncionarios } from "../../formularios/form-cadastrar-funcionarios";
+import { CardFuncionarios } from "../../cards/card-funcionarios";
 
-export function MainEstagiario() {
+export function MainServidores() {
     const [filtro, setFiltro] = useState("setor")
     const [checkedStates, setCheckedStates] = useState({});
 
@@ -33,10 +33,10 @@ export function MainEstagiario() {
 
     return (
         <main>
-            <form action="#" className={styles["form__filtro"]}>
+            <form action="#" className="form__filtro">
                 <label htmlFor="selecione">Selecione o mês: </label>
 
-                <div className={styles["form__inputs__container"]}>
+                <div className="form__inputs__container">
                     <div>
                         <input 
                             type="radio" 
@@ -46,23 +46,23 @@ export function MainEstagiario() {
                             checked={filtro === "setor"}
                             onChange={handleFiltro}
                         />
-                        <label htmlFor="fitro" className={styles["form__filtro__label"]}>Setor</label>
+                        <label htmlFor="fitro" className="form__filtro__label">Setor</label>
                     </div>
 
                     <div>
                         <input 
                             type="radio" 
-                            value="estagiario"
+                            value="servidor"
                             id="filtro" 
                             name="fitro" 
-                            checked={filtro === "estagiario"}
+                            checked={filtro === "servidor"}
                             onChange={handleFiltro}
                         />
-                        <label htmlFor="fitro" className={styles["form__filtro__label"]}>Estagiário</label>
+                        <label htmlFor="fitro" className="form__filtro__label">Servidor</label>
                     </div>
 
-                    <div className={styles["form__filtro__select__container"]}>
-                        <select name="meses" id="meses" className={styles["form__filtro__select"]} defaultValue={mes}>
+                    <div className="form__filtro__select__container">
+                        <select name="meses" id="meses" className="form__filtro__select" defaultValue={mes}>
                             { meses.map((mes, index) => {
                                 return <option key={index} value={mes}>{mes}</option>
                             }) }
@@ -73,14 +73,14 @@ export function MainEstagiario() {
 
             {
                 filtro === "setor" && (
-                    <form action="#" className={styles["filtros"]}>
-                                <div className={styles["filtros__container"]}>
+                    <form action="#" className="filtros">
+                                <div className="filtros__container">
                                     <input
                                         type="text"
                                         name="setor"
                                         id="setor"
                                         placeholder="Pesquisa pelo setor"
-                                        className={styles["filtros__input"]}
+                                        className="filtros__input"
                                     />
                                 </div>
                     </form>
@@ -88,15 +88,15 @@ export function MainEstagiario() {
             }
 
             {
-                filtro === 'estagiario' && (
-                    <form action="#" className={styles["filtros"]}>
-                        <div className={styles["filtros__container"]}>
+                filtro === 'servidor' && (
+                    <form action="#" className="filtros">
+                        <div className="filtros__container">
                             <input 
                                 type="search" 
-                                name="estagiario" 
-                                id="estagiario" 
-                                placeholder="Pesquisa pelo estagiário"
-                                className={styles["filtros__input"]}
+                                name="servidor" 
+                                id="servidor" 
+                                placeholder="Pesquisa pelo servidor"
+                                className="filtros__input"
                             />
                         </div>
                     </form>
@@ -104,12 +104,11 @@ export function MainEstagiario() {
             }
 
             {
-                filtro === 'estagiario' && (
-                    <section className={styles["container__servidores"]}>
+                filtro === 'servidor' && (
+                    <section className="container__servidores">
                         {
                             testeServidores.map(servidor => {
-                                return <CardFuncionarios 
-                                    key={servidor.id} 
+                                return <CardFuncionarios
                                     nome={servidor.nome} 
                                     id={servidor.id}
                                     isChecked={!!checkedStates[servidor.id]}
@@ -123,7 +122,7 @@ export function MainEstagiario() {
 
             {
                 filtro === 'setor' && (
-                    <section className={styles["container__setores"]}>
+                    <section className="container__setores">
                         {
 
                             testeSetor.map(setor => {
@@ -142,7 +141,7 @@ export function MainEstagiario() {
                 )
             }
 
-            <section className={styles["container__cadastrar__button"]}>
+            <section className="container__cadastrar__button">
                 {
                     filtro === "setor" && (
                         <Dialog.Root>
@@ -156,10 +155,10 @@ export function MainEstagiario() {
                 }
 
                 {
-                    filtro === "estagiario" && (
+                    filtro === "servidor" && (
                         <Dialog.Root>
                             <Dialog.Trigger asChild>
-                                <button>Cadastrar Estagiário</button>
+                                <button>Cadastrar servidor</button>
                             </Dialog.Trigger>
 
                             <FormCadastrarFuncionarios />
@@ -167,9 +166,9 @@ export function MainEstagiario() {
                     )
                 }
 
-                <div className={styles["container__gerar__button"]}>
-                    <button>Gerar  { filtro === 'estagiario' ? "estagiários" : "setores" } </button>
-                    <button>Gerar todos os { filtro === 'estagiario' ? "estagiários" : "setores" } </button>
+                <div className="container__gerar__button">
+                    <button>Gerar  { filtro === 'servidor' ? "servidores" : "setores" } </button>
+                    <button>Gerar todos os { filtro === 'servidor' ? "servidores" : "setores" } </button>
                 </div>
             </section>
         </main>

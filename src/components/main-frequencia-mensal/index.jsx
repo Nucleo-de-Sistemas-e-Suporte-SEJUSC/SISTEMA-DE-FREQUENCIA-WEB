@@ -1,6 +1,8 @@
 import "./style.css"
 import { Link } from "react-router-dom";
 import { meses } from "../../utils/meses";
+import { CardBuscaServidores } from "../cards/card-busca-servidores";
+import { CardVisualizarServidores } from "../cards/card-visualizar-servidores";
 
 export function MainFrequenciaMensal() {
         const data = new Date()
@@ -25,84 +27,14 @@ export function MainFrequenciaMensal() {
                 </form>
     
                 <div className="container__visualizar__content">
-                    <div className="container__visualizar__header">
-                        <div className="card__container__details">
-                            <details className="card__details">
-                                <summary className="card__summary"> Lucas</summary>
-                                <p>GTI</p>
-                            </details>
-                        </div>
-    
-                        <div className="form__filtro__select__container form__filtro__select__container--visualizar">
-                            <label htmlFor="selecione">Selecione o mês:</label>
-                            <select name="meses" id="meses" className="form__filtro__select form__siltro__select--visualizar" defaultValue={mes}>
-                                { meses.map((mes, index) => {
-                                    return <option key={index} value={mes}>{mes}</option>
-                                }) }
-                            </select>
-                        </div>
-    
-                        <div className="container__button__form--visualizar">
-                            <button>Ir</button>
-                        </div>
-                        
-                    </div>
-    
-                    <div className="container__visualizar__info">
-                        <div className="card__servidores--visualizar">
-                            <div className="card__container__details">
-                                <details className="card__details details__verde">
-                                    <summary className="card__summary">Lucas</summary>
-                                    <p>Frequencia Mensal Postada : xx/xx/xx</p>
+                    <CardBuscaServidores 
+                        meses={meses} 
+                        mes={mes}
+                    />
 
-                                    <div className="card__details__container__button">
-                                        <button>Cancelar</button>
-                                    </div>
-
-                                </details>
-
-                            </div>
-                            <div className="card__container__details">
-                                <details className="card__details details__amarelo">
-                                    <summary className="card__summary">Lucas</summary>
-                                    <p>Frequencia Mensal desse Mês em Falta / data limite: xx/xx/xx</p>
-
-                                    <div className="card__details__container__button">
-                                        <button>Anexar</button>
-                                    </div>
-                                </details>
-                            </div>
-                            <div className="card__container__details">
-                                <details className="card__details details__vermelho">
-                                    <summary className="card__summary">Lucas</summary>
-                                    <p>Frequencia Mensal desse Mês e outros em Falta </p>
-
-                                    <div className="card__details__container__button">
-                                        <button>Anexar</button>
-                                    </div>
-                                </details>
-                            </div>
-                            <div className="card__container__details">
-                                <details className="card__details details__brancho">
-                                    <summary className="card__summary">Lucas</summary>
-                                    <p>Frequencia Mensal data limite: xx/xx/xx</p>
-
-                                    <div className="card__details__container__button">
-                                        <button>Anexar</button>
-                                    </div>
-                                </details>
-                            </div>
-                        </div>
-                    </div>
+                    <CardVisualizarServidores />
                 </div>
     
-                <div className="container__buttons--visualizar">
-                    <button className="container__buttons--visualizar-button">
-                        <Link to="/gerar">Voltar</Link>
-                    </button>
-                    <button className="container__buttons--visualizar-button">Mesclar Arquivos</button>
-                    <button className="container__buttons--visualizar-button">Visualizar Arquivos</button>
-                </div>
             </section>
         );
 }

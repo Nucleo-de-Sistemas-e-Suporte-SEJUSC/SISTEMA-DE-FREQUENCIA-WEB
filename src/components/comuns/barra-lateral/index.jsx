@@ -1,12 +1,12 @@
 import "./style.css"
-import GeradorFrequencia from "../../assets/icones-menu/tabela-de-edicao.svg"
-import ControleDePonto from "../../assets/icones-menu/marca-correta.svg"
-import Arquivados from "../../assets/icones-menu/pasta.svg"
-import Histórico from "../../assets/icones-menu/historia.svg"
-import Frequência from "../../assets/icones-menu/folha.svg"
-import Férias from "../../assets/icones-menu/ferias-de-verao.svg"
-import Admin from "../../assets/icones-menu/admin.svg"
-import MenuHamburguer from "../../assets/icones-menu/menu-ham.svg"
+import GeradorFrequencia from "../../../assets/icones-menu/tabela-de-edicao.svg"
+import ControleDePonto from "../../../assets/icones-menu/marca-correta.svg"
+import Arquivados from "../../../assets/icones-menu/pasta.svg"
+import Histórico from "../../../assets/icones-menu/historia.svg"
+import Frequência from "../../../assets/icones-menu/folha.svg"
+import Férias from "../../../assets/icones-menu/ferias-de-verao.svg"
+import Admin from "../../../assets/icones-menu/admin.svg"
+import MenuHamburguer from "../../../assets/icones-menu/menu-ham.svg"
 import { NavLink } from "react-router-dom"
 
 export function BarraLateral(props) {
@@ -24,7 +24,7 @@ export function BarraLateral(props) {
                 />
 
                 <div>
-                    <NavLink to="/gerar" className={({isActive}) =>
+                    <NavLink to="/servidores" className={({isActive}) =>
                         isActive ? "container__buttons__menu--hamburger" : "container__buttons__menu--hamburger--nao-ativo"
                     }>
                         <div >
@@ -66,7 +66,7 @@ export function BarraLateral(props) {
                         
                         </div>
                     </NavLink>
-                    <NavLink to="/nao-encontrado" className={({isActive}) =>
+                    <NavLink to="/frequencia/mensal" className={({isActive}) =>
                         isActive ? "container__buttons__menu--hamburger" : "container__buttons__menu--hamburger--nao-ativo"
                     }>
                         <div>

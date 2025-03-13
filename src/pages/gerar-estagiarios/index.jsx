@@ -1,9 +1,9 @@
 import styles from "./style.module.css"
-import { BarraLateral } from "../../components/barra-lateral";
-import { Header} from "../../components/header";
-import { Navigation } from "../../components/navigation";
 import { useState } from "react";
-import { MainEstagiario } from "../../components/main-estagiario";
+import { MainEstagiario } from "../../components/gerarador-frequencia/main-estagiario";
+import { BarraLateral } from "../../components/comuns/barra-lateral";
+import { Header } from "../../components/comuns/header";
+import { Navigation } from "../../components/comuns/navigation";
 
 
 export function GerarEstagiarios() {

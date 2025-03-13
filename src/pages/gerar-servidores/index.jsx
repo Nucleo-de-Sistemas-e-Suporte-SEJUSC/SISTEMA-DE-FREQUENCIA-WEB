@@ -1,10 +1,10 @@
 import styles from "./style.module.css"
-import { BarraLateral } from "../../components/barra-lateral";
-import { Header} from "../../components/header";
-import { Main } from "../../components/main";
-import { Navigation } from "../../components/navigation";
-import { useState } from "react";
 
+import { useState } from "react";
+import { MainServidores } from "../../components/gerarador-frequencia/main-servidores"
+import { BarraLateral } from "../../components/comuns/barra-lateral";
+import { Header } from "../../components/comuns/header";
+import { Navigation } from "../../components/comuns/navigation";
 
 export function GerarServidores() {
     const [menu, setMenu] =  useState(false)
@@ -24,7 +24,7 @@ export function GerarServidores() {
                     titulo="Gerador de Frequência"
                  />
                 <Navigation />
-                <Main />
+                <MainServidores />
             </section> 
         </section>
     )

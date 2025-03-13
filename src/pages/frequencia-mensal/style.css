@@ -1,0 +1,28 @@
+.container__principal {
+    display: grid;
+    grid-template-columns: 270px 1fr;
+}
+
+.container__principal__menu__fechado {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+}
+
+.navigation__list__buttons {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.link {
+    font-size: 21px;
+    border-radius: 5px;
+    padding: 10px;
+    text-decoration: none;
+    color: var(--lilas);
+}
+
+.link.active {
+    color: var(--branco);
+    background-color: var(--lilas);
+}

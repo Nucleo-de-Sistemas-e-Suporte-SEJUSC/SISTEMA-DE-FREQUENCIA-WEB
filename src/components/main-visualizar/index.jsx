@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
-import { CardBuscaServidores } from "../card-busca-servidores";
-import { CardVisualizarServidores } from "../card-visualizar-servidores";
 import { meses } from "../../utils/meses";
+import { CardBuscaServidores } from "../cards/card-busca-servidores";
+import { CardVisualizarServidores } from "../cards/card-visualizar-servidores";
 import  styles from "./style.module.css";
 
 export function MainVisualizar() {
