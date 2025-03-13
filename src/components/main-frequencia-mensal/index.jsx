@@ -1,6 +1,6 @@
 import "./style.css"
 import { Link } from "react-router-dom";
-import { meses } from "../main/utils/meses";
+import { meses } from "../../utils/meses";
 
 export function MainFrequenciaMensal() {
         const data = new Date()

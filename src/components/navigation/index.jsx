@@ -1,16 +1,16 @@
 import { NavLink } from "react-router-dom";
-import "./navigation.css";
+import "./style.css";
 
 export function Navigation({ estaNaPaginaVizualizar = false }) {
 
     return (
-        <section className="container__navigation">
-            <nav className="navigation">
-                <div className="navigation__list">
-                    <div className="navigation__list__buttons">
+        <section className={"container__navigation"}>
+            <nav className={"navigation"}>
+                <div className={"navigation__list"}>
+                    <div className={"navigation__list__buttons"}>
                         <div>
                             <NavLink
-                                to="/gerar"
+                                to="/servidores"
                                 className={({ isActive }) =>
                                     isActive ? "link active" : "link"
                                 }
@@ -20,7 +20,7 @@ export function Navigation({ estaNaPaginaVizualizar = false }) {
                         </div>
                         <div>
                             <NavLink
-                                to="/gerar/estagiarios"
+                                to="/estagiarios"
                                 className={({ isActive }) =>
                                     isActive ? "link active" : "link"
                                 }
@@ -31,8 +31,8 @@ export function Navigation({ estaNaPaginaVizualizar = false }) {
                     </div>
                     <div>
                         <NavLink 
-                            className="link__visualizar"
-                            to={ estaNaPaginaVizualizar ? "/gerar" : "/visualizar" } 
+                            className={"link__visualizar"}
+                            to={ estaNaPaginaVizualizar ? "/servidores" : "/visualizar" } 
                         >
                             { estaNaPaginaVizualizar ? "Voltar" : "Visualizar" }
                         </NavLink>

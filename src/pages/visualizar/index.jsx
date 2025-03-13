@@ -1,3 +1,4 @@
+import "./style.css"
 import { useState } from "react";
 import { BarraLateral } from "../../components/barra-lateral";
 import { Header } from "../../components/header";
@@ -12,7 +13,7 @@ export function Visualizar() {
             menu ? "container__principal" : "container__principal__menu__fechado"
         }
         >
-             <BarraLateral 
+             <BarraLateral
                 menuOpen={menu}
                 handleMenu={setMenu}
             />

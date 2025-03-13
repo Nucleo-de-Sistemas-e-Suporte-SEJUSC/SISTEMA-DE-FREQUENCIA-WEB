@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { CardBuscaServidores } from "../card-busca-servidores";
 import { CardVisualizarServidores } from "../card-visualizar-servidores";
-import { meses } from "../main/utils/meses";
+import { meses } from "../../utils/meses";
 import  styles from "./style.module.css";
 
 export function MainVisualizar() {
@@ -18,7 +18,7 @@ export function MainVisualizar() {
                         type="text"
                         name="pesquisa"
                         id="pesquisa"
-                        placeholder="Pesquisa pelo servidor ou setor"
+                        placeholder="Pesquisa pelo servidor ou setor ou estagiário"
                         className={styles["form__visualizar__input"]}
                     />
                 </div>
@@ -34,7 +34,7 @@ export function MainVisualizar() {
 
             <div className={styles["container__buttons--visualizar"]}>
                 <button className={styles["container__buttons--visualizar-button"]}>
-                    <Link to="/gerar">Voltar</Link>
+                    <Link to="/servidores">Voltar</Link>
                 </button>
                 <button className={styles["container__buttons--visualizar-button"]}>Mesclar Arquivos</button>
                 <button className={styles["container__buttons--visualizar-button"]}>Visualizar Arquivos</button>

@@ -13,8 +13,8 @@ export default function Router() {
        <BrowserRouter>
             <Routes>
                 <Route path="/login" element={<Login />} />
-                <Route path="/gerar" element={<GerarServidores />} />
-                <Route path="/gerar/estagiarios" element={<GerarEstagiarios />} />
+                <Route path="/servidores" element={<GerarServidores />} />
+                <Route path="/estagiarios" element={<GerarEstagiarios />} />
                 <Route path="/visualizar" element={<Visualizar />} />
                 <Route path="/frequencia/mensal" element={<FrequenciaMensal />} />
                 <Route path="/naoencontrado" element={<NotFound />} />
