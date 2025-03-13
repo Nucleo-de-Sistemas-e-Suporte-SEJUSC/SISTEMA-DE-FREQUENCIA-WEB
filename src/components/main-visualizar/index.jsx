@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
-import { BuscaServidores } from "../busca-servidores";
+import { CardBuscaServidores } from "../card-busca-servidores";
+import { CardVisualizarServidores } from "../card-visualizar-servidores";
 import { meses } from "../main/utils/meses";
-import "./style.css";
+import  styles from "./style.module.css";
 
 export function MainVisualizar() {
     const data = new Date()
@@ -9,43 +10,34 @@ export function MainVisualizar() {
     const mes = meses[mesAtual]
 
     return (
-        <section className="container__visualizar">
+        <section className={styles["container__visualizar"]}>
 
-            <form action="#" className="form__visualizar">
-                <div className="form__visualizar__container">
+            <form action="#" className={styles["form__visualizar"]}>
+                <div className={styles["form__visualizar__container"]}>
                     <input
                         type="text"
                         name="pesquisa"
                         id="pesquisa"
                         placeholder="Pesquisa pelo servidor ou setor"
-                        className="form__visualizar__input"
+                        className={styles["form__visualizar__input"]}
                     />
                 </div>
 
                 <p>Servidores - Setor: GTI / Mês: Fevereiro </p>
             </form>
 
-            <div className="container__visualizar__content">
-               <BuscaServidores meses={meses} mes={mes}/>
+            <div className={styles["container__visualizar__content"]}>
+               <CardBuscaServidores meses={meses} mes={mes}/>
 
-                <div className="container__visualizar__info">
-                    <div className="card__servidores--visualizar">
-                        <div className="card__container__details">
-                            <details className="card__details">
-                                <summary className="card__summary">Lucas</summary>
-                                <p>GTI</p>
-                            </details>
-                        </div>
-                    </div>
-                </div>
+               <CardVisualizarServidores />
             </div>
 
-            <div className="container__buttons--visualizar">
-                <button className="container__buttons--visualizar-button">
+            <div className={styles["container__buttons--visualizar"]}>
+                <button className={styles["container__buttons--visualizar-button"]}>
                     <Link to="/gerar">Voltar</Link>
                 </button>
-                <button className="container__buttons--visualizar-button">Mesclar Arquivos</button>
-                <button className="container__buttons--visualizar-button">Visualizar Arquivos</button>
+                <button className={styles["container__buttons--visualizar-button"]}>Mesclar Arquivos</button>
+                <button className={styles["container__buttons--visualizar-button"]}>Visualizar Arquivos</button>
             </div>
         </section>
     );

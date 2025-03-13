@@ -1,0 +1,24 @@
+.container__visualizar__info {
+    width: 70%;
+    height: 450px;
+}
+
+.card__servidores--visualizar {
+    height: 450px;
+    border-radius: 10px;
+    background-color: var(--cinza);
+    width: 100%;
+}
+
+.card__container__details {
+    background-color: var(--cinza);
+    height: 300px;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.card__details {
+    background-color: #D9D9D9;
+    padding: 10px;
+    border-radius: 10px;
+}

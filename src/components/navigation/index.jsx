@@ -20,7 +20,7 @@ export function Navigation({ estaNaPaginaVizualizar = false }) {
                         </div>
                         <div>
                             <NavLink
-                                to="/"
+                                to="/gerar/estagiarios"
                                 className={({ isActive }) =>
                                     isActive ? "link active" : "link"
                                 }

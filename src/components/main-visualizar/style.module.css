@@ -19,6 +19,7 @@
     width: 30%;
 }
 
+
 .form__visualizar__container::after {
     content: "";
     background-image: url(../../assets/Icon.svg);
@@ -48,17 +49,6 @@
     gap: 10px;
 }
 
-.container__visualizar__info {
-    width: 70%;
-    height: 600px;
-}
-
-.card__servidores--visualizar {
-    height: 350px;
-    border-radius: 10px;
-    background-color: var(--cinza);
-    width: 100%;
-}
 
 .form__siltro__select--visualizar {
     width: 70%;

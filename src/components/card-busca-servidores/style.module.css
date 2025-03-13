@@ -1,7 +1,10 @@
 .container__visualizar__funcionarios {
+    display: flex;
+    flex-direction: column;
     box-sizing: border-box;
+    justify-content: space-between;
     width: 30%;
-    height: 600px;
+    height: 450px;
 }
 
 .card__container__details {

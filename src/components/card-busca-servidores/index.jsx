@@ -1,6 +1,6 @@
 import styles from "./style.module.css"
 
-export function BuscaServidores(props) {
+export function CardBuscaServidores(props) {
     const { meses, mes } = props
 
     return (
@@ -24,6 +24,6 @@ export function BuscaServidores(props) {
             <div className={styles["container__button__form--visualizar"]}>
                 <button>Ir</button>
             </div>  
-    </div>
+        </div>
     )
 }

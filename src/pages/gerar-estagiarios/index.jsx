@@ -1,17 +1,17 @@
-import "./style.css"
+import styles from "./style.module.css"
 import { BarraLateral } from "../../components/barra-lateral";
 import { Header} from "../../components/header";
-import { Main } from "../../components/main";
 import { Navigation } from "../../components/navigation";
 import { useState } from "react";
+import { MainEstagiario } from "../../components/main-estagiario";
 
 
-export function Gerar() {
+export function GerarEstagiarios() {
     const [menu, setMenu] =  useState(false)
 
     return (
         <section className={
-            menu ? "container__principal" : "container__principal__menu__fechado"
+            menu ? styles["container__principal"] : styles["container__principal__menu__fechado"]
         } >
             <BarraLateral 
                 menuOpen={menu}
@@ -24,7 +24,7 @@ export function Gerar() {
                     titulo="Gerador de Frequência"
                  />
                 <Navigation />
-                <Main />
+                <MainEstagiario />
             </section> 
         </section>
     )

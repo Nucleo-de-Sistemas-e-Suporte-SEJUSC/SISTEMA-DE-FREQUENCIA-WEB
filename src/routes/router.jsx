@@ -1,9 +1,10 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Login } from "../pages/login"
-import { Gerar } from "../pages/gerar"
 import { Visualizar } from "../pages/visualizar";
 import { FrequenciaMensal } from "../pages/frequencia-mensal";
 import { NotFound } from "../pages/not-found";
+import { GerarServidores } from "../pages/gerar-servidores";
+import { GerarEstagiarios } from "../pages/gerar-estagiarios";
 
 export default function Router() {
     
@@ -12,10 +13,11 @@ export default function Router() {
        <BrowserRouter>
             <Routes>
                 <Route path="/login" element={<Login />} />
-                <Route path="/gerar" element={<Gerar />} />
+                <Route path="/gerar" element={<GerarServidores />} />
+                <Route path="/gerar/estagiarios" element={<GerarEstagiarios />} />
                 <Route path="/visualizar" element={<Visualizar />} />
-                <Route path="/frequencia-mensal" element={<FrequenciaMensal />} />
-                <Route path="/nao-encontrado" element={<NotFound />} />
+                <Route path="/frequencia/mensal" element={<FrequenciaMensal />} />
+                <Route path="/naoencontrado" element={<NotFound />} />
             </Routes>
        </BrowserRouter>     
     )
