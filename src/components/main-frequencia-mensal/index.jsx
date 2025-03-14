@@ -34,14 +34,40 @@ export function MainFrequenciaMensal(props) {
                     />
 
                     <CardVisualizarServidores>
-                        <details className={styles["card__details"]}>
+                        <details className={`${styles["card__details"]} ${styles["details__verde"]}`}>
                             <summary className={styles["card__summary"]}>Lucas</summary>
-                            <p>GTI</p>
+                            <p>Frequencia Mensal Postada : xx/xx/xx</p>
+
+                            <div className={styles["card__details__container__button"]}>
+                                <button className={`${styles["card__details__historico__button"]} ${styles["card__details__button"]} `}>Cancelar</button>
+                            </div>
                         </details>
 
-                        <details className={styles["card__details"]}>
+                        <details className={`${styles["card__details"]} ${styles["details__amarelo"]}`}>
                             <summary className={styles["card__summary"]}>Felipe</summary>
-                            <p>GTI</p>
+                            <p>Frequencia Mensal desse Mês em Falta / data limite: xx/xx/xx</p>
+
+                            <div className={styles["card__details__container__button"]}>
+                                <button className={`${styles["card__details__historico__button"]} ${styles["card__details__button"]} `}>Anexar</button>
+                            </div>
+                        </details>
+
+                        <details className={`${styles["card__details"]} ${styles["details__vermelho"]}`}>
+                            <summary className={styles["card__summary"]}>Yuri</summary>
+                            <p>Frequencia Mensal de outro mês em falta </p>
+
+                            <div className={styles["card__details__container__button"]}>
+                                <button className={`${styles["card__details__historico__button"]} ${styles["card__details__button"]} `}>Anexar</button>
+                            </div>
+                        </details>
+
+                        <details className={`${styles["card__details"]} ${styles["details__branco"]}`}>
+                            <summary className={styles["card__summary"]}>Yasmin</summary>
+                            <p>Frequencia Mensal data limite: xx/xx/xx</p>
+
+                            <div className={styles["card__details__container__button"]}>
+                                <button className={`${styles["card__details__historico__button"]} ${styles["card__details__button"]} `}>Anexar</button>
+                            </div>
                         </details>
                     </CardVisualizarServidores>
                 </div>

@@ -84,6 +84,15 @@
     margin-bottom: 20px;
 }
 
+.card__details__container__button {
+    text-align: end;
+    padding: 0 40px;
+}
+
+.card__details__container__button button {
+    margin-right: 10px;
+}
+
 .details__verde {
     background-color: var(--verde-claro);
 }
@@ -95,6 +104,6 @@
 .details__vermelho {
     background-color: var(--vermelho-claro);
 }
-.details__branco{
+.details__branco {
     background-color: var(--branco);
 }

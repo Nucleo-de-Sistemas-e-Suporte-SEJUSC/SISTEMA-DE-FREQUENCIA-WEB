@@ -9,7 +9,7 @@ export function NotFound() {
             </header>
 
             <main>
-                <NavLink to="/gerar" className={styles["container__nao-encontrado_link"]}>Voltar</NavLink>
+                <NavLink to="/servidores" className={styles["container__nao-encontrado_link"]}>Voltar</NavLink>
             </main>
         </section>
     )
