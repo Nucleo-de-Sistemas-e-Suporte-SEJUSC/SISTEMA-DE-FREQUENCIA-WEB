@@ -138,3 +138,26 @@
 .details__branco{
     background-color: var(--branco);
 }
+
+.card__details__button {
+    border: none;
+    padding: 8px;
+    color: var(--branco);
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.card__details__historico__button {
+    background-color: var(--cinza);
+
+}
+
+.card__details__atualizar__button {
+    background-color: var(--laranja);
+
+}
+
+.card__details__arquivar__button {
+    background-color: var(--vermelho);
+
+}

@@ -39,20 +39,9 @@ export function MainArquivados(props) {
                             <p>Arquivado</p>
 
                             <div className={styles["card__details__container__button"]}>
-                                <button className={`${styles["card__details__historico__button"]} ${styles["card__details__button"]} `}>Histórico</button>
                                 <button className={`${styles["card__details__atualizar__button"]} ${styles["card__details__button"]} `}>Atualizar</button>
-                                <button className={`${styles["card__details__arquivar__button"]} ${styles["card__details__button"]} `} onClick={() => {
-                                    toast.error("Arquivar Servidor", {
-                                        description: "Esta ação moverá o Servidor para os Arquivados",
-                                        duration: 15000,
-                                        cancel: {
-                                            label: "X"
-                                        },
-                                        action: {
-                                            label: "Arquivar"
-                                        }
-                                    })
-                                }}>Arquivar</button>
+                                <button className={`${styles["card__details__arquivar__button"]} ${styles["card__details__button"]} `}>Desarquivar</button>
+                                <button className={`${styles["card__details__historico__button"]} ${styles["card__details__button"]} `}>Histórico</button>
                             </div>
                         </details>
                     </CardVisualizarServidores>
