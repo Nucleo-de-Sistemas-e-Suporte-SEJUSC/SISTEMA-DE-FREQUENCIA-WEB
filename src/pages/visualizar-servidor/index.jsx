@@ -1,34 +1,34 @@
-import styles from "./style.module.css"
+import "./style.css"
 import { useState } from "react";
-import { MainEstagiario } from "../../components/gerarador-frequencia/main-estagiario";
+import { MainVisualizarServidores } from "../../components/visualizar/main-servidores";
 import { BarraLateral } from "../../components/comuns/barra-lateral";
 import { Header } from "../../components/comuns/header";
 import { Navigation } from "../../components/comuns/navigation";
 import { NavLink } from "react-router-dom";
 
-
-export function GerarEstagiarios() {
+export function VisualizarServidor() {
     const [menu, setMenu] =  useState(false)
 
     return (
         <section className={
-            menu ? styles["container__principal"] : styles["container__principal__menu__fechado"]
-        } >
-            <BarraLateral 
+            menu ? "container__principal" : "container__principal__menu__fechado"
+        }
+        >
+             <BarraLateral
                 menuOpen={menu}
                 handleMenu={setMenu}
             />
 
             <section>
                 <Header 
-                    titulo="Gerador de Frequência"
+                    titulo="Visualização de Frequência"
                  />
-                <Navigation>
-                <div className={"navigation__list__buttons"}>
+                 <Navigation>
+                    <div className={"navigation__list__buttons"}>
                         <div>
                             <NavLink
                                 to="/servidores"
-                                className="link"
+                                className="link active"
                             >
                                 Servidores
                             </NavLink>
@@ -36,7 +36,7 @@ export function GerarEstagiarios() {
                         <div>
                             <NavLink
                                 to="/estagiarios"
-                                className="link active"
+                                className="link"
                             >
                                 Estagiários
                             </NavLink>
@@ -45,14 +45,14 @@ export function GerarEstagiarios() {
                     <div>
                         <NavLink 
                             className="link__visualizar"
-                            to="/visualizar/estagiarios" 
+                            to="/visualizar/servidores" 
                         >
                             Visualizar
                         </NavLink>
                     </div>
                 </Navigation>
-                <MainEstagiario />
-            </section> 
+                <MainVisualizarServidores />
+            </section>
         </section>
     )
 }

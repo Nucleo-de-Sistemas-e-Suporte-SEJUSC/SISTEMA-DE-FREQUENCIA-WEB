@@ -1,29 +1,29 @@
-import styles from "./style.module.css"
+import "./style.css"
 import { useState } from "react";
-import { MainEstagiario } from "../../components/gerarador-frequencia/main-estagiario";
+import { MainVisualizarEstagiarios } from "../../components/visualizar/main-estagiario";
 import { BarraLateral } from "../../components/comuns/barra-lateral";
 import { Header } from "../../components/comuns/header";
 import { Navigation } from "../../components/comuns/navigation";
 import { NavLink } from "react-router-dom";
 
-
-export function GerarEstagiarios() {
+export function VisualizarEstagiario() {
     const [menu, setMenu] =  useState(false)
 
     return (
         <section className={
-            menu ? styles["container__principal"] : styles["container__principal__menu__fechado"]
-        } >
-            <BarraLateral 
+            menu ? "container__principal" : "container__principal__menu__fechado"
+        }
+        >
+             <BarraLateral
                 menuOpen={menu}
                 handleMenu={setMenu}
             />
 
             <section>
                 <Header 
-                    titulo="Gerador de Frequência"
+                    titulo="Visualização de Frequência"
                  />
-                <Navigation>
+                 <Navigation>
                 <div className={"navigation__list__buttons"}>
                         <div>
                             <NavLink
@@ -51,8 +51,8 @@ export function GerarEstagiarios() {
                         </NavLink>
                     </div>
                 </Navigation>
-                <MainEstagiario />
-            </section> 
+                <MainVisualizarEstagiarios />
+            </section>
         </section>
     )
 }

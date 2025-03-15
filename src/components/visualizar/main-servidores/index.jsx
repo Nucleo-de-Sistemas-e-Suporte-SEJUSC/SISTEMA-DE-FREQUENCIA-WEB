@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
-import { meses } from "../../utils/meses";
-import { CardBuscaServidores } from "../cards/card-busca-servidores";
-import { CardVisualizarServidores } from "../cards/card-visualizar-servidores";
+import { meses } from "../../../utils/meses";
+import { CardBuscaServidores } from "../../cards/card-busca-servidores";
+import { CardVisualizarServidores } from "../../cards/card-visualizar-servidores";
 import  styles from "./style.module.css";
 
-export function MainVisualizar() {
+export function MainVisualizarServidores() {
     const data = new Date()
     const mesAtual = data.getMonth()
     const mes = meses[mesAtual]
@@ -18,7 +18,7 @@ export function MainVisualizar() {
                         type="text"
                         name="pesquisa"
                         id="pesquisa"
-                        placeholder="Pesquisa pelo servidor ou setor ou estagiário"
+                        placeholder="Pesquisa pelo servidor ou setor"
                         className={styles["form__visualizar__input"]}
                     />
                 </div>
@@ -31,7 +31,7 @@ export function MainVisualizar() {
 
                <CardVisualizarServidores>
                     <details className={styles["card__details"]}>
-                            <summary className={styles["card__summary"]}>Lucas</summary>
+                            <summary className={styles["card__summary"]}>Marcos</summary>
                             <p>GTI</p>
                     </details>
                </CardVisualizarServidores>
