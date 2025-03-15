@@ -31,6 +31,10 @@ body{
   font-family: var(--font-family);
 }
 
+input, label, section, div, body, header {
+  font-family: var(--font-family);
+}
+
 main, section, div {
   box-sizing: border-box;
 

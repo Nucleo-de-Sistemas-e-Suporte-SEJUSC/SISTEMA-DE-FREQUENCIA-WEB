@@ -1,20 +1,25 @@
 .container__form {
     display: flex;
     align-items: center;
-    justify-content: center;
     flex-direction: column;
+}
+
+.container__form__titulo__header {
+    font-size: 40px;
+    font-weight: 100;
+    color: var(--branco);
 }
 
 .container__form__titulo {
     font-size: 27px;
-    color: var(--azul-escuro);
+    color: var(--branco);
+    text-align: center;
 }
 
 .container__section__form {
-    background-color: var(--branco);
+    background-color: rgba(255, 255, 255, 0.7);
     border-radius: 10px;
 }
-
 
 .form  {
     width: 450px;
@@ -28,7 +33,7 @@
 }
 
 .form__button {
-    width: 40%;
+    width: 60%;
     padding: 11px;
     margin-top: 10px;
     border-radius: 10px;
@@ -50,6 +55,7 @@
     display: block;
     margin-bottom: 8px;
     font-size: 14px;
+    font-weight: 100;
     color: var(--azul-escuro);
 }
 
