@@ -7,6 +7,7 @@ import { GerarServidores } from "../pages/gerar-servidores";
 import { GerarEstagiarios } from "../pages/gerar-estagiarios";
 import { Arquivados } from "../pages/arquivados";
 import { HistoricoAlteracao } from "../pages/historico-alteracao";
+import { Historico } from "../pages/historico";
 
 export default function Router() {
     
@@ -22,6 +23,7 @@ export default function Router() {
                 <Route path="/arquivados" element={<Arquivados />} />
                 <Route path="/naoencontrado" element={<NotFound />} />
                 <Route path="/historico-alteracao" element={<HistoricoAlteracao />} />
+                <Route path="/historico" element={<Historico />} />
             </Routes>
        </BrowserRouter>     
     )

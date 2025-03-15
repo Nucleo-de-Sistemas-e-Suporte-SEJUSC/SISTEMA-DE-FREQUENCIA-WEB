@@ -33,9 +33,9 @@
     padding: 10px;
     border-radius: 10px;
     border: none;
-    background-color: var(--vermelho);
     cursor: pointer;
     color: #fff;
+    background-color: var(--vermelho);
 }
 
 
