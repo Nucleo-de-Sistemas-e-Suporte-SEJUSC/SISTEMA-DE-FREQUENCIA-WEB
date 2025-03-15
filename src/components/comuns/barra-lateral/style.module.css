@@ -1,11 +1,16 @@
 .barra-lateral {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
     background-color: var(--lilas);
-    padding: 30px 20px;
     height: 100vh;
+}
+
+.icone-hamburguer {
+    margin-bottom: 20px;
+    width: 40px;
+    height: 40px;
 }
 
 .container__buttons__menu--hamburger {
@@ -59,8 +64,3 @@
     color: #fff;
 }
 
-.icone-hamburguer {
-    margin-bottom: 50px;
-    width: 40px;
-    height: 40px;
-}
