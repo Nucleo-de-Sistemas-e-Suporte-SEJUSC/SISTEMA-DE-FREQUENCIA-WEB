@@ -1,6 +1,7 @@
 .container__visualizar__funcionarios {
     display: flex;
     flex-direction: column;
+    
     box-sizing: border-box;
     width: 30%;
     height: 450px;
@@ -11,6 +12,7 @@
     height: 300px;
     border-radius: 10px;
     padding: 10px;
+    flex-grow: 1;
 }
 
 .card__details {

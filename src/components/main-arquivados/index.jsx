@@ -1,14 +1,9 @@
 import styles from "./style.module.css"
-import { meses } from "../../utils/meses";
 import { CardBuscaServidores } from "../cards/card-busca-servidores";
 import { CardVisualizarServidores } from "../cards/card-visualizar-servidores";
 
 export function MainArquivados(props) {
         const { funcionarios } = props
-
-        const data = new Date()
-        const mesAtual = data.getMonth()
-        const mes = meses[mesAtual]
     
         return (
             <section className={styles["container__visualizar"]}>
@@ -29,8 +24,7 @@ export function MainArquivados(props) {
     
                 <div className={styles["container__visualizar__content"]}>
                     <CardBuscaServidores 
-                        meses={meses} 
-                        mes={mes}
+                        possuiSelecaoDoMes={false}
                     />
 
                     <CardVisualizarServidores>
