@@ -20,7 +20,6 @@ export function Visualizar() {
 
             <section>
                 <Header 
-                    cabecalhoLogin={false}
                     titulo="Visualização de Frequência"
                  />
                 <Navigation

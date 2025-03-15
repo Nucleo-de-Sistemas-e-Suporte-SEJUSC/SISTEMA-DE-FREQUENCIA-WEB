@@ -20,7 +20,6 @@ export function GerarServidores() {
 
             <section>
                 <Header 
-                    cabecalhoLogin={false}
                     titulo="Gerador de Frequência"
                  />
                 <Navigation />

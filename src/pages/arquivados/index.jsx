@@ -24,7 +24,6 @@ export function Arquivados() {
 
             <section>
                 <Header
-                    cabecalhoLogin={false} 
                     titulo="Arquivados"
                 />
 

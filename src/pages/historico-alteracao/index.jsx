@@ -18,7 +18,6 @@ export function HistoricoAlteracao() {
     
                 <section>
                     <Header 
-                        cabecalhoLogin={false}
                         titulo="Histórico de Alteração"
                      />
                      <MainHistoricoAlteracao />

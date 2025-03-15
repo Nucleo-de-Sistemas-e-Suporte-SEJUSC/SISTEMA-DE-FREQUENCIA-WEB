@@ -23,7 +23,6 @@ export function Historico() {
         
             <section>
                 <Header 
-                    cabecalhoLogin={false}
                     titulo="Histórico"
                 />
 

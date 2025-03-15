@@ -1,14 +1,12 @@
 import styles from "./style.module.css"
 
 export function Header(props) {
-    const {cabecalhoLogin, titulo } = props
+    const {titulo } = props
 
     return (
-        <header className={cabecalhoLogin ? "cabecalho__login" : "cabecalho__home"}>
+        <header className={styles["cabecalho"]}>
             <section className={styles["container__header"]}>
-                <h1 className={
-                    cabecalhoLogin ? styles["titulo__login"] : styles["titulo"]
-                }>{ titulo }</h1>
+                <h1 className={styles["titulo"]}>{ titulo }</h1>
             </section>
         </header>
     )

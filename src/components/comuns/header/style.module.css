@@ -1,12 +1,7 @@
-.cabecalho__home{
+.cabecalho{
     background-color: var(--branco);
     color: var(--branco);
     padding: 0 20px;
-}
-
-.cabecalho__login{
-    text-align: center;
-    color: var(--branco);
 }
 
 .container__header {

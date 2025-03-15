@@ -23,7 +23,6 @@ export function FrequenciaMensal() {
 
             <section>
                 <Header
-                    cabecalhoLogin={false} 
                     titulo="Frequência Mensal"
                 />
 
