@@ -1,0 +1,65 @@
+.container__visualizar__funcionarios {
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    justify-content: space-between;
+    width: 30%;
+    height: 450px;
+}
+
+.card__container__details {
+    background-color: var(--cinza);
+    height: 300px;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.card__details {
+    background-color: #D9D9D9;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.form__filtro__select__container--visualizar {
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 10px;
+    background-color: var(--cinza);
+    border-radius: 10px;
+    width: 100%;
+    margin-top: 20px;
+    position: relative;
+}
+
+.form__filtro__select__container--visualizar::after {
+    content: ' ';
+    background-image: url(../../assets/arrow-down.svg);
+    background-repeat: no-repeat;
+    background-size: contain;
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    right: 25px;
+}
+
+.form__filtro__select__container--visualizar label {
+    font-size: 14px;
+}
+
+.container__button__form--visualizar {
+    display: flex;
+    justify-content: center;
+}
+
+.container__button__form--visualizar button {
+    width: 50%;
+    margin-top: 10px;
+    cursor: pointer;
+    background-color: var(--roxo);
+    border-radius: 15px;
+    border: none;
+    color: var(--branco);
+    padding: 10px;
+}

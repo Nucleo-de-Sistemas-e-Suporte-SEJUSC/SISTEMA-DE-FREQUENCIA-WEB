@@ -1,0 +1,93 @@
+.DialogOverlay {
+    background: rgba(0, 0, 0, 0.2);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.DialogContent {
+    position: fixed; 
+    top: 50%; 
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--branco);
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 1020px;
+    width: 100%;
+    z-index: 1000; 
+}
+
+.form__dialog {
+    width: 100%;
+    border-radius: 10px;
+}
+
+.form__dialog div {
+    margin-bottom: 10px;
+}
+
+.form__dialog__label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+.container__inputs__horario {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+}
+
+.container__inputs__horario div {
+    width: 50%;
+}
+
+.form__dialog__input {
+    width: 100%;
+    padding: 8px 0;
+}
+
+.container__button__anexar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.container__button__anexar button {
+    width: 30%;
+}
+
+.container__button__acoes__servidor {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.container__button__cancelar__servidor {
+    border: none;
+    padding: 8px;
+    color: var(--branco);
+    border-radius: 8px;
+    cursor: pointer;
+    background-color: var(--vermelho);
+}
+
+.container__button__cadastrar__servidor {
+    border: none;
+    padding: 8px;
+    color: #fff;
+    border-radius: 8px;
+    cursor: pointer;
+    background-color: var(--roxo);
+}

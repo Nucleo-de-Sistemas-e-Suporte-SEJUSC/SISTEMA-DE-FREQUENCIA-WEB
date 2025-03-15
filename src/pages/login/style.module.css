@@ -1,0 +1,6 @@
+.container__login {
+    height: 100vh;
+    background-image: url(../../assets/fundo.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+}

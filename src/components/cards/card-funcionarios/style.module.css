@@ -1,0 +1,110 @@
+.card__servidores {
+    width: 100%;
+    margin: 30px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.card__details {
+    width: 90%;
+    border-radius: 5px;
+    position: relative;
+    border: 1px solid var(--cor-borda);
+    padding: 15px;
+    background: #F5F5F5;
+
+}
+
+.card__summary {
+    list-style: none;
+}
+
+.card__details::after {
+    content: '';
+    background-image: url(../../../assets/arrow-down.svg);
+    background-repeat: no-repeat;
+    background-size: contain;
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    right: 10px;
+    top: 40%;
+}
+
+.card__details[open]::after {
+    content: '';
+    background-image: url(../../../assets/arrow-up.svg);
+    background-repeat: no-repeat;
+    background-size: contain;
+    position: absolute;
+    right: 10px;
+    top: 40%;
+}
+
+.card__details__container__button {
+    text-align: end;
+    padding: 0 40px;
+}
+
+.card__details__container__button button {
+    margin-right: 10px;
+}
+
+.container-selecionar {
+    width: 10%;
+    border-radius: 5px;
+    padding: 8px;
+    background-color: var(--branco);
+    color: var(--roxo);
+    border: 1px solid var(--roxo);
+}
+
+.container-selecionar__input {
+    display: none;
+}
+
+.container-selecionar:has(.container-selecionar__input:checked)  {
+    background-color: var(--roxo);
+    color: var(--branco);
+}
+
+.container-selecionar__label {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 0;
+}
+
+.icon-check-hidden {
+    display: none;
+}
+
+.icon-check-visible {
+    display: block;
+}
+
+.card__details__button {
+    border: none;
+    padding: 8px;
+    color: var(--branco);
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.card__details__historico__button {
+    background-color: var(--cinza);
+
+}
+
+.card__details__atualizar__button {
+    background-color: var(--laranja);
+
+}
+
+.card__details__arquivar__button {
+    background-color: var(--vermelho);
+
+}

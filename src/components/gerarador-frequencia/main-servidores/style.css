@@ -1,0 +1,131 @@
+main {
+    width: 95%;
+    padding-left: 20px;
+    padding-right: 5px;
+    box-sizing: border-box;
+}
+
+.form__filtro {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 32px 0 22px 0;
+    padding: 12px;
+    background-color: #908B9775;
+    border-radius: 18px;
+}
+
+.form__inputs__container {
+    width: 50%;
+    display: flex;
+    align-items: center;
+    gap: 40px;
+}
+
+.form__filtro__label {
+    margin-left: 10px;
+}
+
+.form__filtro__select__container {
+    width: 50%;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.form__filtro__select {
+    padding: 10px; 
+    width: 100%;
+    background-color: var(--branco); 
+    border: 1px solid var(--cor-borda); 
+    border-radius: 5px; 
+    font-size: 16px;
+    color: #333; 
+    appearance: none; 
+    cursor: pointer; 
+    margin-bottom: 8px;
+    -webkit-appearance: none; 
+    -moz-appearance: none; 
+}
+
+.form__filtro__select:focus {
+    outline: none;
+    border-color: #666;
+}
+
+.form__filtro__select__container::after {
+    content: ' ';
+    background-image: url(../../assets/arrow-down.svg);
+    background-repeat: no-repeat;
+    background-size: contain;
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    right: 10px;
+} 
+
+.container__form__setor {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.filtros {
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.filtros__container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.filtros__input {
+    width: 100%;
+    padding: 16px;
+    border-radius: 18px;
+    border: 1px solid var(--cor-borda);
+}
+
+.filtros__container::after {
+    content: "";
+    background-image: url(../../assets/Icon.svg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: absolute;
+    height: 15px;
+    width: 15px;
+    right: 20px;
+}
+
+.container__cadastrar__button {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.container__cadastrar__button > button {
+    background-color: var(--lilas);
+    cursor: pointer;
+    border-radius: 15px;
+    border: none;
+    color: #fff;
+    padding: 10px;
+} 
+
+.container__gerar__button button {
+    cursor: pointer;
+    background-color: var(--roxo);
+    border-radius: 15px;
+    border: none;
+    color: #fff;
+    padding: 10px;
+}
+
+.container__gerar__button > button {
+    margin-right: 10px;
+    margin-bottom: 30px;
+}

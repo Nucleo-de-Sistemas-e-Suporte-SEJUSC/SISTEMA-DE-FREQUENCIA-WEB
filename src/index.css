@@ -1,0 +1,47 @@
+@import url('https://fonts.googleapis.com/css2?family=Alata&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+:root {
+  --font-family: "Alata", sans-serif;
+  --lilas: #BABAE3;
+  --vermelho: #EC221F;
+  --roxo: #4C4357;
+  --branco: #FFF;
+  --preto: #000;
+  --roxo-500: #65558F;
+  --roxo-900: #5933ba;
+  --azul-escuro: #021D51;
+  --laranja: #E5A000;
+  --cinza: #B3B3B3;
+  --cinza-200: #EDEBEB;
+  --cor-borda: #D9D9D9;
+  --verde-claro: #AFF4C6;
+  --verde: #14AE5C;
+  --amarelo-claro: #FFF1C2;
+  --vermelho-claro: #FCB3AD;
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body{
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-weight: 400;
+  font-family: var(--font-family);
+}
+
+main, section, div {
+  box-sizing: border-box;
+
+}
+
+ul, ol {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+  color: #fff;
+}
+
