@@ -19,6 +19,26 @@ export const testeServidores = [
             nome: "Yasmin Rocha",
             setor: "GTI"
         },
+        {
+            id: 5,
+            nome: "Lucas Nather",
+            setor: "GTI"
+        },
+        {
+            id: 6,
+            nome: "Nathalia Alencar",
+            setor: "GTI"
+        },
+        {
+            id: 7,
+            nome: "Felipe Robson",
+            setor: "GTI"
+        },
+        {
+            id: 8,
+            nome: "Yasmin Rocha",
+            setor: "GTI"
+        },
     ]
 
 export const testeSetor = [

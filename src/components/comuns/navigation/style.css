@@ -1,8 +1,6 @@
 .container__navigation {
     width: 95%;
     padding-left: 20px;
-    padding-right: 5px;
-    box-sizing: border-box;
 }
 
 .navigation__list {
@@ -20,7 +18,7 @@
 .link {
     font-size: 21px;
     border-radius: 5px;
-    padding: 10px 30px;
+    padding: 5px 30px;
     text-decoration: none;
     color: var(--lilas);
 }
@@ -35,7 +33,7 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    padding: 10px 30px;
+    padding: 5px 30px;
     border-radius: 15px;
     color: var(--branco);
     background-color: var(--lilas);

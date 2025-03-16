@@ -33,8 +33,6 @@ export function MainServidores() {
         }
     };
 
-    console.log(checkedSetores)
-
     function handleFiltro(event) {
         setFiltro(event.target.value)
     }
@@ -160,7 +158,7 @@ export function MainServidores() {
 
             {
                 filtro === 'setor' && (
-                    <section className="container__setores">
+                    <section className="container__servidores">
                         {
 
                             testeSetor.map(setor => {

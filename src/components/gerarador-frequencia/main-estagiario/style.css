@@ -9,8 +9,8 @@ main {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin: 32px 0 22px 0;
-    padding: 12px;
+    margin: 10px 0;
+    padding: 5px 10px;
     background-color: #908B9775;
     border-radius: 18px;
 }
@@ -124,6 +124,13 @@ main {
     height: 15px;
     width: 15px;
     right: 20px;
+}
+
+.container__servidores {
+    height: 350px;
+    padding-right: 10px;
+    overflow: scroll;
+    margin-bottom: 10px;
 }
 
 .container__cadastrar__button {

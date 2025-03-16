@@ -19,7 +19,7 @@ export function GerarServidores() {
                 handleMenu={setMenu}
             />
 
-            <section>
+            <section className={styles["container__conteudo-principal"] }>
                 <Header 
                     titulo="Gerador de Frequência"
                  />

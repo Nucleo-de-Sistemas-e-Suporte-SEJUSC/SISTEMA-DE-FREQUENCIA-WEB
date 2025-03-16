@@ -157,7 +157,7 @@ export function MainEstagiario() {
 
             {
                 filtro === 'setor' && (
-                    <section className="container__setores">
+                    <section className="container__servidores">
                         {
 
                             testeSetor.map(setor => {

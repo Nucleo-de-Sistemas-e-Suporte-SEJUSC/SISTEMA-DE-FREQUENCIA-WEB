@@ -5,9 +5,7 @@ export function Header(props) {
 
     return (
         <header className={styles["cabecalho"]}>
-            <section className={styles["container__header"]}>
-                <h1 className={styles["titulo"]}>{ titulo }</h1>
-            </section>
+            <h1 className={styles["titulo"]}>{ titulo }</h1>
         </header>
     )
 }

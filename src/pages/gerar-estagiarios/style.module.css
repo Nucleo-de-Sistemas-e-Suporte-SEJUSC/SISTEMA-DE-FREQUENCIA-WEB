@@ -7,3 +7,8 @@
     display: grid;
     grid-template-columns: 100px 1fr;
 }
+
+.container__conteudo-principal {
+    height: 100vh;
+    overflow-y: hidden;
+}
