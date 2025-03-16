@@ -10,17 +10,27 @@ import IconeLapis from "../../../assets/lapis.svg"
 
 export function MainEstagiario() {
     const [filtro, setFiltro] = useState("setor")
-    const [checkedStates, setCheckedStates] = useState({});
+    const [checkedSetores, setCheckedSetores] = useState({});
+    const [checkedEstagiarios, setCheckedEstagiarios] = useState({});
 
     const data = new Date()
     const mesAtual = data.getMonth()
     const mes = meses[mesAtual]
 
-    const handleCheckboxChange = (id) => {
-        setCheckedStates(prevState => ({
-            ...prevState,
-            [id]: !prevState[id]
-        }));
+    const handleCheckboxChange = (id, type) => {
+        if (type === "setor") {
+            setCheckedSetores(prevState => ({
+                ...prevState,
+                [id]: !prevState[id]
+            }));
+            setCheckedEstagiarios({});
+        } else if (type === "estagiario") {
+            setCheckedEstagiarios(prevState => ({
+                ...prevState,
+                [id]: !prevState[id]
+            }));
+            setCheckedSetores({});
+        }
     };
 
     function handleFiltro(event) {
@@ -136,8 +146,8 @@ export function MainEstagiario() {
                                 return <CardFuncionarios
                                     nome={servidor.nome} 
                                     id={servidor.id}
-                                    isChecked={!!checkedStates[servidor.id]}
-                                    onChecked={() => handleCheckboxChange(servidor.id)}
+                                    isChecked={!!checkedEstagiarios[servidor.id]}
+                                    onChecked={() => handleCheckboxChange(servidor.id, "estagiario")}
                                 />
                             })
                         }
@@ -157,8 +167,8 @@ export function MainEstagiario() {
                                     nome={setor.nome}
                                     id={setor.id}
                                     quantidadeServidores={quantidadeDeServidoresNoSetor}
-                                    isChecked={!!checkedStates[setor.id]}
-                                    onChecked={() => handleCheckboxChange(setor.id)}
+                                    isChecked={!!checkedSetores[setor.id]}
+                                    onChecked={() => handleCheckboxChange(setor.id, "setor")}
                                 />
                             })
                         }

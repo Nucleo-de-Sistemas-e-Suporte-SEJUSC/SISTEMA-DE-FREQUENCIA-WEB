@@ -33,6 +33,8 @@ export function MainServidores() {
         }
     };
 
+    console.log(checkedSetores)
+
     function handleFiltro(event) {
         setFiltro(event.target.value)
     }
