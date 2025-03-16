@@ -1,11 +1,12 @@
-import styles from "./style.module.css"
+import "./style.css"
 import { useState } from "react";
+import * as Dialog from "@radix-ui/react-dialog";
 import { meses } from "../../../utils/meses";
 import { testeServidores, testeSetor } from "../../../utils/teste";
-import * as Dialog from "@radix-ui/react-dialog";
-import { FormCadastrarFuncionarios } from "../../formularios/form-cadastrar-funcionarios";
 import { FormCadastrarSetor } from "../../formularios/form-cadastrar-setor";
+import { FormCadastrarFuncionarios } from "../../formularios/form-cadastrar-funcionarios";
 import { CardFuncionarios } from "../../cards/card-funcionarios";
+import IconeLapis from "../../../assets/lapis.svg"
 
 export function MainEstagiario() {
     const [filtro, setFiltro] = useState("setor")
@@ -33,10 +34,10 @@ export function MainEstagiario() {
 
     return (
         <main>
-            <form action="#" className={styles["form__filtro"]}>
+            <form action="#" className="form__filtro">
                 <label htmlFor="selecione">Selecione o mês: </label>
 
-                <div className={styles["form__inputs__container"]}>
+                <div className="form__inputs__container">
                     <div>
                         <input 
                             type="radio" 
@@ -46,7 +47,7 @@ export function MainEstagiario() {
                             checked={filtro === "setor"}
                             onChange={handleFiltro}
                         />
-                        <label htmlFor="fitro" className={styles["form__filtro__label"]}>Setor</label>
+                        <label htmlFor="fitro" className="form__filtro__label">Setor</label>
                     </div>
 
                     <div>
@@ -58,11 +59,11 @@ export function MainEstagiario() {
                             checked={filtro === "estagiario"}
                             onChange={handleFiltro}
                         />
-                        <label htmlFor="fitro" className={styles["form__filtro__label"]}>Estagiário</label>
+                        <label htmlFor="fitro" className="form__filtro__label">Estagiário</label>
                     </div>
 
-                    <div className={styles["form__filtro__select__container"]}>
-                        <select name="meses" id="meses" className={styles["form__filtro__select"]} defaultValue={mes}>
+                    <div className="form__filtro__select__container">
+                        <select name="meses" id="meses" className="form__filtro__select" defaultValue={mes}>
                             { meses.map((mes, index) => {
                                 return <option key={index} value={mes}>{mes}</option>
                             }) }
@@ -73,43 +74,66 @@ export function MainEstagiario() {
 
             {
                 filtro === "setor" && (
-                    <form action="#" className={styles["filtros"]}>
-                                <div className={styles["filtros__container"]}>
-                                    <input
-                                        type="text"
-                                        name="setor"
-                                        id="setor"
-                                        placeholder="Pesquisa pelo setor"
-                                        className={styles["filtros__input"]}
-                                    />
-                                </div>
-                    </form>
-                )
-            }
-
-            {
-                filtro === 'estagiario' && (
-                    <form action="#" className={styles["filtros"]}>
-                        <div className={styles["filtros__container"]}>
-                            <input 
-                                type="search" 
-                                name="estagiario" 
-                                id="estagiario" 
-                                placeholder="Pesquisa pelo estagiário"
-                                className={styles["filtros__input"]}
-                            />
+                    <section className="container__pesquisa__gerador">
+                        <div className="modal">
+                            <Dialog.Root>
+                                <Dialog.Trigger className="botao__modal">
+                                    <img src={IconeLapis} alt="" />
+                                    <p>Cadastrar setor</p>
+                                </Dialog.Trigger>
+                                <FormCadastrarSetor />
+                            </Dialog.Root>
                         </div>
-                    </form>
+
+                        <form action="#" className="filtros">
+                                    <div className="filtros__container">
+                                        <input
+                                            type="text"
+                                            name="setor"
+                                            id="setor"
+                                            placeholder="Pesquisa pelo setor"
+                                            className="filtros__input"
+                                        />
+                                    </div>
+                        </form>
+                    </section>
                 )
             }
 
             {
                 filtro === 'estagiario' && (
-                    <section className={styles["container__servidores"]}>
+                    <section className="container__pesquisa__gerador">
+                        <div className="modal">
+                            <Dialog.Root>
+                                <Dialog.Trigger className="botao__modal">
+                                    <img src={IconeLapis} alt="" />
+                                    <p>Cadastrar estagiário</p>
+                                </Dialog.Trigger>
+                                <FormCadastrarFuncionarios />
+                            </Dialog.Root>
+                        </div>
+
+                        <form action="#" className="filtros">
+                            <div className="filtros__container">
+                                <input
+                                    type="search"
+                                    name="estagiario"
+                                    id="estagiario"
+                                    placeholder="Pesquisa pelo estagiario"
+                                    className="filtros__input"
+                                />
+                            </div>
+                        </form>
+                    </section>
+                )
+            }
+
+            {
+                filtro === 'estagiario' && (
+                    <section className="container__servidores">
                         {
                             testeServidores.map(servidor => {
-                                return <CardFuncionarios 
-                                    key={servidor.id} 
+                                return <CardFuncionarios
                                     nome={servidor.nome} 
                                     id={servidor.id}
                                     isChecked={!!checkedStates[servidor.id]}
@@ -123,7 +147,7 @@ export function MainEstagiario() {
 
             {
                 filtro === 'setor' && (
-                    <section className={styles["container__setores"]}>
+                    <section className="container__setores">
                         {
 
                             testeSetor.map(setor => {
@@ -142,32 +166,9 @@ export function MainEstagiario() {
                 )
             }
 
-            <section className={styles["container__cadastrar__button"]}>
-                {
-                    filtro === "setor" && (
-                        <Dialog.Root>
-                            <Dialog.Trigger asChild>
-                                <button>Cadastrar setor</button>
-                            </Dialog.Trigger>
+            <section className="container__cadastrar__button">
 
-                            <FormCadastrarSetor />
-                        </Dialog.Root>
-                    )
-                }
-
-                {
-                    filtro === "estagiario" && (
-                        <Dialog.Root>
-                            <Dialog.Trigger asChild>
-                                <button>Cadastrar Estagiário</button>
-                            </Dialog.Trigger>
-
-                            <FormCadastrarFuncionarios />
-                        </Dialog.Root>
-                    )
-                }
-
-                <div className={styles["container__gerar__button"]}>
+                <div className="container__gerar__button">
                     <button>Gerar  { filtro === 'estagiario' ? "estagiários" : "setores" } </button>
                     <button>Gerar todos os { filtro === 'estagiario' ? "estagiários" : "setores" } </button>
                 </div>

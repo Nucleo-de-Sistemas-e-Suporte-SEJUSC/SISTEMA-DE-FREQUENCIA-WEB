@@ -20,7 +20,7 @@
 .link {
     font-size: 21px;
     border-radius: 5px;
-    padding: 10px;
+    padding: 10px 30px;
     text-decoration: none;
     color: var(--lilas);
 }
@@ -31,11 +31,14 @@
 }
 
 .link__visualizar {
-    padding: 10px;
+    font-size: 21px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 30px;
     border-radius: 15px;
     color: var(--branco);
     background-color: var(--lilas);
-
 }
 
 

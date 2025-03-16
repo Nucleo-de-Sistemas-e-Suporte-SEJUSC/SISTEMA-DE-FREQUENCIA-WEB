@@ -5,6 +5,7 @@ import { BarraLateral } from "../../components/comuns/barra-lateral";
 import { Header } from "../../components/comuns/header";
 import { Navigation } from "../../components/comuns/navigation";
 import { NavLink } from "react-router-dom";
+import SetaVisualizar from "../../assets/seta-visualizar.svg"
 
 export function GerarServidores() {
     const [menu, setMenu] =  useState(false)
@@ -47,6 +48,7 @@ export function GerarServidores() {
                             to="/visualizar/servidores" 
                         >
                             Visualizar
+                            <img src={SetaVisualizar} alt="" />
                         </NavLink>
                     </div>
                 </Navigation>

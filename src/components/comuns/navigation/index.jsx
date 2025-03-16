@@ -1,4 +1,3 @@
-import { NavLink } from "react-router-dom";
 import "./style.css";
 
 export function Navigation({ children }) {

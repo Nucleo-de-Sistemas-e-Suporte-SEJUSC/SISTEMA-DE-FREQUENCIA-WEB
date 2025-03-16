@@ -55,7 +55,7 @@ main {
 
 .form__filtro__select__container::after {
     content: ' ';
-    background-image: url(../../assets/arrow-down.svg);
+    background-image: url(../../../assets/arrow-down.svg);
     background-repeat: no-repeat;
     background-size: contain;
     position: absolute;
@@ -68,6 +68,31 @@ main {
     display: flex;
     align-items: center;
     gap: 10px;
+}
+
+.container__pesquisa__gerador {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.modal {
+    width: 15%;
+}
+
+.botao__modal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    background-color: var(--lilas);
+    color: var(--roxo);
+    box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, .5);
+    font-weight: 500;
+    cursor: pointer;
+    border-radius: 15px;
+    border: none;
+    width: 100%;
 }
 
 .filtros {
@@ -85,14 +110,14 @@ main {
 
 .filtros__input {
     width: 100%;
-    padding: 16px;
+    padding: 10px;
     border-radius: 18px;
     border: 1px solid var(--cor-borda);
 }
 
 .filtros__container::after {
     content: "";
-    background-image: url(../../assets/Icon.svg);
+    background-image: url(../../../assets/pesquisa.svg);
     background-repeat: no-repeat;
     background-size: cover;
     position: absolute;
@@ -102,19 +127,8 @@ main {
 }
 
 .container__cadastrar__button {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    text-align: end;
 }
-
-.container__cadastrar__button > button {
-    background-color: var(--lilas);
-    cursor: pointer;
-    border-radius: 15px;
-    border: none;
-    color: #fff;
-    padding: 10px;
-} 
 
 .container__gerar__button button {
     cursor: pointer;

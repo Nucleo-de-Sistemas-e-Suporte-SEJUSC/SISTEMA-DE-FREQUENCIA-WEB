@@ -74,8 +74,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
-    padding: 0;
+    gap: 5px;
+    padding: 8px;
 }
 
 .icon-check-hidden {
@@ -95,7 +95,7 @@
 }
 
 .card__details__historico__button {
-    background-color: var(--cinza);
+    background-color: var(--lilas);
 
 }
 

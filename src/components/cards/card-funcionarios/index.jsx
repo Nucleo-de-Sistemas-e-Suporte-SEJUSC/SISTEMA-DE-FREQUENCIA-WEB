@@ -1,5 +1,6 @@
-import { toast } from "sonner"
 import styles from "./style.module.css"
+import { toast } from "sonner"
+import Checked from "../../../assets/checked.svg"
 
 export function CardFuncionarios(props) {
     
@@ -40,7 +41,8 @@ export function CardFuncionarios(props) {
                     onChange={onChecked}
                 />
                 <div className={styles["container-selecionar__label"]}>
-                    <p className={isChecked ? styles['icon-check-visible'] : styles['icon-check-hidden']}>✔️</p>
+                    <img src={Checked} className={isChecked ? styles['icon-check-visible'] : styles['icon-check-hidden']} alt="" />
+
                     <label htmlFor={`selecionar-${id}`}>
                         { isChecked ? "Selecionado" : "Selecionar" }
                     </label>

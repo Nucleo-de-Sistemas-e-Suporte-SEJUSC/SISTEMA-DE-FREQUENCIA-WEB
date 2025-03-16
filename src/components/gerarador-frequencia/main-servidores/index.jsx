@@ -1,25 +1,36 @@
 import "./style.css"
 import { useState } from "react";
+import * as Dialog from "@radix-ui/react-dialog";
 import { meses } from "../../../utils/meses";
 import { testeServidores, testeSetor } from "../../../utils/teste";
-import * as Dialog from "@radix-ui/react-dialog";
 import { FormCadastrarSetor } from "../../formularios/form-cadastrar-setor";
 import { FormCadastrarFuncionarios } from "../../formularios/form-cadastrar-funcionarios";
 import { CardFuncionarios } from "../../cards/card-funcionarios";
+import IconeLapis from "../../../assets/lapis.svg"
 
 export function MainServidores() {
     const [filtro, setFiltro] = useState("setor")
-    const [checkedStates, setCheckedStates] = useState({});
+    const [checkedSetores, setCheckedSetores] = useState({});
+    const [checkedServidores, setCheckedServidores] = useState({});
 
     const data = new Date()
     const mesAtual = data.getMonth()
     const mes = meses[mesAtual]
 
-    const handleCheckboxChange = (id) => {
-        setCheckedStates(prevState => ({
-            ...prevState,
-            [id]: !prevState[id]
-        }));
+    const handleCheckboxChange = (id, type) => {
+        if (type === "setor") {
+            setCheckedSetores(prevState => ({
+                ...prevState,
+                [id]: !prevState[id]
+            }));
+            setCheckedServidores({});
+        } else if (type === "servidor") {
+            setCheckedServidores(prevState => ({
+                ...prevState,
+                [id]: !prevState[id]
+            }));
+            setCheckedSetores({});
+        }
     };
 
     function handleFiltro(event) {
@@ -73,33 +84,57 @@ export function MainServidores() {
 
             {
                 filtro === "setor" && (
-                    <form action="#" className="filtros">
-                                <div className="filtros__container">
-                                    <input
-                                        type="text"
-                                        name="setor"
-                                        id="setor"
-                                        placeholder="Pesquisa pelo setor"
-                                        className="filtros__input"
-                                    />
-                                </div>
-                    </form>
+                    <section className="container__pesquisa__gerador">
+                        <div className="modal">
+                            <Dialog.Root>
+                                <Dialog.Trigger className="botao__modal">
+                                    <img src={IconeLapis} alt="" />
+                                    <p>Cadastrar setor</p>
+                                </Dialog.Trigger>
+                                <FormCadastrarSetor />
+                            </Dialog.Root>
+                        </div>
+
+                        <form action="#" className="filtros">
+                                    <div className="filtros__container">
+                                        <input
+                                            type="text"
+                                            name="setor"
+                                            id="setor"
+                                            placeholder="Pesquisa pelo setor"
+                                            className="filtros__input"
+                                        />
+                                    </div>
+                        </form>
+                    </section>
                 )
             }
 
             {
                 filtro === 'servidor' && (
-                    <form action="#" className="filtros">
-                        <div className="filtros__container">
-                            <input 
-                                type="search" 
-                                name="servidor" 
-                                id="servidor" 
-                                placeholder="Pesquisa pelo servidor"
-                                className="filtros__input"
-                            />
+                    <section className="container__pesquisa__gerador">
+                        <div className="modal">
+                            <Dialog.Root>
+                                <Dialog.Trigger className="botao__modal">
+                                    <img src={IconeLapis} alt="" />
+                                    <p>Cadastrar servidor</p>
+                                </Dialog.Trigger>
+                                <FormCadastrarFuncionarios />
+                            </Dialog.Root>
                         </div>
-                    </form>
+
+                        <form action="#" className="filtros">
+                            <div className="filtros__container">
+                                <input
+                                    type="search"
+                                    name="servidor"
+                                    id="servidor"
+                                    placeholder="Pesquisa pelo servidor"
+                                    className="filtros__input"
+                                />
+                            </div>
+                        </form>
+                    </section>
                 )
             }
 
@@ -109,10 +144,11 @@ export function MainServidores() {
                         {
                             testeServidores.map(servidor => {
                                 return <CardFuncionarios
+                                    key={servidor.id}
                                     nome={servidor.nome} 
                                     id={servidor.id}
-                                    isChecked={!!checkedStates[servidor.id]}
-                                    onChecked={() => handleCheckboxChange(servidor.id)}
+                                    isChecked={!!checkedServidores[servidor.id]}
+                                    onChecked={() => handleCheckboxChange(servidor.id, "servidor")}
                                 />
                             })
                         }
@@ -132,8 +168,8 @@ export function MainServidores() {
                                     nome={setor.nome}
                                     id={setor.id}
                                     quantidadeServidores={quantidadeDeServidoresNoSetor}
-                                    isChecked={!!checkedStates[setor.id]}
-                                    onChecked={() => handleCheckboxChange(setor.id)}
+                                    isChecked={!!checkedSetores[setor.id]}
+                                    onChecked={() => handleCheckboxChange(setor.id, "setor")}
                                 />
                             })
                         }
@@ -142,29 +178,6 @@ export function MainServidores() {
             }
 
             <section className="container__cadastrar__button">
-                {
-                    filtro === "setor" && (
-                        <Dialog.Root>
-                            <Dialog.Trigger asChild>
-                                <button>Cadastrar setor</button>
-                            </Dialog.Trigger>
-
-                            <FormCadastrarSetor />
-                        </Dialog.Root>
-                    )
-                }
-
-                {
-                    filtro === "servidor" && (
-                        <Dialog.Root>
-                            <Dialog.Trigger asChild>
-                                <button>Cadastrar servidor</button>
-                            </Dialog.Trigger>
-
-                            <FormCadastrarFuncionarios />
-                        </Dialog.Root>
-                    )
-                }
 
                 <div className="container__gerar__button">
                     <button>Gerar  { filtro === 'servidor' ? "servidores" : "setores" } </button>
