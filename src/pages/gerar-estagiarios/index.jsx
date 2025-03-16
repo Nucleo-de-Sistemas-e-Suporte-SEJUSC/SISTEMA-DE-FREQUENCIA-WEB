@@ -48,7 +48,7 @@ export function GerarEstagiarios() {
                             to="/visualizar/estagiarios" 
                         >
                             Visualizar
-                            <img src={SetaVisualizar} alt="" />
+                            <img src={SetaVisualizar} alt="" className="seta"/>
                         </NavLink>
                     </div>
                 </Navigation>

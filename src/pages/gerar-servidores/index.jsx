@@ -48,7 +48,7 @@ export function GerarServidores() {
                             to="/visualizar/servidores" 
                         >
                             Visualizar
-                            <img src={SetaVisualizar} alt="" />
+                            <img src={SetaVisualizar} alt="" className="seta"/>
                         </NavLink>
                     </div>
                 </Navigation>

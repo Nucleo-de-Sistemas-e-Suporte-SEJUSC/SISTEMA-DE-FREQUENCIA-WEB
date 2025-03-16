@@ -18,7 +18,7 @@ export function MainVisualizarEstagiarios() {
                         type="text"
                         name="pesquisa"
                         id="pesquisa"
-                        placeholder="Pesquisa pelo estagiário ou seto "
+                        placeholder="Pesquisa pelo estagiário ou setor"
                         className={styles["form__visualizar__input"]}
                     />
                 </div>
@@ -34,13 +34,38 @@ export function MainVisualizarEstagiarios() {
                             <summary className={styles["card__summary"]}>Lucas</summary>
                             <p>GTI</p>
                     </details>
+                    <details className={styles["card__details"]}>
+                            <summary className={styles["card__summary"]}>Lucas</summary>
+                            <p>GTI</p>
+                    </details>
+                    <details className={styles["card__details"]}>
+                            <summary className={styles["card__summary"]}>Lucas</summary>
+                            <p>GTI</p>
+                    </details>
+                    <details className={styles["card__details"]}>
+                            <summary className={styles["card__summary"]}>Lucas</summary>
+                            <p>GTI</p>
+                    </details>
+                    <details className={styles["card__details"]}>
+                            <summary className={styles["card__summary"]}>Lucas</summary>
+                            <p>GTI</p>
+                    </details>
+                    <details className={styles["card__details"]}>
+                            <summary className={styles["card__summary"]}>Lucas</summary>
+                            <p>GTI</p>
+                    </details>
+                    <details className={styles["card__details"]}>
+                            <summary className={styles["card__summary"]}>Lucas</summary>
+                            <p>GTI</p>
+                    </details>
+                    <details className={styles["card__details"]}>
+                            <summary className={styles["card__summary"]}>Lucas</summary>
+                            <p>GTI</p>
+                    </details>
                </CardVisualizarServidores>
             </div>
 
             <div className={styles["container__buttons--visualizar"]}>
-                <button className={styles["container__buttons--visualizar-button"]}>
-                    <Link to="/servidores">Voltar</Link>
-                </button>
                 <button className={styles["container__buttons--visualizar-button"]}>Mesclar Arquivos</button>
                 <button className={styles["container__buttons--visualizar-button"]}>Visualizar Arquivos</button>
             </div>

@@ -1,19 +1,19 @@
 .container__visualizar__info {
     width: 70%;
-    height: 450px;
+    height: 400px;
 }
 
 .card__servidores--visualizar {
-    height: 450px;
+    height: 400px;
     border-radius: 10px;
     background-color: var(--cinza);
     width: 100%;
 }
 
 .card__container__details {
-    background-color: var(--cinza);
-    height: 300px;
+    overflow-y: scroll;
+    height: 400px;
     border-radius: 10px;
-    padding: 10px;
+    padding: 10px; 
 }
 

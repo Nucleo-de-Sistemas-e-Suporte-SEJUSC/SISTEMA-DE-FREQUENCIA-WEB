@@ -5,6 +5,7 @@ import { BarraLateral } from "../../components/comuns/barra-lateral";
 import { Header } from "../../components/comuns/header";
 import { Navigation } from "../../components/comuns/navigation";
 import { NavLink } from "react-router-dom";
+import SetaVoltar from "../../assets/voltar.svg"
 
 export function VisualizarServidor() {
     const [menu, setMenu] =  useState(false)
@@ -45,9 +46,10 @@ export function VisualizarServidor() {
                     <div>
                         <NavLink 
                             className="link__visualizar"
-                            to="/visualizar/servidores" 
+                            to="/servidores" 
                         >
-                            Visualizar
+                            <img src={SetaVoltar} alt="" className="seta"/>
+                            Voltar
                         </NavLink>
                     </div>
                 </Navigation>

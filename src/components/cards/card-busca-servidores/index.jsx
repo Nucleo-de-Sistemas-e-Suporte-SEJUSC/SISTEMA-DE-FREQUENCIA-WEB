@@ -10,6 +10,26 @@ export function CardBuscaServidores(props) {
                     <summary className={styles["card__summary"]}>MARCOS LUIZ PEREIRA DOS SANTOS</summary>
                     <p>GTI</p>
                 </details>
+                <details className={styles["card__details"]}>
+                    <summary className={styles["card__summary"]}>MARCOS LUIZ PEREIRA DOS SANTOS</summary>
+                    <p>GTI</p>
+                </details>
+                <details className={styles["card__details"]}>
+                    <summary className={styles["card__summary"]}>MARCOS LUIZ PEREIRA DOS SANTOS</summary>
+                    <p>GTI</p>
+                </details>
+                <details className={styles["card__details"]}>
+                    <summary className={styles["card__summary"]}>MARCOS LUIZ PEREIRA DOS SANTOS</summary>
+                    <p>GTI</p>
+                </details>
+                <details className={styles["card__details"]}>
+                    <summary className={styles["card__summary"]}>MARCOS LUIZ PEREIRA DOS SANTOS</summary>
+                    <p>GTI</p>
+                </details>
+                <details className={styles["card__details"]}>
+                    <summary className={styles["card__summary"]}>MARCOS LUIZ PEREIRA DOS SANTOS</summary>
+                    <p>GTI</p>
+                </details>
             </div>
 
             { possuiSelecaoDoMes && (

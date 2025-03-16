@@ -34,13 +34,42 @@ export function MainVisualizarServidores() {
                             <summary className={styles["card__summary"]}>Marcos</summary>
                             <p>GTI</p>
                     </details>
+                    <details className={styles["card__details"]}>
+                            <summary className={styles["card__summary"]}>Marcos</summary>
+                            <p>GTI</p>
+                    </details>
+                    <details className={styles["card__details"]}>
+                            <summary className={styles["card__summary"]}>Marcos</summary>
+                            <p>GTI</p>
+                    </details>
+                    <details className={styles["card__details"]}>
+                            <summary className={styles["card__summary"]}>Marcos</summary>
+                            <p>GTI</p>
+                    </details>
+                    <details className={styles["card__details"]}>
+                            <summary className={styles["card__summary"]}>Marcos</summary>
+                            <p>GTI</p>
+                    </details>
+                    <details className={styles["card__details"]}>
+                            <summary className={styles["card__summary"]}>Marcos</summary>
+                            <p>GTI</p>
+                    </details>
+                    <details className={styles["card__details"]}>
+                            <summary className={styles["card__summary"]}>Marcos</summary>
+                            <p>GTI</p>
+                    </details>
+                    <details className={styles["card__details"]}>
+                            <summary className={styles["card__summary"]}>Marcos</summary>
+                            <p>GTI</p>
+                    </details>
+                    <details className={styles["card__details"]}>
+                            <summary className={styles["card__summary"]}>Marcos</summary>
+                            <p>GTI</p>
+                    </details>
                </CardVisualizarServidores>
             </div>
 
             <div className={styles["container__buttons--visualizar"]}>
-                <button className={styles["container__buttons--visualizar-button"]}>
-                    <Link to="/servidores">Voltar</Link>
-                </button>
                 <button className={styles["container__buttons--visualizar-button"]}>Mesclar Arquivos</button>
                 <button className={styles["container__buttons--visualizar-button"]}>Visualizar Arquivos</button>
             </div>
