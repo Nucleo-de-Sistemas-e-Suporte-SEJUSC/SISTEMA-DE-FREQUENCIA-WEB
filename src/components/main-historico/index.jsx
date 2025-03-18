@@ -33,8 +33,11 @@ export function MainHistorico(props) {
                     <details className={styles["card__details"]}>
                         <summary className={styles["summary"]}>
                             <p>MARCOS LUIZ PEREIRA DOS SANTOS</p>
+                        </summary>
 
-                            <div className={styles["containers_button__historico"]}>
+                        <p>Arquivado: xx/xx/xxxx</p>
+
+                        <div className={styles["containers_button__historico"]}>
                                 <Dialog.Root>
                                     <Dialog.Trigger asChild>
                                         <button className={styles["details__amarelo"]}>Atualizar</button>
@@ -43,10 +46,8 @@ export function MainHistorico(props) {
                                     <FormularioAtualizarHistorico />
                                 </Dialog.Root>
                                 <button className={styles["details__lilas"]}>Histórico</button>
-                            </div>
-                        </summary>
+                        </div>
 
-                        <p>Arquivado: xx/xx/xxxx</p>
                     </details>
                 </CardVisualizarServidores>
             </div>
