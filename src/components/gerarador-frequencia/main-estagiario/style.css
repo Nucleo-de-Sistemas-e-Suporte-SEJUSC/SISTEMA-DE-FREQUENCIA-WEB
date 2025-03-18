@@ -127,9 +127,10 @@ main {
 }
 
 .container__servidores {
-    height: 350px;
+    height: 650px;
     padding-right: 10px;
-    overflow: scroll;
+    overflow-y: scroll;
+    overflow-x: hidden;
     margin-bottom: 10px;
 }
 

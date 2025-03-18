@@ -78,11 +78,45 @@
 }
 
 .card__details {
+    position: relative;
     background-color: #D9D9D9;
     padding: 10px;
     border-radius: 10px;
     margin-bottom: 20px;
 }
+
+.card__details::after {
+    content: '';
+    background-image: url(../../assets/arrow-down.svg);
+    background-repeat: no-repeat;
+    background-size: contain;
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    right: 10px;
+    top: 40%;
+}
+
+.card__details[open]::after {
+    content: '';
+    background-image: url(../../assets/arrow-up.svg);
+    background-repeat: no-repeat;
+    background-size: contain;
+    position: absolute;
+    right: 10px;
+    top: 40%;
+}
+
+
+.card__summary {
+    list-style: none;
+}
+
+
+.card__summary {
+    list-style: none;
+}
+
 
 .card__details__container__button {
     text-align: end;

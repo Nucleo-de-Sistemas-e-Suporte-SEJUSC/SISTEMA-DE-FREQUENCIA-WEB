@@ -78,7 +78,7 @@
 }
 
 .card__details {
-    width: 90%;
+    width: 95%;
     border-radius: 5px;
     position: relative;
     border: 1px solid var(--cor-borda);
@@ -89,7 +89,7 @@
 
 .card__details::after {
     content: '';
-    background-image: url(../../../assets/arrow-down.svg);
+    background-image: url(../../assets/arrow-down.svg);
     background-repeat: no-repeat;
     background-size: contain;
     position: absolute;
@@ -101,7 +101,7 @@
 
 .card__details[open]::after {
     content: '';
-    background-image: url(../../../assets/arrow-up.svg);
+    background-image: url(../../assets/arrow-up.svg);
     background-repeat: no-repeat;
     background-size: contain;
     position: absolute;
@@ -121,8 +121,6 @@
 .card__details__container__button button {
     margin-right: 10px;
 }
-
-
 
 .details__verde {
     background-color: var(--verde-claro);
