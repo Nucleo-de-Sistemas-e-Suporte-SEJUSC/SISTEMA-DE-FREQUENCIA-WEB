@@ -21,7 +21,7 @@ export function MainHistorico(props) {
                     />
                 </div>
 
-                <p>{funcionarios} - Setor: GTI / Mês: Fevereiro </p>
+                <p>{funcionarios} - Setor: GTI / Mês: Fevereiro  </p>
             </form>
 
             <div className={styles["container__visualizar__content"]}>
