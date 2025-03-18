@@ -1,3 +1,4 @@
+import { NavLink } from "react-router-dom"
 import { toast } from "sonner"
 import styles from "./style.module.css"
 
@@ -33,13 +34,9 @@ export function FormLogin() {
                     </div>
         
                     <div className={styles["container__button"]} >
-                        <button type="submit" className={styles["form__button"]} onClick={(e) => {
-                            e.preventDefault()
-                            toast.error("Erro", {
-                                description: "Uso inválido de ID de sessão",
-                                duration: 3000,
-                            })
-                        }}>Entrar</button>
+                        <NavLink to="/servidores" className={styles["container__button__link"]}>
+                            <button type="submit" className={styles["form__button"]}>Entrar</button>
+                        </NavLink>
                     </div>
                 </form>
             </section>

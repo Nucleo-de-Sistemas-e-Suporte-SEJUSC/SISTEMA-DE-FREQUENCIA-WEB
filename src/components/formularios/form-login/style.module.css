@@ -27,13 +27,18 @@
 }
 
 .container__button {
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.form__button {
+.container__button__link {
     width: 60%;
+}
+
+.form__button {
+    width: 100%;
     padding: 11px;
     margin-top: 10px;
     border-radius: 10px;

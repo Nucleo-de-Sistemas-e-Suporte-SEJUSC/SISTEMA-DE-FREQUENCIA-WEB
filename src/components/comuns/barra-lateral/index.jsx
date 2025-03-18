@@ -9,6 +9,7 @@ import Férias from "../../../assets/icones-menu/ferias-de-verao.svg"
 import Admin from "../../../assets/icones-menu/admin.svg"
 import MenuHamburguer from "../../../assets/icones-menu/menu-ham.svg"
 import HistoricoAlteracao from "../../../assets/icones-menu/historico.svg"
+import FichaFuncional from "../../../assets/icones-menu/funcional 1.svg"
 
 export function BarraLateral(props) {
     const { menuOpen, handleMenu } =  props
@@ -18,7 +19,7 @@ export function BarraLateral(props) {
 
             <div>
                 <img 
-                    className={styles["icone-hamburguer"]}
+                    className={`${styles["icone-hamburguer"]} `} 
                     src={MenuHamburguer} 
                     alt="" 
                     onClick={() => handleMenu(!menuOpen)} 
@@ -95,7 +96,18 @@ export function BarraLateral(props) {
                         <div>
                             <img src={HistoricoAlteracao} alt="" className={styles["container__buttons__menu-img"]}/>
                             {
-                                menuOpen && ( <p>Histórico de Alteração</p>)
+                                menuOpen && ( <p>Alterações</p>)
+                            }
+                        
+                        </div>
+                    </NavLink>
+                    <NavLink to="/naoencontrado" className={({isActive}) =>
+                        isActive ? styles["container__buttons__menu--hamburger"] : styles["container__buttons__menu--hamburger--nao-ativo"]
+                    }>
+                        <div>
+                            <img src={FichaFuncional} alt="" className={styles["container__buttons__menu-img"]}/>
+                            {
+                                menuOpen && ( <p>Ficha Funcional</p>)
                             }
                         
                         </div>
@@ -103,6 +115,7 @@ export function BarraLateral(props) {
                 </div>
                 
             </div>
+
             <div>
                 <NavLink to="/naoencontrado" className={({isActive}) =>
                     isActive ? styles["container__buttons__menu--hamburger"] : styles["container__buttons__menu--hamburger--nao-ativo"]

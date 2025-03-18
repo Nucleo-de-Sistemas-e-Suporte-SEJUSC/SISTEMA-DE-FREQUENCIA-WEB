@@ -9,6 +9,7 @@ import { HistoricoAlteracao } from "../pages/historico-alteracao";
 import { Historico } from "../pages/historico";
 import { VisualizarServidor } from "../pages/visualizar-servidor";
 import { VisualizarEstagiario } from "../pages/visualizar-estagiario";
+import { Home } from "../pages/home";
 
 export default function Router() {
     
@@ -16,6 +17,7 @@ export default function Router() {
     
        <BrowserRouter>
             <Routes>
+                <Route path="/" element={<Home />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/servidores" element={<GerarServidores />} />
                 <Route path="/estagiarios" element={<GerarEstagiarios />} />
