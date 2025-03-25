@@ -1,21 +1,44 @@
 import "./style.css"
-import { useState } from "react";
-import * as Dialog from "@radix-ui/react-dialog";
+import { useEffect, useState } from "react";
 import { meses } from "../../../utils/meses";
 import { testeServidores, testeSetor } from "../../../utils/teste";
-import { FormCadastrarSetor } from "../../formularios/form-cadastrar-setor";
-import { FormCadastrarFuncionarios } from "../../formularios/form-cadastrar-funcionarios";
 import { CardFuncionarios } from "../../cards/card-funcionarios";
-import IconeLapis from "../../../assets/lapis.svg"
 
 export function MainServidores() {
     const [filtro, setFiltro] = useState("setor")
+    const [servidores, setServidores] = useState([])
     const [checkedSetores, setCheckedSetores] = useState({});
     const [checkedServidores, setCheckedServidores] = useState({});
 
     const data = new Date()
     const mesAtual = data.getMonth()
     const mes = meses[mesAtual]
+
+    async function pegaServidoresAPI() {
+        const api = await fetch("http://127.0.0.1:3000/api/servidores")
+        const { servidores } = await api.json()
+
+        setServidores(servidores)
+    }
+
+    const contagemSetores = Object.values(
+        servidores.reduce((acc, { setor }) => {
+          if (!acc[setor]) {
+            acc[setor] = { setor, quantidade: 0 };
+          }
+          acc[setor].quantidade++;
+          return acc;
+        }, {})
+      );
+
+    const setoresOrdenados = contagemSetores.sort(((a,b) => a.setor.localeCompare(b.setor)))
+    console.log(setoresOrdenados)
+
+    useEffect(() => {
+        pegaServidoresAPI()
+    }, [])
+
+
 
     const handleCheckboxChange = (id, type) => {
         if (type === "setor") {
@@ -124,7 +147,7 @@ export function MainServidores() {
                 filtro === 'servidor' && (
                     <section className="container__servidores">
                         {
-                            testeServidores.map(servidor => {
+                            servidores.map(servidor => {
                                 return <CardFuncionarios
                                     key={servidor.id}
                                     nome={servidor.nome} 
@@ -143,13 +166,13 @@ export function MainServidores() {
                     <section className="container__servidores">
                         {
 
-                            testeSetor.map(setor => {
+                            setoresOrdenados.map(setor => {
                                 const quantidadeDeServidoresNoSetor = filtraSetores(setor.nome)
                                 return <CardFuncionarios 
                                     key={setor.id} 
-                                    nome={setor.nome}
-                                    id={setor.id}
-                                    quantidadeServidores={quantidadeDeServidoresNoSetor}
+                                    nome={setor.setor}
+                                    id={setor.setor}
+                                    quantidadeServidores={setor.quantidade}
                                     isChecked={!!checkedSetores[setor.id]}
                                     onChecked={() => handleCheckboxChange(setor.id, "setor")}
                                 />
