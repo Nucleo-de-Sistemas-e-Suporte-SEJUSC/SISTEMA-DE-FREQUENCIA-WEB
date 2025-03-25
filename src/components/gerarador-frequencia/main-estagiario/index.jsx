@@ -85,15 +85,6 @@ export function MainEstagiario() {
             {
                 filtro === "setor" && (
                     <section className="container__pesquisa__gerador">
-                        <div className="modal">
-                            <Dialog.Root>
-                                <Dialog.Trigger className="botao__modal">
-                                    <img src={IconeLapis} alt="" />
-                                    <p>Cadastrar setor</p>
-                                </Dialog.Trigger>
-                                <FormCadastrarSetor />
-                            </Dialog.Root>
-                        </div>
 
                         <form action="#" className="filtros">
                                     <div className="filtros__container">
@@ -113,15 +104,6 @@ export function MainEstagiario() {
             {
                 filtro === 'estagiario' && (
                     <section className="container__pesquisa__gerador">
-                        <div className="modal">
-                            <Dialog.Root>
-                                <Dialog.Trigger className="botao__modal">
-                                    <img src={IconeLapis} alt="" />
-                                    <p>Cadastrar estagiário</p>
-                                </Dialog.Trigger>
-                                <FormCadastrarFuncionarios />
-                            </Dialog.Root>
-                        </div>
 
                         <form action="#" className="filtros">
                             <div className="filtros__container">
