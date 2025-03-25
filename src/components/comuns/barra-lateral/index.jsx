@@ -3,27 +3,28 @@ import { NavLink } from "react-router-dom"
 import GeradorFrequencia from "../../../assets/icones-menu/tabela-de-edicao.svg"
 import ControleDePonto from "../../../assets/icones-menu/marca-correta.svg"
 import Arquivados from "../../../assets/icones-menu/pasta.svg"
-import Histórico from "../../../assets/icones-menu/historia.svg"
 import Frequência from "../../../assets/icones-menu/folha.svg"
-import Férias from "../../../assets/icones-menu/ferias-de-verao.svg"
 import Admin from "../../../assets/icones-menu/admin.svg"
 import MenuHamburguer from "../../../assets/icones-menu/menu-ham.svg"
 import HistoricoAlteracao from "../../../assets/icones-menu/historico.svg"
-import FichaFuncional from "../../../assets/icones-menu/funcional 1.svg"
+import Logout from "../../../assets/icones-menu/icon-logout.svg"
+
 
 export function BarraLateral(props) {
     const { menuOpen, handleMenu } =  props
 
     return (
-        <aside className={styles["barra-lateral"]}>
+        <aside className={menuOpen ? styles["barra-lateral"] : styles["barra-lateral-fechada"]}>
 
             <div>
-                <img 
-                    className={`${styles["icone-hamburguer"]} `} 
-                    src={MenuHamburguer} 
-                    alt="" 
-                    onClick={() => handleMenu(!menuOpen)} 
-                />
+                <div>
+                    <img 
+                            className={`${styles["icone-hamburguer"]} `} 
+                            src={MenuHamburguer} 
+                            alt="" 
+                            onClick={() => handleMenu(!menuOpen)} 
+                        />
+                </div>
 
                 <div>
                     <NavLink to="/servidores" className={({isActive}) =>
@@ -52,22 +53,12 @@ export function BarraLateral(props) {
                         <div>
                             <img src={Arquivados} alt="" className={styles["container__buttons__menu-img"]}/>
                             {
-                                menuOpen && ( <p>Arquivados</p>)
+                                menuOpen && ( <p>Funcionários</p>)
                             }
                         
                         </div>
                     </NavLink>
-                    <NavLink to="/historico" className={({isActive}) =>
-                        isActive ? styles["container__buttons__menu--hamburger"] : styles["container__buttons__menu--hamburger--nao-ativo"]
-                    }>
-                        <div>
-                            <img src={Histórico} alt="" className={styles["container__buttons__menu-img"]}/>
-                            {
-                                menuOpen && (  <p>Histórico</p>)
-                            }
-                        
-                        </div>
-                    </NavLink>
+                   
                     <NavLink to="/frequencia/mensal" className={({isActive}) =>
                         isActive ? styles["container__buttons__menu--hamburger"] : styles["container__buttons__menu--hamburger--nao-ativo"]
                     }>
@@ -79,17 +70,7 @@ export function BarraLateral(props) {
                         
                         </div>
                     </NavLink>
-                    <NavLink to="/naoencontrado" className={({isActive}) =>
-                        isActive ? styles["container__buttons__menu--hamburger"] : styles["container__buttons__menu--hamburger--nao-ativo"]
-                    }>
-                        <div>
-                            <img src={Férias} alt="" className={styles["container__buttons__menu-img"]}/>
-                            {
-                                menuOpen && ( <p>Férias</p>)
-                            }
-                        
-                        </div>
-                    </NavLink>
+                   
                     <NavLink to="/historico-alteracao" className={({isActive}) =>
                         isActive ? styles["container__buttons__menu--hamburger"] : styles["container__buttons__menu--hamburger--nao-ativo"]
                     }>
@@ -101,32 +82,32 @@ export function BarraLateral(props) {
                         
                         </div>
                     </NavLink>
-                    <NavLink to="/naoencontrado" className={({isActive}) =>
-                        isActive ? styles["container__buttons__menu--hamburger"] : styles["container__buttons__menu--hamburger--nao-ativo"]
-                    }>
-                        <div>
-                            <img src={FichaFuncional} alt="" className={styles["container__buttons__menu-img"]}/>
-                            {
-                                menuOpen && ( <p>Ficha Funcional</p>)
-                            }
-                        
-                        </div>
-                    </NavLink>
+                   
                 </div>
                 
             </div>
 
-            <div>
-                <NavLink to="/naoencontrado" className={({isActive}) =>
-                    isActive ? styles["container__buttons__menu--hamburger"] : styles["container__buttons__menu--hamburger--nao-ativo"]
-                }>
-                    <div className={`${styles["container__buttons__menu__admin"]}`}>
-                        <img src={Admin} alt="" className={styles["container__buttons__menu-img"]}/>
-                        {
-                            menuOpen && ( <p>Administrador</p>)
-                        }
-                    </div>
-                </NavLink>
+            <div className={styles["container__administrador__links"]}>
+                <div className={styles["container__administrador__links__admin"]}>
+                    <NavLink to="/naoencontrado" className={({isActive}) =>
+                        isActive ? styles["container__buttons__menu--hamburger"] : styles["container__buttons__menu--hamburger--nao-ativo"]
+                    }>
+                        <div className={`${styles["container__buttons__menu__admin"]}`}>
+                            <img src={Admin} alt="" className={styles["container__buttons__menu-img"]}/>
+                            {
+                                menuOpen && ( <p>Administrador</p>)
+                            }
+                        </div>
+                    </NavLink>
+                </div>
+
+                {
+                    menuOpen && ( 
+                        <div>
+                            <img src={Logout} alt="" className={styles["container__buttons__menu-img"]} />
+                        </div>
+                    )
+                }
             </div>
 
             
