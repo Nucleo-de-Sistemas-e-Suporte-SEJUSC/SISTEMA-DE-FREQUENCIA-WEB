@@ -1,0 +1,17 @@
+.home__titulo {
+    font-size: 48px;
+    padding-left: 20px ;
+    color: var(--button);
+    background-color: red;
+}
+
+.botao__arquivados__ativo {
+    border-radius: 9px;
+    border: none;
+    font-size: 24px;
+    padding: 7px 40px;
+    margin-right: 10px;
+    cursor: pointer;
+    background-color: var(--button);
+    color: var(--branco);
+}

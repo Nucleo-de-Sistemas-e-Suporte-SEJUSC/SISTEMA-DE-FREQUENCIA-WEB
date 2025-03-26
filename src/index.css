@@ -6,7 +6,7 @@
   --lilas: #5C5CBE;
   --vermelho: #EC221F;
   --roxo: #4C4357;
-  --branco: #FFF;
+  --branco: #F1F4FF;
   --preto: #000;
   --roxo-500: #65558F;
   --roxo-900: #5933ba;
@@ -25,11 +25,12 @@
 }
 
 body{
-  box-sizing: border-box;
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
   font-weight: 400;
   font-family: var(--font-family);
+  background-color: var(--branco);
 }
 
 input, label, section, div, body, header {

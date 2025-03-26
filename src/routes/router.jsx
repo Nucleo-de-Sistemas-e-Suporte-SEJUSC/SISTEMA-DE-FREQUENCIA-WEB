@@ -10,6 +10,8 @@ import { Historico } from "../pages/historico";
 import { VisualizarServidor } from "../pages/visualizar-servidor";
 import { VisualizarEstagiario } from "../pages/visualizar-estagiario";
 import { Home } from "../pages/home";
+import { ArquivadosAtivos } from "../pages/arquivados-ativos";
+import { Ativos } from "../pages/ativos";
 
 export default function Router() {
     
@@ -25,9 +27,11 @@ export default function Router() {
                 <Route path="/visualizar/estagiarios" element={<VisualizarEstagiario />} />
                 <Route path="/frequencia/mensal" element={<FrequenciaMensal />} />
                 <Route path="/arquivados" element={<Arquivados />} />
-                <Route path="/naoencontrado" element={<NotFound />} />
+                <Route path="/arquivados-ativos" element={<ArquivadosAtivos />} />
+                <Route path="/ativos" element={<Ativos />} />
                 <Route path="/historico-alteracao" element={<HistoricoAlteracao />} />
                 <Route path="/historico" element={<Historico />} />
+                <Route path="/naoencontrado" element={<NotFound />} />
             </Routes>
        </BrowserRouter>     
     )

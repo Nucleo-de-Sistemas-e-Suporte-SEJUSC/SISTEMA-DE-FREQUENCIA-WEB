@@ -4,13 +4,8 @@
 }
 
 .titulo{
-    font-size: 24px;
-    color: var(--lilas);
+    font-size: 40px;
+    color: var(--button);
 }
 
-.titulo__login {
-    font-size: 30px;
-    text-align: center;
-    color: var(--branco);
 
-}
