@@ -1,13 +1,13 @@
 import styles from "./style.module.css"
 import { NavLink } from "react-router-dom"
-import GeradorFrequencia from "../../../assets/icones-menu/tabela-de-edicao.svg"
-import ControleDePonto from "../../../assets/icones-menu/marca-correta.svg"
-import Arquivados from "../../../assets/icones-menu/pasta.svg"
-import Frequência from "../../../assets/icones-menu/folha.svg"
-import Admin from "../../../assets/icones-menu/admin.svg"
-import MenuHamburguer from "../../../assets/icones-menu/menu-ham.svg"
-import HistoricoAlteracao from "../../../assets/icones-menu/historico.svg"
-import Logout from "../../../assets/icones-menu/icon-logout.svg"
+import Porta from "../../../assets/icones-menu/porta.svg"
+import FrequenciaGerador from "../../../assets/icones-menu/frequencia-gerador.svg"
+import FrequenciaLog from "../../../assets/icones-menu/frequencia-log.svg"
+import Frequencia from "../../../assets/icones-menu/frequencia.svg"
+import Perfil from "../../../assets/icones-menu/perfil.svg"
+import Relogio from "../../../assets/icones-menu/relogio.svg"
+import Servidores from "../../../assets/icones-menu/servidores.svg"
+import Menu from "../../../assets/icones-menu/menu.svg"
 
 
 export function BarraLateral(props) {
@@ -20,7 +20,7 @@ export function BarraLateral(props) {
                 <div>
                     <img 
                             className={`${styles["icone-hamburguer"]} `} 
-                            src={MenuHamburguer} 
+                            src={Menu} 
                             alt="" 
                             onClick={() => handleMenu(!menuOpen)} 
                         />
@@ -31,7 +31,7 @@ export function BarraLateral(props) {
                         isActive ? styles["container__buttons__menu--hamburger"] : styles["container__buttons__menu--hamburger--nao-ativo"]
                     }>
                         <div >
-                            <img src={GeradorFrequencia} alt="" className={styles["container__buttons__menu-img"]}/>
+                            <img src={FrequenciaGerador} alt="" className={styles["container__buttons__menu-img"]}/>
                             {
                                 menuOpen && ( <p>Gerador de Frequência</p> )
                             }
@@ -41,7 +41,7 @@ export function BarraLateral(props) {
                         isActive ? styles["container__buttons__menu--hamburger"] : styles["container__buttons__menu--hamburger--nao-ativo"]
                     }>
                         <div>
-                            <img src={ControleDePonto} alt="" className={styles["container__buttons__menu-img"]}/>
+                            <img src={Relogio} alt="" className={styles["container__buttons__menu-img"]}/>
                             {
                                 menuOpen && ( <p>Controle de Ponto</p> )
                             }
@@ -51,7 +51,7 @@ export function BarraLateral(props) {
                         isActive ? styles["container__buttons__menu--hamburger"] : styles["container__buttons__menu--hamburger--nao-ativo"]
                     }>
                         <div>
-                            <img src={Arquivados} alt="" className={styles["container__buttons__menu-img"]}/>
+                            <img src={Servidores} alt="" className={styles["container__buttons__menu-img"]}/>
                             {
                                 menuOpen && ( <p>Funcionários</p>)
                             }
@@ -63,7 +63,7 @@ export function BarraLateral(props) {
                         isActive ? styles["container__buttons__menu--hamburger"] : styles["container__buttons__menu--hamburger--nao-ativo"]
                     }>
                         <div>
-                            <img src={Frequência} alt="" className={styles["container__buttons__menu-img"]}/>
+                            <img src={Frequencia} alt="" className={styles["container__buttons__menu-img"]}/>
                             {
                                 menuOpen && ( <p>Frequência</p> )
                             }
@@ -75,7 +75,7 @@ export function BarraLateral(props) {
                         isActive ? styles["container__buttons__menu--hamburger"] : styles["container__buttons__menu--hamburger--nao-ativo"]
                     }>
                         <div>
-                            <img src={HistoricoAlteracao} alt="" className={styles["container__buttons__menu-img"]}/>
+                            <img src={FrequenciaLog} alt="" className={styles["container__buttons__menu-img"]}/>
                             {
                                 menuOpen && ( <p>Alterações</p>)
                             }
@@ -93,7 +93,7 @@ export function BarraLateral(props) {
                         isActive ? styles["container__buttons__menu--hamburger"] : styles["container__buttons__menu--hamburger--nao-ativo"]
                     }>
                         <div className={`${styles["container__buttons__menu__admin"]}`}>
-                            <img src={Admin} alt="" className={styles["container__buttons__menu-img"]}/>
+                            <img src={Perfil} alt="" className={styles["container__buttons__menu-img"]}/>
                             {
                                 menuOpen && ( <p>Administrador</p>)
                             }
@@ -104,7 +104,7 @@ export function BarraLateral(props) {
                 {
                     menuOpen && ( 
                         <div>
-                            <img src={Logout} alt="" className={styles["container__buttons__menu-img"]} />
+                            <img src={Porta} alt="" className={styles["container__buttons__menu-img"]} />
                         </div>
                     )
                 }

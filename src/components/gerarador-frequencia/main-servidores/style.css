@@ -6,30 +6,31 @@ main {
 }
 
 .form__filtro {
-    /* display: flex;
-    align-items: center;
+    display: flex;
     justify-content: space-between;
-    padding: 12px;
-    background-color: #908B9775;
-    border-radius: 18px; */
+    align-items: center;
 }
 
 .form__inputs__container {
     width: 50%;
     display: flex;
+    justify-content: space-around;
     align-items: center;
     gap: 40px;
 }
 
 .form__filtro__label {
+    color: var(--button);
+    font-weight: 400;
     margin-left: 10px;
 }
 
 .form__filtro__select__container {
-    width: 50%;
+    width: 80%;
     position: relative;
     display: flex;
     align-items: center;
+    justify-content: center;
 }
 
 .form__filtro__select {
@@ -139,7 +140,7 @@ main {
 
 .container__gerar__button button {
     cursor: pointer;
-    background-color: var(--roxo);
+    background-color: var(--button);
     border-radius: 15px;
     border: none;
     color: #fff;

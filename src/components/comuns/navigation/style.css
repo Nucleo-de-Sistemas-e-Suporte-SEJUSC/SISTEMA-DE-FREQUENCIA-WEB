@@ -20,12 +20,12 @@
     border-radius: 5px;
     padding: 5px 30px;
     text-decoration: none;
-    color: var(--lilas);
+    color: var(--button);
 }
 
 .link.active {
     color: var(--branco);
-    background-color: var(--lilas);
+    background-color: var(--button);
 }
 
 .link__visualizar {
@@ -36,7 +36,7 @@
     padding: 5px 30px;
     border-radius: 15px;
     color: var(--branco);
-    background-color: var(--lilas);
+    background-color: var(--button);
 }
 
 

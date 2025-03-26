@@ -3,23 +3,46 @@ import { useEffect, useState } from "react";
 import { meses } from "../../../utils/meses";
 import { testeServidores, testeSetor } from "../../../utils/teste";
 import { CardFuncionarios } from "../../cards/card-funcionarios";
+import { api } from "../../../api/axios";
 
 export function MainServidores() {
-    const [filtro, setFiltro] = useState("setor")
-    const [servidores, setServidores] = useState([])
-    const [checkedSetores, setCheckedSetores] = useState({});
-    const [checkedServidores, setCheckedServidores] = useState({});
-
     const data = new Date()
     const mesAtual = data.getMonth()
     const mes = meses[mesAtual]
 
+    const [filtro, setFiltro] = useState("setor")
+    const [servidores, setServidores] = useState([])
+    const [checkedSetores, setCheckedSetores] = useState({});
+    const [checkedServidores, setCheckedServidores] = useState({});
+    const [isLoading, setIsLoading] = useState(false)
+    const [mesEscolhido, setMesEscolhido] = useState(mes)
+
     async function pegaServidoresAPI() {
-        const api = await fetch("http://127.0.0.1:3000/api/servidores")
-        const { servidores } = await api.json()
+        const resposta = await api.get("/servidores")
+        const { servidores } = await resposta.data
 
         setServidores(servidores)
     }
+
+
+    async function converteServidoresParaPdfAPI() {
+       try {
+            setIsLoading(true)
+            const idServidores = Object.keys(checkedServidores)
+            const resposta = await api.post(`/servidores/pdf`, {
+                mes: mesEscolhido,
+                funcionarios: idServidores 
+            })
+       } catch(e) {
+            console.error("Error => ", e)
+       } finally {
+        setIsLoading(false)
+       }
+    }
+
+    useEffect(() => {
+        pegaServidoresAPI()
+    }, [])
 
     const contagemSetores = Object.values(
         servidores.reduce((acc, { setor }) => {
@@ -32,13 +55,6 @@ export function MainServidores() {
       );
 
     const setoresOrdenados = contagemSetores.sort(((a,b) => a.setor.localeCompare(b.setor)))
-    console.log(setoresOrdenados)
-
-    useEffect(() => {
-        pegaServidoresAPI()
-    }, [])
-
-
 
     const handleCheckboxChange = (id, type) => {
         if (type === "setor") {
@@ -60,6 +76,10 @@ export function MainServidores() {
         setFiltro(event.target.value)
     }
 
+    function handleMesEscolhido(event) {
+        setMesEscolhido(event.target.value)
+    }
+
     function filtraSetores(setor) {
         const filtraSetor = testeServidores.filter(servidor => servidor.setor === setor)
         return filtraSetor.length
@@ -68,7 +88,9 @@ export function MainServidores() {
     return (
         <main>
             <form action="#" className="form__filtro">
-                <label htmlFor="selecione">Selecione o mês: </label>
+                <div>
+                <label htmlFor="selecione" className="form__filtro__label">Selecione o mês: </label>
+                </div>
 
                 <div className="form__inputs__container">
                     <div>
@@ -80,7 +102,7 @@ export function MainServidores() {
                             checked={filtro === "setor"}
                             onChange={handleFiltro}
                         />
-                        <label htmlFor="fitro" className="form__filtro__label">Setor</label>
+                        <label htmlFor="fitro" className="form__filtro__label">Setores</label>
                     </div>
 
                     <div>
@@ -92,13 +114,13 @@ export function MainServidores() {
                             checked={filtro === "servidor"}
                             onChange={handleFiltro}
                         />
-                        <label htmlFor="fitro" className="form__filtro__label">Servidor</label>
+                        <label htmlFor="fitro" className="form__filtro__label">Servidores</label>
                     </div>
 
                     <div className="form__filtro__select__container">
-                        <select name="meses" id="meses" className="form__filtro__select" defaultValue={mes}>
+                        <select name="meses" id="meses" className="form__filtro__select" defaultValue={mes} onChange={handleMesEscolhido}>
                             { meses.map((mes, index) => {
-                                return <option key={index} value={mes}>{mes}</option>
+                                return <option key={index} value={mes} >{mes}</option>
                             }) }
                         </select>
                     </div>
@@ -185,7 +207,7 @@ export function MainServidores() {
             <section className="container__cadastrar__button">
 
                 <div className="container__gerar__button">
-                    <button>Gerar  { filtro === 'servidor' ? "servidores" : "setores" } </button>
+                    <button disabled={isLoading} onClick={() => converteServidoresParaPdfAPI()}>Gerar  { filtro === 'servidor' ? "servidores" : "setores" } selecionados </button>
                     <button>Gerar todos os { filtro === 'servidor' ? "servidores" : "setores" } </button>
                 </div>
             </section>
