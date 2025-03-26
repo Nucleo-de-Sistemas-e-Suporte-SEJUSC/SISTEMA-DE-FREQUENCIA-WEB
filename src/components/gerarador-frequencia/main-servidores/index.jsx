@@ -20,7 +20,12 @@ export function MainServidores() {
     const [filtroNomes, setFiltroNomes] = useState([])
 
     async function pegaServidoresAPI() {
-        const resposta = await api.get("/servidores")
+
+        const resposta = await api.get(`/servidores`, {
+            params: {
+                nome: filtroNomes
+            }
+        })
         const { servidores } = await resposta.data
 
         setServidores(servidores)
@@ -37,24 +42,17 @@ export function MainServidores() {
             })
        } catch(e) {
             console.error("Error => ", e)
+            throw new Error("Erro aqui => ", e)
        } finally {
         setIsLoading(false)
        }
     }
 
 
-    async function filtraPorNomeAPI() {
-        const resposta = await api.get(`/servidores?nome=${filtroNomes}`)
-        const {servidores} =  resposta.data
-        setServidores(servidores)
-    }
     useEffect(() => {
         pegaServidoresAPI()
-    }, [])
-
-    useEffect(() => {
-        filtraPorNomeAPI()
     }, [filtroNomes])
+
 
     const contagemSetores = Object.values(
         servidores.reduce((acc, { setor }) => {
@@ -183,18 +181,6 @@ export function MainServidores() {
                 filtro === 'servidor' && (
                     <section className="container__servidores">
                         {   
-                            // filtroNomes.length > 0 ? 
-                            // servidoresFiltrados.map(servidor => {
-                            //         return <CardFuncionarios
-                            //             key={servidor.id}
-                            //             nome={servidor.nome} 
-                            //             id={servidor.id}
-                            //             isChecked={!!checkedServidores[servidor.id]}
-                            //             onChecked={() => handleCheckboxChange(servidor.id, "servidor")}
-                            //         />
-                            //     })
-                                
-                            //     :
 
                             servidores.map(servidor => {
                                     return <CardFuncionarios
