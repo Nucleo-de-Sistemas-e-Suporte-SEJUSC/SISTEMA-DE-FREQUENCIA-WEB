@@ -12,10 +12,12 @@ export function MainServidores() {
 
     const [filtro, setFiltro] = useState("setor")
     const [servidores, setServidores] = useState([])
+    const [servidoresFiltrados, setServidoresFiltrados] = useState([])
     const [checkedSetores, setCheckedSetores] = useState({});
     const [checkedServidores, setCheckedServidores] = useState({});
     const [isLoading, setIsLoading] = useState(false)
     const [mesEscolhido, setMesEscolhido] = useState(mes)
+    const [filtroNomes, setFiltroNomes] = useState([])
 
     async function pegaServidoresAPI() {
         const resposta = await api.get("/servidores")
@@ -40,9 +42,19 @@ export function MainServidores() {
        }
     }
 
+
+    async function filtraPorNomeAPI() {
+        const resposta = await api.get(`/servidores?nome=${filtroNomes}`)
+        const {servidores} =  resposta.data
+        setServidores(servidores)
+    }
     useEffect(() => {
         pegaServidoresAPI()
     }, [])
+
+    useEffect(() => {
+        filtraPorNomeAPI()
+    }, [filtroNomes])
 
     const contagemSetores = Object.values(
         servidores.reduce((acc, { setor }) => {
@@ -158,6 +170,8 @@ export function MainServidores() {
                                     id="servidor"
                                     placeholder="Pesquisa pelo servidor"
                                     className="filtros__input"
+                                    value={filtroNomes}
+                                    onChange={e => setFiltroNomes(e.target.value)}
                                 />
                             </div>
                         </form>
@@ -168,16 +182,31 @@ export function MainServidores() {
             {
                 filtro === 'servidor' && (
                     <section className="container__servidores">
-                        {
+                        {   
+                            // filtroNomes.length > 0 ? 
+                            // servidoresFiltrados.map(servidor => {
+                            //         return <CardFuncionarios
+                            //             key={servidor.id}
+                            //             nome={servidor.nome} 
+                            //             id={servidor.id}
+                            //             isChecked={!!checkedServidores[servidor.id]}
+                            //             onChecked={() => handleCheckboxChange(servidor.id, "servidor")}
+                            //         />
+                            //     })
+                                
+                            //     :
+
                             servidores.map(servidor => {
-                                return <CardFuncionarios
-                                    key={servidor.id}
-                                    nome={servidor.nome} 
-                                    id={servidor.id}
-                                    isChecked={!!checkedServidores[servidor.id]}
-                                    onChecked={() => handleCheckboxChange(servidor.id, "servidor")}
-                                />
-                            })
+                                    return <CardFuncionarios
+                                        key={servidor.id}
+                                        nome={servidor.nome} 
+                                        id={servidor.id}
+                                        isChecked={!!checkedServidores[servidor.id]}
+                                        onChecked={() => handleCheckboxChange(servidor.id, "servidor")}
+                                    />
+                                })
+
+
                         }
                     </section>
                 )

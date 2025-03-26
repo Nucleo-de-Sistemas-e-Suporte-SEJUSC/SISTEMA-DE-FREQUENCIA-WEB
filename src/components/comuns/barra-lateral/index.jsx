@@ -37,16 +37,7 @@ export function BarraLateral(props) {
                             }
                         </div>
                     </NavLink>
-                    <NavLink to="/naoencontrado" className={({isActive}) =>
-                        isActive ? styles["container__buttons__menu--hamburger"] : styles["container__buttons__menu--hamburger--nao-ativo"]
-                    }>
-                        <div>
-                            <img src={Relogio} alt="" className={styles["container__buttons__menu-img"]}/>
-                            {
-                                menuOpen && ( <p>Controle de Ponto</p> )
-                            }
-                        </div>
-                    </NavLink>
+                    
                     <NavLink to="/arquivados" className={({isActive}) =>
                         isActive ? styles["container__buttons__menu--hamburger"] : styles["container__buttons__menu--hamburger--nao-ativo"]
                     }>
@@ -80,6 +71,17 @@ export function BarraLateral(props) {
                                 menuOpen && ( <p>Alterações</p>)
                             }
                         
+                        </div>
+                    </NavLink>
+
+                    <NavLink to="/naoencontrado" className={({isActive}) =>
+                        isActive ? styles["container__buttons__menu--hamburger"] : styles["container__buttons__menu--hamburger--nao-ativo"]
+                    }>
+                        <div>
+                            <img src={Relogio} alt="" className={styles["container__buttons__menu-img"]}/>
+                            {
+                                menuOpen && ( <p>Controle de Ponto</p> )
+                            }
                         </div>
                     </NavLink>
                    
