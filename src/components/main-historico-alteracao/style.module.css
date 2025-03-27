@@ -35,7 +35,7 @@
     border: none;
     cursor: pointer;
     color: #fff;
-    background-color: var(--vermelho);
+    background-color: var(--lilas);
 }
 
 
@@ -46,11 +46,10 @@
 
 }
 .card__details {
-    width: 90%;
+    width: 100%;
     border-radius: 5px;
     position: relative;
     border: 1px solid var(--cor-borda);
-    padding: 15px;
     background: #F5F5F5;
 
 }
@@ -96,4 +95,14 @@
     border: none;
     color: #fff;
     cursor: pointer;
+}
+
+.usuario-arquivado {
+    font-weight: 400;
+    color: var(--vermelho);
+}
+
+.manipulador-por {
+    font-weight: 400;
+    color: #3C3CB3;
 }

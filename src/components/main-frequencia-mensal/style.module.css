@@ -127,6 +127,13 @@
     margin-right: 10px;
 }
 
+.card__details__button {
+    border: none;
+    border-radius: 10px;
+    padding: 10px 20px;
+    color: #fff;
+}
+
 .details__verde {
     background-color: var(--verde-claro);
 }
@@ -140,4 +147,20 @@
 }
 .details__branco {
     background-color: var(--branco);
+}
+
+.card__details__button__cancelar {
+    background-color: #58A479;
+}
+
+.card__details__button__pendente {
+    background-color: #CCB051;
+}
+
+.card__details__button__nao-enviado-vencido {
+    background-color: #9C302D;
+}
+
+.card__details__button__nao-enviado {
+    background-color: #443776;
 }

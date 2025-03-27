@@ -25,9 +25,6 @@ export function MainHistoricoAlteracao() {
                         <option value="option 4">Option 4</option>
                     </select>
                 </div>
-                <div className={styles["container__input--historico-alteracao"]}>
-                    <input type="date" name="data-alteracao" id="data-alteracao" className={`${styles["input__historico__alteracao"]} ${styles["input__historico__alteracao--data"]}`}/>
-                </div>
 
                 <button className={styles["button__historico-alteracao"]}>Ir</button>
             </form>
@@ -35,12 +32,7 @@ export function MainHistoricoAlteracao() {
             <CardVisualizarServidores>
                 <details className={styles["card__details"]}>
                     <summary className={styles["summary"]}>
-                        <p>Administrador - <span>Lucas Nather</span></p>
-
-                        <div className={styles["containers_button__historico"]}>
-                            <button className={styles["button__arquivar"]}>Arquivou</button>
-                            <button className={styles["button__funcionario"]}>Robson Felipe</button>
-                        </div>
+                        <p><strong>Estagiário</strong> - Robson Felipe foi <span className={styles["usuario-arquivado"]}>Arquivado</span> por <span className={styles["manipulador-por"]}> Administrador Lucas Brandão</span></p>
                     </summary>
 
                     <p>12/03/2025 - 9:45:37</p>
