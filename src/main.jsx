@@ -6,10 +6,10 @@ import { Theme } from '@radix-ui/themes'
 import { Toaster } from 'sonner'
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
+  
     <Theme>
       <Toaster position='top-right' richColors />
       <Router />
     </Theme>
-  </StrictMode>,
+  
 )

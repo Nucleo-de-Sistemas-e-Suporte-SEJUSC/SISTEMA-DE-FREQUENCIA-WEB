@@ -20,8 +20,8 @@ export default function Router() {
     
        <BrowserRouter>
             <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/login" element={<Login />} />
+                <Route path="/" element={<Login />} />
+                <Route path="/home" element={<Home />} />
                 <Route path="/servidores" element={<GerarServidores />} />
                 <Route path="/estagiarios" element={<GerarEstagiarios />} />
                 <Route path="/visualizar/servidores" element={<VisualizarServidor />} />
