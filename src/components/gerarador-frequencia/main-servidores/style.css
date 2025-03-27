@@ -151,3 +151,7 @@ main {
     margin-right: 10px;
     margin-bottom: 30px;
 }
+
+.button__gerar__servidor:disabled {
+    background-color: #bdbaba;
+}

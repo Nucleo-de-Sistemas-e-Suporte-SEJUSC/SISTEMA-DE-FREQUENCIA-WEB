@@ -185,7 +185,7 @@ export function MainServidores() {
                             servidores.map(servidor => {
                                     return <CardFuncionarios
                                         key={servidor.id}
-                                        nome={servidor.nome} 
+                                        nome={servidor.nome.toUpperCase()} 
                                         id={servidor.id}
                                         isChecked={!!checkedServidores[servidor.id]}
                                         onChecked={() => handleCheckboxChange(servidor.id, "servidor")}
@@ -222,7 +222,7 @@ export function MainServidores() {
             <section className="container__cadastrar__button">
 
                 <div className="container__gerar__button">
-                    <button disabled={isLoading} onClick={() => converteServidoresParaPdfAPI()}>Gerar  { filtro === 'servidor' ? "servidores" : "setores" } selecionados </button>
+                    <button disabled={isLoading} onClick={() => converteServidoresParaPdfAPI()} className="button__gerar__servidor">Gerar  { filtro === 'servidor' ? "servidores" : "setores" } selecionados </button>
                     <button>Gerar todos os { filtro === 'servidor' ? "servidores" : "setores" } </button>
                 </div>
             </section>

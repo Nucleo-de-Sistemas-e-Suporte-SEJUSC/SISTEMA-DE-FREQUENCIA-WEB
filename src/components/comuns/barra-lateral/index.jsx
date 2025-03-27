@@ -74,7 +74,7 @@ export function BarraLateral(props) {
                         </div>
                     </NavLink>
 
-                    <NavLink to="/naoencontrado" className={({isActive}) =>
+                    <NavLink to="/controle-de-ponto" className={({isActive}) =>
                         isActive ? styles["container__buttons__menu--hamburger"] : styles["container__buttons__menu--hamburger--nao-ativo"]
                     }>
                         <div>

@@ -12,6 +12,7 @@ import { VisualizarEstagiario } from "../pages/visualizar-estagiario";
 import { Home } from "../pages/home";
 import { ArquivadosAtivos } from "../pages/arquivados-ativos";
 import { Ativos } from "../pages/ativos";
+import { ControleDePonto } from "../pages/controle-de-ponto";
 
 export default function Router() {
     
@@ -31,6 +32,7 @@ export default function Router() {
                 <Route path="/ativos" element={<Ativos />} />
                 <Route path="/historico-alteracao" element={<HistoricoAlteracao />} />
                 <Route path="/historico" element={<Historico />} />
+                <Route path="/controle-de-ponto" element={<ControleDePonto />} />
                 <Route path="/naoencontrado" element={<NotFound />} />
             </Routes>
        </BrowserRouter>     

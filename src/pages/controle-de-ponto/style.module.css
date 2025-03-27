@@ -1,0 +1,16 @@
+.container__principal {
+    display: grid;
+    grid-template-columns: 270px 1fr;
+}
+
+.container__principal__menu__fechado {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+}
+
+.home__titulo {
+    color: var(--lilas);
+    text-align: end;
+    padding-right: 20px;
+    font-size: 33px;
+}
