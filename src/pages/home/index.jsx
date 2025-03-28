@@ -1,9 +1,24 @@
 import styles from "./style.module.css"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BarraLateral } from "../../components/comuns/barra-lateral";
 
+import { useNavigate } from 'react-router-dom';
+
 export function Home() {
-    const [menu, setMenu] =  useState(false)
+    const [menu, setMenu] =  useState(false);
+    const navigate = useNavigate();
+
+    const matriculaSalva = localStorage.getItem("matricula");
+    const senhaSalva = localStorage.getItem("senha");
+
+    //console.log(matriculaSalva);
+    //console.log(senhaSalva);
+
+    if(!matriculaSalva || !senhaSalva) {
+        useEffect(() => {
+            navigate("/");
+        }, [])
+    }
 
     return (
         <section className={

@@ -1,7 +1,9 @@
 import { NavLink } from "react-router-dom"
 import { toast } from "sonner"
 import styles from "./style.module.css"
-import { useState } from "react"
+import { use, useState } from "react"
+
+import { useNavigate } from 'react-router-dom';
 
 export function FormLogin() {
     const [matricula, setMatricula] = useState('');
@@ -9,6 +11,8 @@ export function FormLogin() {
 
     const [isValidMatricula, setIsValidMatricula] = useState(false);
     const [isValidSenha, setIsValidSenha] = useState(false);
+
+    const navigate = useNavigate();
 
     const handleChangeMatricula = (event) => {
         const inputMatricula = event.target.value;
@@ -34,40 +38,36 @@ export function FormLogin() {
         }
     };
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
+      
+        if (isValidMatricula && isValidSenha) {
+            try {
+                const response = await fetch('/dados.json');
+                if (!response.ok) throw new Error("Erro ao buscar dados");
 
-        if(isValidMatricula && isValidSenha) {
-            async function validarUsuario() {
-                try {
-                    const body = {
-                        matricula,
-                        senha
-                    }
-                    const response = await fetch('http://127.0.0.1:3000/login', {
-                        method: "POST", // Método GET para pegar os dados
-                        headers: {
-                            "Content-Type": "application/json",
-                        },
-                        body: JSON.stringify(body)
-
-                    })
-                    const dados = await response.json()
-                    console.log(dados)
-                } catch(erro) {
-                    throw new Error('Usuário não encontrado!!!');
-                } finally {
-                    console.log("Requisição finalizada.")
+                const dados = await response.json();
+                
+                if (dados.matricula === matricula && dados.senha === senha) {
+                    toast.success("Usuário autenticado!");
+                    localStorage.setItem("matricula", matricula);
+                    localStorage.setItem("senha", senha);
+                    navigate("/home");
+                } else {
+                    toast.error("Matrícula ou senha inválidos!");
                 }
+
+            } catch (erro) {
+                toast.error("Erro ao buscar dados");
+                console.error(erro);
+            } finally {
+                console.log("Requisição finalizada.");
             }
-            // validarUsuario()
         }
+    };
 
-    }
-
-    console.log(isValidMatricula)
-    console.log(isValidSenha);
-
+    //console.log(isValidMatricula)
+    //console.log(isValidSenha);
 
     return (
         <section className={styles["container__form"]}>
@@ -102,13 +102,11 @@ export function FormLogin() {
                             onChange={handleChangeSenha}
                         />
                     </div>
-
-                    {!isValidMatricula || !isValidSenha && <p>Matricula ou Senha inválidos</p>}
         
                     <div className={styles["container__button"]} >
-                        <NavLink to="/servidores" className={styles["container__button__link"]}>
-                            <button type="submit" onSubmit={handleSubmit} disabled={!isValidMatricula || !isValidSenha} style={{cursor: !isValidMatricula || !isValidSenha ? "not-allowed" : "pointer"}} className={styles["form__button"]}>Entrar</button>
-                        </NavLink>
+                        <div to="" className={styles["container__button__link"]}>
+                            <button type="submit" onClick={handleSubmit} disabled={!isValidMatricula || !isValidSenha} style={{cursor: !isValidMatricula || !isValidSenha ? "not-allowed" : "pointer"}} className={styles["form__button"]}>Entrar</button>
+                        </div>
                     </div>
                 </form>
             </section>
