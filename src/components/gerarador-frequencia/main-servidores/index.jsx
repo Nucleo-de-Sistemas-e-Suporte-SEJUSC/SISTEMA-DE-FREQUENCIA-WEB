@@ -1,7 +1,6 @@
 import "./style.css"
 import { useEffect, useState } from "react";
 import { meses } from "../../../utils/meses";
-import { testeServidores, testeSetor } from "../../../utils/teste";
 import { CardFuncionarios } from "../../cards/card-funcionarios";
 import { api } from "../../../api/axios";
 
@@ -12,31 +11,37 @@ export function MainServidores() {
 
     const [filtro, setFiltro] = useState("setor")
     const [servidores, setServidores] = useState([])
-    const [servidoresFiltrados, setServidoresFiltrados] = useState([])
-    const [checkedSetores, setCheckedSetores] = useState({});
-    const [checkedServidores, setCheckedServidores] = useState({});
+    const [todosSetores, setTodosSetores] = useState([]) 
+    const [setoresFiltrados, setSetoresFiltrados] = useState([]) 
+    const [checkedSetores, setCheckedSetores] = useState({})
+    const [checkedServidores, setCheckedServidores] = useState({})
     const [isLoading, setIsLoading] = useState(false)
     const [mesEscolhido, setMesEscolhido] = useState(mes)
-    const [filtroNomes, setFiltroNomes] = useState([])
+    const [filtroNomes, setFiltroNomes] = useState("")
+    const [filtroSetor, setFiltroSetor] = useState("")
 
     async function pegaServidoresAPI() {
-
         const resposta = await api.get(`/servidores`, {
             params: {
                 nome: filtroNomes
             }
         })
         const { servidores } = await resposta.data
-
         setServidores(servidores)
     }
 
+    async function pegaSetoresAPI() {
+        const resposta = await api.get('/buscar_setor')
+        const { setores } = await resposta.data
+        setTodosSetores(setores)
+        setSetoresFiltrados(setores)
+    }
 
     async function converteServidoresParaPdfAPI() {
        try {
-            setIsLoading(true)
             const idServidores = Object.keys(checkedServidores)
-            const resposta = await api.post(`/servidores/pdf`, {
+            setIsLoading(true)
+            await api.post(`/servidores/pdf`, {
                 mes: mesEscolhido,
                 funcionarios: idServidores 
             })
@@ -49,28 +54,40 @@ export function MainServidores() {
     }
 
 
+    async function converteSetoresParaPdfAPI() {
+        try {
+            setIsLoading(true)
+            const setoresSelecionados = Object.keys(checkedSetores)
+                .filter(nome => checkedSetores[nome])
+            
+            await api.post(`/setores/pdf`, {
+                mes: mesEscolhido,
+                setores: setoresSelecionados
+            })
+        } catch(e) {
+            console.error("Error => ", e)
+        } finally {
+            setIsLoading(false)
+        }
+    }
+
+
     useEffect(() => {
         pegaServidoresAPI()
     }, [filtroNomes])
 
 
-    const contagemSetores = Object.values(
-        servidores.reduce((acc, { setor }) => {
-          if (!acc[setor]) {
-            acc[setor] = { setor, quantidade: 0 };
-          }
-          acc[setor].quantidade++;
-          return acc;
-        }, {})
-      );
+    useEffect(() => {
+        pegaSetoresAPI()
+    }, [])
 
-    const setoresOrdenados = contagemSetores.sort(((a,b) => a.setor.localeCompare(b.setor)))
-
-    const handleCheckboxChange = (id, type) => {
+    const handleCheckboxChange = (id, type, valor) => {
         if (type === "setor") {
             setCheckedSetores(prevState => ({
                 ...prevState,
+                [valor]: !prevState[valor],
                 [id]: !prevState[id]
+
             }));
             setCheckedServidores({});
         } else if (type === "servidor") {
@@ -90,10 +107,18 @@ export function MainServidores() {
         setMesEscolhido(event.target.value)
     }
 
-    function filtraSetores(setor) {
-        const filtraSetor = testeServidores.filter(servidor => servidor.setor === setor)
-        return filtraSetor.length
+    function filtrarSetores(termo) {
+        if (!termo) {
+            setSetoresFiltrados(todosSetores) 
+            return
+        }
+        
+        const filtrados = todosSetores.filter(setor => 
+            setor.setor.toLowerCase().includes(termo.toLowerCase())
+        )
+        setSetoresFiltrados(filtrados)
     }
+
 
     return (
         <main>
@@ -137,24 +162,26 @@ export function MainServidores() {
                 </div>
             </form>
 
-            {
-                filtro === "setor" && (
-                    <section className="container__pesquisa__gerador">
-
-                        <form action="#" className="filtros">
-                                    <div className="filtros__container">
-                                        <input
-                                            type="text"
-                                            name="setor"
-                                            id="setor"
-                                            placeholder="Pesquisa pelo setor"
-                                            className="filtros__input"
-                                        />
-                                    </div>
-                        </form>
-                    </section>
-                )
-            }
+            {filtro === "setor" && (
+                <section className="container__pesquisa__gerador">
+                    <form action="#" className="filtros">
+                        <div className="filtros__container">
+                            <input
+                                type="text"
+                                name="setor"
+                                id="setor"
+                                placeholder="Pesquisa pelo setor"
+                                className="filtros__input"
+                                value={filtroSetor}
+                                onChange={(e) => {
+                                    setFiltroSetor(e.target.value)
+                                    filtrarSetores(e.target.value)
+                                }}
+                            />
+                        </div>
+                    </form>
+                </section>
+            )}
 
             {
                 filtro === 'servidor' && (
@@ -201,28 +228,24 @@ export function MainServidores() {
             {
                 filtro === 'setor' && (
                     <section className="container__servidores">
-                        {
-
-                            setoresOrdenados.map(setor => {
-                                const quantidadeDeServidoresNoSetor = filtraSetores(setor.nome)
-                                return <CardFuncionarios 
-                                    key={setor.id} 
-                                    nome={setor.setor}
-                                    id={setor.setor}
-                                    quantidadeServidores={setor.quantidade}
-                                    isChecked={!!checkedSetores[setor.id]}
-                                    onChecked={() => handleCheckboxChange(setor.id, "setor")}
-                                />
-                            })
-                        }
+                        {setoresFiltrados.map(setor => (
+                            <CardFuncionarios 
+                                key={setor.id} 
+                                nome={setor.setor}
+                                id={setor.setor} 
+                                quantidadeServidores={setor.quantidade}
+                                isChecked={!!checkedSetores[setor.setor]}
+                                onChecked={() => handleCheckboxChange(setor.setor, "setor")}
+                            />
+                        ))}
                     </section>
-                )
-            }
+            )}
 
             <section className="container__cadastrar__button">
+            
 
                 <div className="container__gerar__button">
-                    <button disabled={isLoading} onClick={() => converteServidoresParaPdfAPI()} className="button__gerar__servidor">Gerar  { filtro === 'servidor' ? "servidores" : "setores" } selecionados </button>
+                    <button disabled={isLoading} onClick={ () => {  filtro === 'servidor' ?  converteServidoresParaPdfAPI() :  converteSetoresParaPdfAPI() }} className="button__gerar__servidor">Gerar  { filtro === 'servidor' ? "servidores" : "setores" } selecionados </button>
                     <button>Gerar todos os { filtro === 'servidor' ? "servidores" : "setores" } </button>
                 </div>
             </section>

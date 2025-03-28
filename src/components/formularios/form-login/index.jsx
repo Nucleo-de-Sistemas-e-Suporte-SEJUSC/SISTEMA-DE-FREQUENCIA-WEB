@@ -40,19 +40,29 @@ export function FormLogin() {
         if(isValidMatricula && isValidSenha) {
             async function validarUsuario() {
                 try {
-                    const response = await fetch(`http://xx.xx.xx.xx:3000/api/login?matricula=${matricula}&senha=${senha}`, {
-                        method: "GET", // Método GET para pegar os dados
+                    const body = {
+                        matricula,
+                        senha
+                    }
+                    const response = await fetch('http://127.0.0.1:3000/login', {
+                        method: "POST", // Método GET para pegar os dados
                         headers: {
                             "Content-Type": "application/json",
                         },
+                        body: JSON.stringify(body)
+
                     })
+                    const dados = await response.json()
+                    console.log(dados)
                 } catch(erro) {
                     throw new Error('Usuário não encontrado!!!');
                 } finally {
                     console.log("Requisição finalizada.")
                 }
             }
+            // validarUsuario()
         }
+
     }
 
     console.log(isValidMatricula)
