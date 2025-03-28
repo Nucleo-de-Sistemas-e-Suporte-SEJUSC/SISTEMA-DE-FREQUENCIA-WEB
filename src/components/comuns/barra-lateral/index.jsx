@@ -13,6 +13,12 @@ import Menu from "../../../assets/icones-menu/menu.svg"
 export function BarraLateral(props) {
     const { menuOpen, handleMenu } =  props
 
+    const handleLogout = () => {   
+        localStorage.removeItem("matricula")
+        localStorage.removeItem("senha")
+        window.location.reload()
+    }
+
     return (
         <aside className={menuOpen ? styles["barra-lateral"] : styles["barra-lateral-fechada"]}>
 
@@ -105,8 +111,8 @@ export function BarraLateral(props) {
 
                 {
                     menuOpen && ( 
-                        <div>
-                            <img src={Porta} alt="" className={styles["container__buttons__menu-img"]} />
+                        <div onClick={handleLogout} >
+                            <img src={Porta} alt="" className={styles["container__buttons__menu_logout-img"]} />
                         </div>
                     )
                 }

@@ -1,9 +1,9 @@
-import { NavLink } from "react-router-dom"
-import { toast } from "sonner"
-import styles from "./style.module.css"
-import { use, useState } from "react"
-
+import { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';  // Importando o axios
+
+import { toast } from "sonner";
+import styles from "./style.module.css";
 
 export function FormLogin() {
     const [matricula, setMatricula] = useState('');
@@ -12,14 +12,23 @@ export function FormLogin() {
     const [isValidMatricula, setIsValidMatricula] = useState(false);
     const [isValidSenha, setIsValidSenha] = useState(false);
 
+    const matriculaSalva = localStorage.getItem("matricula");
+    const senhaSalva = localStorage.getItem("senha");
+
     const navigate = useNavigate();
+
+    if(matriculaSalva || senhaSalva) {
+        console.log("não tem matricula ou senha");
+        useEffect(() => {
+            navigate("/home");
+        }, [])
+    }
 
     const handleChangeMatricula = (event) => {
         const inputMatricula = event.target.value;
         setMatricula(inputMatricula);
 
-        const regex = /^\d{7}[A-Z]$/;
-        if (regex.test(inputMatricula)) {
+        if (inputMatricula) {
             setIsValidMatricula(true);
         } else {
             setIsValidMatricula(false);
@@ -30,8 +39,7 @@ export function FormLogin() {
         const inputSenha = event.target.value;
         setSenha(inputSenha);
 
-        const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8}$/;
-        if (regex.test(inputSenha)) {
+        if (inputSenha.length >= 8) {
             setIsValidSenha(true);
         } else {
             setIsValidSenha(false);
@@ -40,15 +48,21 @@ export function FormLogin() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-      
+
         if (isValidMatricula && isValidSenha) {
             try {
-                const response = await fetch('/dados.json');
-                if (!response.ok) throw new Error("Erro ao buscar dados");
+                // Configurando o axios para enviar cookies
+                axios.defaults.withCredentials = true;
 
-                const dados = await response.json();
-                
-                if (dados.matricula === matricula && dados.senha === senha) {
+                const response = await axios.post(' http://12.90.4.88:3000/login', {
+                    matricula: matricula,
+                    senha: senha
+                });
+
+                const dados = response.data;
+                console.log(dados);
+
+                if (dados) {
                     toast.success("Usuário autenticado!");
                     localStorage.setItem("matricula", matricula);
                     localStorage.setItem("senha", senha);
@@ -65,9 +79,6 @@ export function FormLogin() {
             }
         }
     };
-
-    //console.log(isValidMatricula)
-    //console.log(isValidSenha);
 
     return (
         <section className={styles["container__form"]}>
@@ -102,14 +113,20 @@ export function FormLogin() {
                             onChange={handleChangeSenha}
                         />
                     </div>
-        
-                    <div className={styles["container__button"]} >
-                        <div to="" className={styles["container__button__link"]}>
-                            <button type="submit" onClick={handleSubmit} disabled={!isValidMatricula || !isValidSenha} style={{cursor: !isValidMatricula || !isValidSenha ? "not-allowed" : "pointer"}} className={styles["form__button"]}>Entrar</button>
-                        </div>
+
+                    <div className={styles["container__button"]}>
+                        <button 
+                            type="submit" 
+                            onClick={handleSubmit} 
+                            disabled={!isValidMatricula || !isValidSenha} 
+                            style={{cursor: !isValidMatricula || !isValidSenha ? "not-allowed" : "pointer"}} 
+                            className={styles["form__button"]}
+                        >
+                            Entrar
+                        </button>
                     </div>
                 </form>
             </section>
         </section>
-    )
+    );
 }
