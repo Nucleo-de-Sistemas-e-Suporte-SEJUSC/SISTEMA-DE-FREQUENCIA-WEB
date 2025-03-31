@@ -9,7 +9,6 @@ import { toast } from "sonner";
 export function MainArquivados(props) {
         const { funcionarios } = props
         const [funcionariosArquivados, setFuncionariosArquivados] = useState([])
-        const [mensagem, setMensagem] = useState("")
         const [isLoading, setIsLoading] = useState(false)
 
         async function pegaFuncionariosArquivadosAPI() {
@@ -31,8 +30,9 @@ export function MainArquivados(props) {
             try {
                 const dados = await api.patch(`/servidores/${idServidor}/atualizar-status`)
                 const { mensagem } = dados.data
-                setMensagem(mensagem)
                 window.location.reload()
+
+                return mensagem
             } catch (e) {
                 console.error(e)
             } finally {
@@ -65,6 +65,7 @@ export function MainArquivados(props) {
                 <div className={styles["container__visualizar__content"]}>
                     <CardBuscaServidores 
                         funcionarios={funcionariosArquivados}
+                        arquivado='arquivado'
                         possuiSelecaoDoMes={false}
                     />
 
@@ -79,7 +80,7 @@ export function MainArquivados(props) {
                                         <div className={styles["card__details__container__button"]}>
                                             <button className={`${styles["card__details__atualizar__button"]} ${styles["card__details__button"]} `}>Atualizar</button>
                                             <button className={`${styles["card__details__arquivar__button"]} ${styles["card__details__button"]}`} onClick={() => {
-                                                ativaFuncionariosAPI(funcionario.id)
+                                               const mensagem = ativaFuncionariosAPI(funcionario.id)
                                                 toast.success(mensagem, {
                                                     duration: 4000,
                                                     icon: false

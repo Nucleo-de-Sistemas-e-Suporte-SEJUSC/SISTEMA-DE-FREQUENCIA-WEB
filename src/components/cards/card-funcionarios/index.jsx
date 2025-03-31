@@ -4,7 +4,7 @@ import Checked from "../../../assets/checked.svg"
 
 export function CardFuncionarios(props) {
     
-    const { nome, quantidadeServidores, isChecked, onChecked, id, onArquivaServidor, mensagem  } = props
+    const { nome, quantidadeServidores, isChecked, onChecked, id, onArquivaServidor  } = props
 
     return (
         <section className={styles["card__servidores"]}>
@@ -17,7 +17,7 @@ export function CardFuncionarios(props) {
                     <button className={`${styles["card__details__historico__button"]} ${styles["card__details__button"]} `}>Histórico</button>
                     <button className={`${styles["card__details__atualizar__button"]} ${styles["card__details__button"]} `}>Atualizar</button>
                     <button className={`${styles["card__details__arquivar__button"]} ${styles["card__details__button"]} `} onClick={() => {
-                        onArquivaServidor()
+                        const mensagem = onArquivaServidor()
                         toast.success(mensagem, {
                             duration: 4000,
                             icon: false

@@ -102,7 +102,8 @@ export function MainServidores() {
             setIsLoading(true)
             const resposta = await api.patch(`/servidores/${idServidor}/arquivar`)
             const {mensagem } = await resposta.data
-            setMensagemServidores(mensagem)
+            
+            return mensagem
         } catch(e) {
             console.error("Error => ", e)
         } finally {
