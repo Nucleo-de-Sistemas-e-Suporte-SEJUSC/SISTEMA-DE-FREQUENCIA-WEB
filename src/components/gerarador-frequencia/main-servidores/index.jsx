@@ -46,7 +46,20 @@ export function MainServidores() {
             const dados = await api.post(`/servidores/pdf`, {
                 mes: mesEscolhido,
                 funcionarios: idServidores 
-            })
+            },
+            {
+                responseType: 'blob',
+            }
+        )
+        .then(response =>{
+            const blob = new Blob([response.data], { type: 'application/pdf' })
+            const url = window.URL.createObjectURL(blob)
+            const a = document.createElement('a')
+            a.href = url
+            a.download = `servidores.pdf`
+            a.click()
+            window.URL.revokeObjectURL(url)
+        })
 
             const { mensagem, total_processados: totalProcessados } = dados.data
 
@@ -68,31 +81,45 @@ export function MainServidores() {
 
     async function converteSetoresParaPdfAPI() {
         try {
-            setIsLoading(true)
+            setIsLoading(true);
             const setoresSelecionados = Object.keys(checkedSetores)
-                .filter(nome => checkedSetores[nome])
-            
-            const dados = await api.post(`/setores/pdf`, {
-                mes: mesEscolhido,
-                setores: setoresSelecionados
-            })
-
-            const { mensagem, total_processados: totalProcessados, setores_solicitados: setoresSolicitados } = dados.data
-
-            const mensagemSucesso = `${mensagem} em - ${totalProcessados} servidores`
-         
-        
-
-            toast.success(mensagemSucesso, {
+                .filter(nome => checkedSetores[nome]);
+    
+            const response = await api.post(
+                `/setores/pdf`,
+                {
+                    mes: mesEscolhido,
+                    setores: setoresSelecionados,
+                },
+                {
+                    responseType: 'blob', // Recebe arquivos binários
+                }
+            );
+    
+            // Trata a resposta como um arquivo ZIP
+            const blob = new Blob([response.data], { type: 'application/zip' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `setores.zip`; // Nome do arquivo ZIP para download
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+    
+            toast.success(`Arquivos gerados com sucesso!`, {
                 duration: 4000,
-                icon: false
-            })
-            setCheckedSetores({})
-
-        } catch(e) {
-            console.error("Error => ", e)
+                icon: false,
+            });
+    
+            setCheckedSetores({});
+        } catch (e) {
+            console.error("Error => ", e);
+            toast.error("Erro ao gerar os arquivos. Tente novamente.", {
+                duration: 4000,
+                icon: false,
+            });
         } finally {
-            setIsLoading(false)
+            setIsLoading(false);
         }
     }
 
