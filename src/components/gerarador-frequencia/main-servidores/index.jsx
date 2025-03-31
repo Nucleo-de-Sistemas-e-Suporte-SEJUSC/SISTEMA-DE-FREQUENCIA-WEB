@@ -12,6 +12,7 @@ export function MainServidores() {
     const [filtro, setFiltro] = useState("setor")
     const [servidores, setServidores] = useState([])
     const [todosSetores, setTodosSetores] = useState([]) 
+    const [mensagemServidores, setMensagemServidores] = useState("")
     const [setoresFiltrados, setSetoresFiltrados] = useState([]) 
     const [checkedSetores, setCheckedSetores] = useState({})
     const [checkedServidores, setCheckedServidores] = useState({})
@@ -64,6 +65,20 @@ export function MainServidores() {
                 mes: mesEscolhido,
                 setores: setoresSelecionados
             })
+        } catch(e) {
+            console.error("Error => ", e)
+        } finally {
+            setIsLoading(false)
+        }
+    }
+
+    async function arquivarServidorAPI(idServidor) {
+        console.log("ID Servidor => ",typeof idServidor)
+        try {
+            setIsLoading(true)
+            const resposta = await api.patch(`/servidores/${idServidor}/arquivar`)
+            const {mensagem } = await resposta.data
+            setMensagemServidores(mensagem)
         } catch(e) {
             console.error("Error => ", e)
         } finally {
@@ -216,6 +231,8 @@ export function MainServidores() {
                                         id={servidor.id}
                                         isChecked={!!checkedServidores[servidor.id]}
                                         onChecked={() => handleCheckboxChange(servidor.id, "servidor")}
+                                        onArquivaServidor={() => arquivarServidorAPI(servidor.id)}
+                                        mensagem={mensagemServidores}
                                     />
                                 })
 

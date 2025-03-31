@@ -4,7 +4,7 @@ import Checked from "../../../assets/checked.svg"
 
 export function CardFuncionarios(props) {
     
-    const { nome, quantidadeServidores, isChecked, onChecked, id  } = props
+    const { nome, quantidadeServidores, isChecked, onChecked, id, onArquivaServidor, mensagem  } = props
 
     return (
         <section className={styles["card__servidores"]}>
@@ -17,17 +17,12 @@ export function CardFuncionarios(props) {
                     <button className={`${styles["card__details__historico__button"]} ${styles["card__details__button"]} `}>Histórico</button>
                     <button className={`${styles["card__details__atualizar__button"]} ${styles["card__details__button"]} `}>Atualizar</button>
                     <button className={`${styles["card__details__arquivar__button"]} ${styles["card__details__button"]} `} onClick={() => {
-                         toast.error("Arquivar Servidor", {
-                            description: "Esta ação moverá o Servidor para os Arquivados",
-                            duration: 15000,
-                            cancel: {
-                                label: "X"
-                            },
-                            action: {
-                                label: "Arquivar"
-                            }
+                        onArquivaServidor()
+                        toast.success(mensagem, {
+                            duration: 4000,
+                            icon: false
                         })
-                    }}>Arquivar</button>
+                    }} >Arquivar</button>
                 </div>
             </details>
 

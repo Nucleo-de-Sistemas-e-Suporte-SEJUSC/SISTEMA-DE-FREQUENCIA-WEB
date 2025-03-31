@@ -1,35 +1,21 @@
 import styles from "./style.module.css"
 
 export function CardBuscaServidores(props) {
-    const { meses, mes, possuiSelecaoDoMes = true } = props
+    const { meses, mes,funcionarios, possuiSelecaoDoMes = true } = props
 
     return (
         <div className={styles["container__visualizar__funcionarios"]}>
             <div className={styles["card__container__details"]}>
-                <details className={styles["card__details"]}>
-                    <summary className={styles["card__summary"]}>MARCOS LUIZ PEREIRA DOS SANTOS</summary>
-                    <p>GTI</p>
-                </details>
-                <details className={styles["card__details"]}>
-                    <summary className={styles["card__summary"]}>MARCOS LUIZ PEREIRA DOS SANTOS</summary>
-                    <p>GTI</p>
-                </details>
-                <details className={styles["card__details"]}>
-                    <summary className={styles["card__summary"]}>MARCOS LUIZ PEREIRA DOS SANTOS</summary>
-                    <p>GTI</p>
-                </details>
-                <details className={styles["card__details"]}>
-                    <summary className={styles["card__summary"]}>MARCOS LUIZ PEREIRA DOS SANTOS</summary>
-                    <p>GTI</p>
-                </details>
-                <details className={styles["card__details"]}>
-                    <summary className={styles["card__summary"]}>MARCOS LUIZ PEREIRA DOS SANTOS</summary>
-                    <p>GTI</p>
-                </details>
-                <details className={styles["card__details"]}>
-                    <summary className={styles["card__summary"]}>MARCOS LUIZ PEREIRA DOS SANTOS</summary>
-                    <p>GTI</p>
-                </details>
+                {
+                    funcionarios.map((funcionario, index) => {
+                        return (
+                            <details className={styles["card__details"]} >
+                                <summary className={styles["card__summary"]}>{funcionario.nome}</summary>
+                                <p>{funcionario.setor}</p>
+                            </details>
+                        )
+                    })
+                }
             </div>
 
             { possuiSelecaoDoMes && (
