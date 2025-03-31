@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { meses } from "../../../utils/meses";
 import { CardFuncionarios } from "../../cards/card-funcionarios";
 import { api } from "../../../api/axios";
+import { toast } from "sonner";
 
 export function MainServidores() {
     const data = new Date()
@@ -42,10 +43,20 @@ export function MainServidores() {
        try {
             const idServidores = Object.keys(checkedServidores)
             setIsLoading(true)
-            await api.post(`/servidores/pdf`, {
+            const dados = await api.post(`/servidores/pdf`, {
                 mes: mesEscolhido,
                 funcionarios: idServidores 
             })
+
+            const { mensagem, total_processados: totalProcessados } = dados.data
+
+            const mensagemSucesso = `${mensagem} em - ${totalProcessados} servidores`
+
+            toast.success(mensagemSucesso, {
+                duration: 4000,
+                icon: false
+            })
+            setCheckedServidores({})
        } catch(e) {
             console.error("Error => ", e)
             throw new Error("Erro aqui => ", e)
@@ -61,10 +72,23 @@ export function MainServidores() {
             const setoresSelecionados = Object.keys(checkedSetores)
                 .filter(nome => checkedSetores[nome])
             
-            await api.post(`/setores/pdf`, {
+            const dados = await api.post(`/setores/pdf`, {
                 mes: mesEscolhido,
                 setores: setoresSelecionados
             })
+
+            const { mensagem, total_processados: totalProcessados, setores_solicitados: setoresSolicitados } = dados.data
+
+            const mensagemSucesso = `${mensagem} em - ${totalProcessados} servidores`
+         
+        
+
+            toast.success(mensagemSucesso, {
+                duration: 4000,
+                icon: false
+            })
+            setCheckedSetores({})
+
         } catch(e) {
             console.error("Error => ", e)
         } finally {
