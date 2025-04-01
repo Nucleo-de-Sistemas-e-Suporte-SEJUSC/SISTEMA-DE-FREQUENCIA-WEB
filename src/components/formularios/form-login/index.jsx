@@ -1,71 +1,51 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';  // Importando o axios
 
 import { toast } from "sonner";
 import styles from "./style.module.css";
+import { api } from "../../../api/axios";
 
 export function FormLogin() {
     const [matricula, setMatricula] = useState('');
     const [senha, setSenha] = useState('');
 
-    const [isValidMatricula, setIsValidMatricula] = useState(false);
-    const [isValidSenha, setIsValidSenha] = useState(false);
-
-    const matriculaSalva = localStorage.getItem("matricula");
-    const senhaSalva = localStorage.getItem("senha");
-
     const navigate = useNavigate();
 
-    if(matriculaSalva || senhaSalva) {
-        console.log("não tem matricula ou senha");
-        useEffect(() => {
-            navigate("/home");
-        }, [])
-    }
-
     const handleChangeMatricula = (event) => {
-        const inputMatricula = event.target.value;
-        setMatricula(inputMatricula);
-
-        if (inputMatricula) {
-            setIsValidMatricula(true);
-        } else {
-            setIsValidMatricula(false);
-        }
+        setMatricula(event.target.value);
     };
 
     const handleChangeSenha = (event) => {
-        const inputSenha = event.target.value;
-        setSenha(inputSenha);
-
-        if (inputSenha.length >= 8) {
-            setIsValidSenha(true);
-        } else {
-            setIsValidSenha(false);
-        }
+        setSenha(event.target.value);
     };
 
-    const handleSubmit = async (event) => {
-        event.preventDefault();
 
-        if (isValidMatricula && isValidSenha) {
+    const handleSubmit = async (event) => {
+            event.preventDefault();
+
             try {
                 // Configurando o axios para enviar cookies
-                axios.defaults.withCredentials = true;
 
-                const response = await axios.post(' http://12.90.4.88:3000/login', {
-                    matricula: matricula,
-                    senha: senha
+                const response = await fetch('http://127.0.0.1:3000/login', {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        matricula,
+                        senha
+                    }),
+                    credentials: 'include'
                 });
+                const dados = await response.json();
+                console.log(dados)
+              
+                localStorage.setItem("nome", JSON.stringify(dados.nome));
+                localStorage.setItem("role", JSON.stringify(dados.role));
+                localStorage.setItem("matricula", JSON.stringify(matricula));
 
-                const dados = response.data;
-                console.log(dados);
-
-                if (dados) {
+                if (dados.role === "admin") {
                     toast.success("Usuário autenticado!");
-                    localStorage.setItem("matricula", matricula);
-                    localStorage.setItem("senha", senha);
                     navigate("/home");
                 } else {
                     toast.error("Matrícula ou senha inválidos!");
@@ -77,7 +57,6 @@ export function FormLogin() {
             } finally {
                 console.log("Requisição finalizada.");
             }
-        }
     };
 
     return (
@@ -118,8 +97,8 @@ export function FormLogin() {
                         <button 
                             type="submit" 
                             onClick={handleSubmit} 
-                            disabled={!isValidMatricula || !isValidSenha} 
-                            style={{cursor: !isValidMatricula || !isValidSenha ? "not-allowed" : "pointer"}} 
+                            // disabled={!isValidMatricula || !isValidSenha} 
+                            // style={{cursor: !isValidMatricula || !isValidSenha ? "not-allowed" : "pointer"}} 
                             className={styles["form__button"]}
                         >
                             Entrar

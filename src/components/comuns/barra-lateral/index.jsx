@@ -14,9 +14,10 @@ export function BarraLateral(props) {
     const { menuOpen, handleMenu } =  props
 
     const handleLogout = () => {   
-        localStorage.removeItem("matricula")
-        localStorage.removeItem("senha")
-        window.location.reload()
+        localStorage.removeItem("nome");
+        localStorage.removeItem("role");
+        localStorage.removeItem("matricula");
+        window.location.reload();
     }
 
     return (
