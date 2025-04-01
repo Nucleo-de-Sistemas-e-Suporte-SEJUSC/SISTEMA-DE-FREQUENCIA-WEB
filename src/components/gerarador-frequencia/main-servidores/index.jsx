@@ -60,16 +60,16 @@ export function MainServidores() {
             a.click()
             window.URL.revokeObjectURL(url)
         })
+        // const { mensagem, total_processados: totalProcessados } = dados.data
 
-            const { mensagem, total_processados: totalProcessados } = dados.data
+        // const mensagemSucesso = `${mensagem} em - ${totalProcessados} servidores`
 
-            const mensagemSucesso = `${mensagem} em - ${totalProcessados} servidores`
-
-            toast.success(mensagemSucesso, {
-                duration: 4000,
-                icon: false
-            })
-            setCheckedServidores({})
+        // toast.success(mensagemSucesso, {
+        //     duration: 4000,
+        //     icon: false
+        // })
+           
+        setCheckedServidores({})
        } catch(e) {
             console.error("Error => ", e)
             throw new Error("Erro aqui => ", e)
@@ -95,6 +95,7 @@ export function MainServidores() {
                     responseType: 'blob', // Recebe arquivos binários
                 }
             );
+            console.log(response)
     
             // Trata a resposta como um arquivo ZIP
             const blob = new Blob([response.data], { type: 'application/zip' });
@@ -124,7 +125,6 @@ export function MainServidores() {
     }
 
     async function arquivarServidorAPI(idServidor) {
-        console.log("ID Servidor => ",typeof idServidor)
         try {
             setIsLoading(true)
             const resposta = await api.patch(`/servidores/${idServidor}/arquivar`)

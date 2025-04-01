@@ -65,7 +65,7 @@ export function MainArquivados(props) {
                 <div className={styles["container__visualizar__content"]}>
                     <CardBuscaServidores 
                         funcionarios={funcionariosArquivados}
-                        arquivado='arquivado'
+                        // arquivado='arquivado'
                         possuiSelecaoDoMes={false}
                     />
 
