@@ -31,6 +31,7 @@ export function MainFrequenciaMensal(props) {
                     <CardBuscaServidores 
                         meses={meses} 
                         mes={mes}
+                        funcionarios={[]}
                     />
 
                     <CardVisualizarServidores>
