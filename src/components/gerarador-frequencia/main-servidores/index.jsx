@@ -81,46 +81,17 @@ export function MainServidores() {
 
     async function converteSetoresParaPdfAPI() {
         try {
-            setIsLoading(true);
-            const setoresSelecionados = Object.keys(checkedSetores)
-                .filter(nome => checkedSetores[nome]);
-    
-            const response = await api.post(
-                `/setores/pdf`,
-                {
-                    mes: mesEscolhido,
-                    setores: setoresSelecionados,
-                },
-                {
-                    responseType: 'blob', // Recebe arquivos binários
-                }
-            );
-            console.log(response)
-    
-            // Trata a resposta como um arquivo ZIP
-            const blob = new Blob([response.data], { type: 'application/zip' });
-            const url = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `setores.zip`; // Nome do arquivo ZIP para download
-            document.body.appendChild(a);
-            a.click();
-            window.URL.revokeObjectURL(url);
-    
-            toast.success(`Arquivos gerados com sucesso!`, {
-                duration: 4000,
-                icon: false,
-            });
-    
-            setCheckedSetores({});
-        } catch (e) {
-            console.error("Error => ", e);
-            toast.error("Erro ao gerar os arquivos. Tente novamente.", {
-                duration: 4000,
-                icon: false,
-            });
+            setIsLoading(true)
+            const resposta = await api.post("/setores/pdf", {
+                mes: '2025-04',
+                setores: ["GTI"]
+            })
+            await resposta.data
+            
+        } catch(e) {
+            console.error("Error => ", e)
         } finally {
-            setIsLoading(false);
+            setIsLoading(false)
         }
     }
 

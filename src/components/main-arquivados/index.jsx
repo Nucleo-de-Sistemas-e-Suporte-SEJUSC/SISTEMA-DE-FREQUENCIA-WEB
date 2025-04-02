@@ -28,10 +28,18 @@ export function MainArquivados(props) {
 
         async function ativaFuncionariosAPI(idServidor) {
             try {
+                const usuario = JSON.parse(localStorage.getItem("usuario"))
                 const dados = await api.patch(`/servidores/${idServidor}/atualizar-status`)
-                const { mensagem } = dados.data
-                window.location.reload()
+                const { mensagem,servidor_ativado: servidorAtivado } = await dados.data
+                console.log(mensagem)
 
+                toast.success(mensagem, {
+                    duration: 4000,
+                    icon: false
+                })
+                
+                await historicoLogsDesarArquivar(usuario.nome, servidorAtivado.nome, servidorAtivado.setor)
+                window.location.reload()
                 return mensagem
             } catch (e) {
                 console.error(e)
@@ -39,6 +47,14 @@ export function MainArquivados(props) {
                 setIsLoading(false)
             }
 
+        }
+
+        async function historicoLogsDesarArquivar(nome, nomeServidor, setorServidor) {
+            const dados = await api.post("/historico-logs", {
+                nome: nome,
+                acao: "Desrquivar",  
+                mensagem: `O usuario de nome ${nome} desarquivou o servidor(a) ${nomeServidor} do setor ${setorServidor}`,
+            })
         }
 
         useEffect(() => {
@@ -79,13 +95,8 @@ export function MainArquivados(props) {
             
                                         <div className={styles["card__details__container__button"]}>
                                             <button className={`${styles["card__details__atualizar__button"]} ${styles["card__details__button"]} `}>Atualizar</button>
-                                            <button className={`${styles["card__details__arquivar__button"]} ${styles["card__details__button"]}`} onClick={() => {
-                                               const mensagem = ativaFuncionariosAPI(funcionario.id)
-                                                toast.success(mensagem, {
-                                                    duration: 4000,
-                                                    icon: false
-                                                })
-                                            }} >Desarquivar</button>
+                                            <button className={`${styles["card__details__arquivar__button"]} ${styles["card__details__button"]}`} onClick={() => ativaFuncionariosAPI(funcionario.id)}
+                                             >Desarquivar</button>
                                             <button className={`${styles["card__details__historico__button"]} ${styles["card__details__button"]} `}>Histórico</button>
                                         </div>
                                     </details>            

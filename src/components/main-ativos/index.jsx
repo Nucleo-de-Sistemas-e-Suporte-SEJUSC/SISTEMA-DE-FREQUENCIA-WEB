@@ -4,6 +4,7 @@ import { CardVisualizarServidores } from "../cards/card-visualizar-servidores";
 
 export function MainAtivos(props) {
         const { funcionarios } = props
+        
     
         return (
             <section className={styles["container__visualizar"]}>
