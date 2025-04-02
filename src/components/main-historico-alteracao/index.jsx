@@ -1,7 +1,24 @@
 import styles from "./style.module.css"
 import { CardVisualizarServidores } from "../cards/card-visualizar-servidores"
+import { api} from "../../api/axios"
+import { useEffect, useState } from "react"
 
 export function MainHistoricoAlteracao() {
+    const [historico, setHistorico] = useState([])
+    
+    async function pegaHistoricoLogsAPI() {
+        const dados = await api.get("/historico-logs")
+        const { historico } = await dados.data
+
+        setHistorico(historico)
+    }
+
+    useEffect(() => {
+        pegaHistoricoLogsAPI()
+    }, [])
+    
+    console.log(historico)
+    
     return (
         <section className={styles["container-historico-visualizacao"]}>
             <form action="#" className={styles["form-historico-alteracao"]}>
@@ -30,13 +47,21 @@ export function MainHistoricoAlteracao() {
             </form>
 
             <CardVisualizarServidores>
-                <details className={styles["card__details"]}>
-                    <summary className={styles["summary"]}>
-                        <p><strong>Estagiário</strong> - Robson Felipe foi <span className={styles["usuario-arquivado"]}>Arquivado</span> por <span className={styles["manipulador-por"]}> Administrador Lucas Brandão</span></p>
-                    </summary>
+                {
+                    historico.map(historico => {
+                        return (
+                            <details className={styles["card__details"]}>
+                                <summary className={styles["summary"]}>
+                                        <p key={historico.id}>
+                                            {historico.mensagem}
+                                        </p>
+                                    </summary>
 
-                    <p>12/03/2025 - 9:45:37</p>
-                </details>
+                                    <p>{historico.data_criacao}</p>
+                            </details>
+                        )
+                    })
+                }
             </CardVisualizarServidores>
         </section>
     )

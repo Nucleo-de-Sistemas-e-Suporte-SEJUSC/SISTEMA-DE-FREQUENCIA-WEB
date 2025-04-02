@@ -11,21 +11,10 @@ export function FormLogin() {
 
     const navigate = useNavigate();
 
-    const handleChangeMatricula = (event) => {
-        setMatricula(event.target.value);
-    };
-
-    const handleChangeSenha = (event) => {
-        setSenha(event.target.value);
-    };
-
-
     const handleSubmit = async (event) => {
             event.preventDefault();
 
             try {
-                // Configurando o axios para enviar cookies
-
                 const response = await fetch('http://127.0.0.1:3000/login', {
                     method: "POST",
                     headers: {
@@ -39,10 +28,14 @@ export function FormLogin() {
                 });
                 const dados = await response.json();
                 console.log(dados)
+
+                const usuarioStorage = {
+                    nome: dados.nome,
+                    role: dados.role,
+                    matricula
+                }
               
-                localStorage.setItem("nome", JSON.stringify(dados.nome));
-                localStorage.setItem("role", JSON.stringify(dados.role));
-                localStorage.setItem("matricula", JSON.stringify(matricula));
+                localStorage.setItem("usuario", JSON.stringify(usuarioStorage));
 
                 if (dados.role === "admin") {
                     toast.success("Usuário autenticado!");
@@ -77,7 +70,7 @@ export function FormLogin() {
                             placeholder="Matrícula"
                             className={styles["input__form"]}
                             value={matricula}
-                            onChange={handleChangeMatricula}
+                            onChange={(e) => setMatricula(e.target.value)}
                         />
                     </div>
                     <div className={styles["container__input"]}>
@@ -89,18 +82,12 @@ export function FormLogin() {
                             placeholder="Senha"
                             className={styles["input__form"]}
                             value={senha}
-                            onChange={handleChangeSenha}
+                            onChange={(e) => setSenha(e.target.value)}
                         />
                     </div>
 
                     <div className={styles["container__button"]}>
-                        <button 
-                            type="submit" 
-                            onClick={handleSubmit} 
-                            // disabled={!isValidMatricula || !isValidSenha} 
-                            // style={{cursor: !isValidMatricula || !isValidSenha ? "not-allowed" : "pointer"}} 
-                            className={styles["form__button"]}
-                        >
+                        <button onClick={handleSubmit} className={styles["form__button"]}>
                             Entrar
                         </button>
                     </div>

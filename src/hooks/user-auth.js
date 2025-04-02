@@ -21,8 +21,7 @@ export function useAuth() {
             console.log(response)
         } catch (erro) {
             console.error("e => ", erro)
-            localStorage.removeItem("nome");
-            localStorage.removeItem("role");
+            localStorage.removeItem("usuario");
             navigate('/');
         }
     }

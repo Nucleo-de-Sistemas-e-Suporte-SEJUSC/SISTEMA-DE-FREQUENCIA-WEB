@@ -1,17 +1,30 @@
 import styles from "./style.module.css"
 import { toast } from "sonner"
 import Checked from "../../../assets/checked.svg"
+import { api } from "../../../api/axios"
 
 export function CardFuncionarios(props) {
     
     const { nome, quantidadeServidores, isChecked, onChecked, id, onArquivaServidor  } = props
-
-    function arquivaServidor() {
-        const mensagem = onArquivaServidor()
+    
+    async function arquivaServidor() {
+        const usuario = JSON.parse(localStorage.getItem("usuario"))
+        const  { mensagem, servidorArquivado }  = await onArquivaServidor()
+      
         toast.success(mensagem, {
             duration: 4000,
             icon: false
-        })              
+        })  
+        
+        await historicoLogsArquivar(usuario, servidorArquivado.nome, servidorArquivado.setor)
+    }
+
+    async function historicoLogsArquivar(usuario, nomeServidor, setorServidor) {
+        const dados = await api.post("/historico-logs", {
+            nome: usuario.nome,
+            acao: "Arquivar",  
+            mensagem: `O usuario de nome ${usuario.nome} arquivou o servidor(a) ${nomeServidor} do setor ${setorServidor}`,
+        })
     }
 
     return (

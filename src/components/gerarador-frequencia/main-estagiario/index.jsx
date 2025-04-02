@@ -2,7 +2,6 @@ import "./style.css"
 import { useState } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
 import { meses } from "../../../utils/meses";
-import { testeServidores, testeSetor } from "../../../utils/teste";
 import { FormCadastrarSetor } from "../../formularios/form-cadastrar-setor";
 import { FormCadastrarFuncionarios } from "../../formularios/form-cadastrar-funcionarios";
 import { CardFuncionarios } from "../../cards/card-funcionarios";
@@ -123,7 +122,7 @@ export function MainEstagiario() {
             {
                 filtro === 'estagiario' && (
                     <section className="container__servidores">
-                        {
+                        {/* {
                             testeServidores.map(servidor => {
                                 return <CardFuncionarios
                                     nome={servidor.nome} 
@@ -132,7 +131,7 @@ export function MainEstagiario() {
                                     onChecked={() => handleCheckboxChange(servidor.id, "estagiario")}
                                 />
                             })
-                        }
+                        } */}
                     </section>
                 )
             }
@@ -140,7 +139,7 @@ export function MainEstagiario() {
             {
                 filtro === 'setor' && (
                     <section className="container__servidores">
-                        {
+                        {/* {
 
                             testeSetor.map(setor => {
                                 const quantidadeDeServidoresNoSetor = filtraSetores(setor.nome)
@@ -153,7 +152,7 @@ export function MainEstagiario() {
                                     onChecked={() => handleCheckboxChange(setor.id, "setor")}
                                 />
                             })
-                        }
+                        } */}
                     </section>
                 )
             }

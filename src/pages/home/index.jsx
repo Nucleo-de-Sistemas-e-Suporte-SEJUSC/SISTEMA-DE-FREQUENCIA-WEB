@@ -3,19 +3,17 @@ import { useEffect, useState } from "react";
 import { BarraLateral } from "../../components/comuns/barra-lateral";
 
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from "../../hooks/user-auth";
+import { useRole } from "../../context/useContext";
 
 export function Home() {
     const [menu, setMenu] =  useState(false);
     const navigate = useNavigate();
 
-    const nome = localStorage.getItem("nome");
-    const role = localStorage.getItem("role");
+    const usuario = localStorage.getItem("usuario");
 
-    console.log("nome => ", nome)
-    console.log("role => ", role)
+    console.log("usuario => ", usuario)
 
-    if(!nome || !role) {
+    if(!usuario) {
         useEffect(() => {
             navigate("/");
         }, [])

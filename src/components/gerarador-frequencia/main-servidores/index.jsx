@@ -128,9 +128,12 @@ export function MainServidores() {
         try {
             setIsLoading(true)
             const resposta = await api.patch(`/servidores/${idServidor}/arquivar`)
-            const {mensagem } = await resposta.data
+            const { mensagem, servidor_arquivado: servidorArquivado } = await resposta.data
             
-            return mensagem
+            return {
+                mensagem,
+                servidorArquivado
+            }
         } catch(e) {
             console.error("Error => ", e)
         } finally {

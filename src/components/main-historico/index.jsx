@@ -4,9 +4,10 @@ import { CardBuscaServidores } from "../cards/card-busca-servidores";
 import { CardVisualizarServidores } from "../cards/card-visualizar-servidores";
 import { FormularioAtualizarHistorico } from "../formularios/formulario-atualizar-historico";
 
+
 export function MainHistorico(props) {
     const { funcionarios } = props
-
+    
     return (
         <section className={styles["container__visualizar"]}>
 
