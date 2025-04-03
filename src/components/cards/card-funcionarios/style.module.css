@@ -108,3 +108,8 @@
     background-color: var(--vermelho);
 
 }
+
+.card__details__arquivar__button:disabled {
+    background-color: var(--cinza);
+    cursor: not-allowed;
+}

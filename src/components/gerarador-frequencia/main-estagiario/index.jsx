@@ -1,20 +1,39 @@
 import "./style.css"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
 import { meses } from "../../../utils/meses";
 import { FormCadastrarSetor } from "../../formularios/form-cadastrar-setor";
 import { FormCadastrarFuncionarios } from "../../formularios/form-cadastrar-funcionarios";
 import { CardFuncionarios } from "../../cards/card-funcionarios";
 import IconeLapis from "../../../assets/lapis.svg"
+import { api } from "../../../api/axios";
 
 export function MainEstagiario() {
     const [filtro, setFiltro] = useState("setor")
+    const [estagiarios, setEstagiarios] = useState([])
+    const [setores, setSetores] = useState([])
     const [checkedSetores, setCheckedSetores] = useState({});
     const [checkedEstagiarios, setCheckedEstagiarios] = useState({});
+    const [filtroNomes, setFiltroNomes] = useState("")
+    const [filtroSetor, setFiltroSetor] = useState("")
 
     const data = new Date()
     const mesAtual = data.getMonth()
     const mes = meses[mesAtual]
+
+    async function pegaEstagiariosAPI() {
+        const dados = await api.get("/estagiarios")
+        const { estagiarios } = await dados.data
+
+        setEstagiarios(estagiarios)
+    }
+
+    async function pegaSetoresAPI() {
+        const dados = await api.get("/setor/estagiarios")
+        const { setores } = await dados.data
+
+        setSetores(setores)
+    }
 
     const handleCheckboxChange = (id, type) => {
         if (type === "setor") {
@@ -32,13 +51,32 @@ export function MainEstagiario() {
         }
     };
 
+    useEffect(() => {
+        pegaEstagiariosAPI()
+    }, [])
+
+    useEffect(() => {
+        pegaSetoresAPI()
+    }, [])
+
     function handleFiltro(event) {
         setFiltro(event.target.value)
     }
 
-    function filtraSetores(setor) {
-        const filtraSetor = testeServidores.filter(servidor => servidor.setor === setor)
-        return filtraSetor.length
+    function handleMesEscolhido(event) {
+        setMesEscolhido(event.target.value)
+    }
+
+    function filtrarSetores(termo) {
+        if (!termo) {
+            setSetoresFiltrados(todosSetores) 
+            return
+        }
+        
+        const filtrados = todosSetores.filter(setor => 
+            setor.lotacao.toLowerCase().includes(termo.toLowerCase())
+        )
+        setSetoresFiltrados(filtrados)
     }
 
     return (
@@ -72,7 +110,7 @@ export function MainEstagiario() {
                     </div>
 
                     <div className="form__filtro__select__container">
-                        <select name="meses" id="meses" className="form__filtro__select" defaultValue={mes}>
+                        <select name="meses" id="meses" className="form__filtro__select" defaultValue={mes} onChange={handleMesEscolhido}>
                             { meses.map((mes, index) => {
                                 return <option key={index} value={mes}>{mes}</option>
                             }) }
@@ -93,6 +131,11 @@ export function MainEstagiario() {
                                             id="setor"
                                             placeholder="Pesquisa pelo setor"
                                             className="filtros__input"
+                                            value={filtroSetor}
+                                            onChange={(e) => {
+                                                setFiltroSetor(e.target.value)
+                                                filtrarSetores(e.target.value)
+                                            }}
                                         />
                                     </div>
                         </form>
@@ -112,6 +155,8 @@ export function MainEstagiario() {
                                     id="estagiario"
                                     placeholder="Pesquisa pelo estagiario"
                                     className="filtros__input"
+                                    value={filtroNomes}
+                                    onChange={e => setFiltroNomes(e.target.value)}
                                 />
                             </div>
                         </form>
@@ -122,16 +167,16 @@ export function MainEstagiario() {
             {
                 filtro === 'estagiario' && (
                     <section className="container__servidores">
-                        {/* {
-                            testeServidores.map(servidor => {
+                        {
+                            estagiarios.map(estagiario => {
                                 return <CardFuncionarios
-                                    nome={servidor.nome} 
-                                    id={servidor.id}
-                                    isChecked={!!checkedEstagiarios[servidor.id]}
-                                    onChecked={() => handleCheckboxChange(servidor.id, "estagiario")}
+                                    nome={estagiario.nome} 
+                                    id={estagiario.id}
+                                    isChecked={!!checkedEstagiarios[estagiario.id]}
+                                    onChecked={() => handleCheckboxChange(estagiario.id, "estagiario")}
                                 />
                             })
-                        } */}
+                        }
                     </section>
                 )
             }
@@ -139,20 +184,19 @@ export function MainEstagiario() {
             {
                 filtro === 'setor' && (
                     <section className="container__servidores">
-                        {/* {
+                        {
 
-                            testeSetor.map(setor => {
-                                const quantidadeDeServidoresNoSetor = filtraSetores(setor.nome)
+                            setores.map(setor => {
                                 return <CardFuncionarios 
                                     key={setor.id} 
-                                    nome={setor.nome}
+                                    nome={setor.lotacao}
                                     id={setor.id}
-                                    quantidadeServidores={quantidadeDeServidoresNoSetor}
+                                    quantidadeServidores={setor.quantidade}
                                     isChecked={!!checkedSetores[setor.id]}
                                     onChecked={() => handleCheckboxChange(setor.id, "setor")}
                                 />
                             })
-                        } */}
+                        }
                     </section>
                 )
             }

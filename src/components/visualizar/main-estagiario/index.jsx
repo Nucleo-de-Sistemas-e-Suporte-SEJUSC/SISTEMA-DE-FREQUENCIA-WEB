@@ -27,7 +27,7 @@ export function MainVisualizarEstagiarios() {
             </form>
 
             <div className={styles["container__visualizar__content"]}>
-               <CardBuscaServidores meses={meses} mes={mes}/>
+               <CardBuscaServidores meses={meses} mes={mes} funcionarios={[]}/>
 
                <CardVisualizarServidores>
                     <details className={styles["card__details"]}>

@@ -8,6 +8,7 @@ import Perfil from "../../../assets/icones-menu/perfil.svg"
 import Relogio from "../../../assets/icones-menu/relogio.svg"
 import Servidores from "../../../assets/icones-menu/servidores.svg"
 import Menu from "../../../assets/icones-menu/menu.svg"
+import Logout from "../../../assets/icones-menu/logout.svg"
 
 
 export function BarraLateral(props) {
@@ -110,13 +111,13 @@ export function BarraLateral(props) {
                     </NavLink>
                 </div>
 
-                {
-                    menuOpen && ( 
-                        <div onClick={handleLogout} >
-                            <img src={Porta} alt="" className={styles["container__buttons__menu_logout-img"]} />
-                        </div>
-                    )
-                }
+                <div className={styles["container__buttons__menu--hamburger--nao-ativo"]}>
+                    {
+                        menuOpen && (
+                                <img src={Porta} alt="" className={styles["container__buttons__menu-img"]} onClick={handleLogout}  />      
+                        )
+                    }
+                </div>
             </div>
 
             

@@ -10,6 +10,7 @@ export function MainServidores() {
     const mesAtual = data.getMonth()
     const mes = meses[mesAtual]
 
+    const [isLoading, setIsLoading] = useState(false)
     const [filtro, setFiltro] = useState("setor")
     const [servidores, setServidores] = useState([])
     const [todosSetores, setTodosSetores] = useState([]) 
@@ -17,7 +18,6 @@ export function MainServidores() {
     const [setoresFiltrados, setSetoresFiltrados] = useState([]) 
     const [checkedSetores, setCheckedSetores] = useState({})
     const [checkedServidores, setCheckedServidores] = useState({})
-    const [isLoading, setIsLoading] = useState(false)
     const [mesEscolhido, setMesEscolhido] = useState(mes)
     const [filtroNomes, setFiltroNomes] = useState("")
     const [filtroSetor, setFiltroSetor] = useState("")

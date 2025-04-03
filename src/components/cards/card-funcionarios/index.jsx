@@ -2,21 +2,31 @@ import styles from "./style.module.css"
 import { toast } from "sonner"
 import Checked from "../../../assets/checked.svg"
 import { api } from "../../../api/axios"
+import { useState } from "react"
 
 export function CardFuncionarios(props) {
-    
+    const [isLoading, setIsLoading] = useState(false)
     const { nome, quantidadeServidores, isChecked, onChecked, id, onArquivaServidor  } = props
     
     async function arquivaServidor() {
-        const usuario = JSON.parse(localStorage.getItem("usuario"))
-        const  { mensagem, servidorArquivado }  = await onArquivaServidor()
-      
-        toast.success(mensagem, {
-            duration: 4000,
-            icon: false
-        })  
+        try {
+            setIsLoading(true)
+            const usuario = JSON.parse(localStorage.getItem("usuario"))
+            const  { mensagem, servidorArquivado }  = await onArquivaServidor()
         
-        await historicoLogsArquivar(usuario, servidorArquivado.nome, servidorArquivado.setor)
+            toast.success(mensagem, {
+                duration: 4000,
+                icon: false
+            })  
+            
+            await historicoLogsArquivar(usuario, servidorArquivado.nome, servidorArquivado.setor)
+            window.location.reload()
+        } catch(error) {
+            console.error(error)
+        } finally {
+            setIsLoading(false)
+
+        }
     }
 
     async function historicoLogsArquivar(usuario, nomeServidor, setorServidor) {
