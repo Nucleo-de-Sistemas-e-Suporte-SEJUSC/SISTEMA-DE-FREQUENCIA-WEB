@@ -31,7 +31,6 @@ export function MainArquivados(props) {
                 const usuario = JSON.parse(localStorage.getItem("usuario"))
                 const dados = await api.patch(`/servidores/${idServidor}/atualizar-status`)
                 const { mensagem,servidor_ativado: servidorAtivado } = await dados.data
-                console.log(mensagem)
 
                 toast.success(mensagem, {
                     duration: 4000,
@@ -52,7 +51,7 @@ export function MainArquivados(props) {
         async function historicoLogsDesarArquivar(nome, nomeServidor, setorServidor) {
             const dados = await api.post("/historico-logs", {
                 nome: nome,
-                acao: "Desrquivar",  
+                acao: "Desarquivar",  
                 mensagem: `O usuario de nome ${nome} desarquivou o servidor(a) ${nomeServidor} do setor ${setorServidor}`,
             })
         }

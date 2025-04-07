@@ -174,23 +174,23 @@ export function MainServidores() {
                             type="radio" 
                             value="setor"
                             name="fitro" 
-                            id="filtro"
+                            id="filtro_setor"
                             checked={filtro === "setor"}
                             onChange={handleFiltro}
                         />
-                        <label htmlFor="fitro" className="form__filtro__label">Setores</label>
+                        <label htmlFor="fitro_setor" className="form__filtro__label">Setores</label>
                     </div>
 
                     <div>
                         <input 
                             type="radio" 
                             value="servidor"
-                            id="filtro" 
+                            id="filtro_servidor" 
                             name="fitro" 
                             checked={filtro === "servidor"}
                             onChange={handleFiltro}
                         />
-                        <label htmlFor="fitro" className="form__filtro__label">Servidores</label>
+                        <label htmlFor="fitro_servidor" className="form__filtro__label">Servidores</label>
                     </div>
 
                     <div className="form__filtro__select__container">
