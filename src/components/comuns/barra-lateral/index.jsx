@@ -1,5 +1,5 @@
 import styles from "./style.module.css"
-import { NavLink } from "react-router-dom"
+import { NavLink, useNavigate } from "react-router-dom"
 import Porta from "../../../assets/icones-menu/porta.svg"
 import FrequenciaGerador from "../../../assets/icones-menu/frequencia-gerador.svg"
 import FrequenciaLog from "../../../assets/icones-menu/frequencia-log.svg"
@@ -8,17 +8,15 @@ import Perfil from "../../../assets/icones-menu/perfil.svg"
 import Relogio from "../../../assets/icones-menu/relogio.svg"
 import Servidores from "../../../assets/icones-menu/servidores.svg"
 import Menu from "../../../assets/icones-menu/menu.svg"
-import Logout from "../../../assets/icones-menu/logout.svg"
 
 
 export function BarraLateral(props) {
     const { menuOpen, handleMenu } =  props
+    const navigate = useNavigate()
 
     const handleLogout = () => {   
-        localStorage.removeItem("nome");
-        localStorage.removeItem("role");
-        localStorage.removeItem("matricula");
-        window.location.reload();
+        localStorage.removeItem("usuario")
+        navigate("/")
     }
 
     return (
@@ -99,7 +97,7 @@ export function BarraLateral(props) {
 
             <div className={styles["container__administrador__links"]}>
                 <div className={styles["container__administrador__links__admin"]}>
-                    <NavLink to="/" className={({isActive}) =>
+                    <NavLink to="/home" className={({isActive}) =>
                         isActive ? styles["container__buttons__menu--hamburger"] : styles["container__buttons__menu--hamburger--nao-ativo"]
                     }>
                         <div className={`${styles["container__buttons__menu__admin"]}`}>

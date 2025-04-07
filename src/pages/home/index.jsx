@@ -9,7 +9,7 @@ export function Home() {
     const [menu, setMenu] =  useState(false);
     const navigate = useNavigate();
 
-    const usuario = localStorage.getItem("usuario");
+    const usuario = JSON.parse(localStorage.getItem("usuario")).nome
 
     console.log("usuario => ", usuario)
 
@@ -30,7 +30,7 @@ export function Home() {
 
             <section>
                 <header>
-                    <h1 className={styles["home__titulo"]}>Olá, Administrador</h1>
+                    <h1 className={styles["home__titulo"]}>Olá, { usuario } </h1>
                 </header>
     
             </section>
