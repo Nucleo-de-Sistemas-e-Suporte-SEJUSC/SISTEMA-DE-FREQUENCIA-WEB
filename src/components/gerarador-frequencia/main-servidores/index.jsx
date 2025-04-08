@@ -39,6 +39,7 @@ export function MainServidores() {
         setSetoresFiltrados(setores)
     }
 
+    console.log(checkedServidores)
     async function converteServidoresParaPdfAPI() {
        try {
             const idServidores = Object.keys(checkedServidores)
@@ -60,14 +61,6 @@ export function MainServidores() {
             a.click()
             window.URL.revokeObjectURL(url)
         })
-        // const { mensagem, total_processados: totalProcessados } = dados.data
-
-        // const mensagemSucesso = `${mensagem} em - ${totalProcessados} servidores`
-
-        // toast.success(mensagemSucesso, {
-        //     duration: 4000,
-        //     icon: false
-        // })
            
         setCheckedServidores({})
        } catch(e) {
@@ -78,13 +71,12 @@ export function MainServidores() {
        }
     }
 
-
     async function converteSetoresParaPdfAPI() {
         try {
             setIsLoading(true)
             const resposta = await api.post("/setores/pdf", {
-                mes: '2025-04',
-                setores: ["GTI"]
+                mes: mesEscolhido,
+                setor: checkedSetores.setor
             })
             await resposta.data
             
@@ -126,17 +118,15 @@ export function MainServidores() {
         if (type === "setor") {
             setCheckedSetores(prevState => ({
                 ...prevState,
-                [valor]: !prevState[valor],
+                setor: id,
                 [id]: !prevState[id]
-
+                
             }));
-            setCheckedServidores({});
         } else if (type === "servidor") {
             setCheckedServidores(prevState => ({
                 ...prevState,
                 [id]: !prevState[id]
             }));
-            setCheckedSetores({});
         }
     };
 

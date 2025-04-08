@@ -14,27 +14,27 @@ export function MainVisualizarServidores() {
     const [servidoresFiltrados, setServidoresFiltrados] = useState([]);
     const [mesSelecionado, setMesSelecionado] = useState(mes);
 
+    console.log(mesSelecionado)
 
     async function listaServidoresPDF() {
         const dados = await api.get("/servidores/pdfs");
         const { servidores_pdf: servidoresPDF } = await dados.data;
         setServidores(servidoresPDF);
-        filtrarServidoresPorMes(servidoresPDF, mes);
+        filtrarServidoresPorMes(servidoresPDF, mesSelecionado);
     }
 
     function transformarDados(data, mesFiltro) {
         const resultado = [];
-        
         for (const setorObj of data) {
             for (const [setor, conteudo] of Object.entries(setorObj)) {
-
-                if (conteudo.servidor && conteudo.servidor[mesFiltro]) {
+                
+                if (conteudo.servidor && conteudo.servidor[mesSelecionado]) {
                     for (const [nomeServidor, dadosServidor] of Object.entries(conteudo.servidor[mesFiltro])) {
                         resultado.push({
                             nome: nomeServidor,
                             setor: setor,
                             arquivos: dadosServidor.arquivos,
-                            mes: mesFiltro
+                            mes: mesSelecionado
                         });
                     }
                 }
@@ -52,9 +52,7 @@ export function MainVisualizarServidores() {
 
     useEffect(() => {
         listaServidoresPDF();
-    }, []);
-
-    console.log(servidoresFiltrados)
+    }, [mesSelecionado]);
 
     return (
         <section className={styles["container__visualizar"]}>
@@ -78,7 +76,7 @@ export function MainVisualizarServidores() {
                     mes={mes}
                     visualizar="visualizar"
                     funcionarios={servidoresFiltrados}
-                    onMesChange={(novoMes) => filtrarServidoresPorMes(servidores, novoMes)}
+                    onMesChange={(novoMes) => filtrarServidoresPorMes(servidores, mesSelecionado)}
                 />
 
                 <CardVisualizarServidores>

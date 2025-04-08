@@ -2,6 +2,7 @@ import styles from "./style.module.css"
 
 export function CardBuscaServidores(props) {
     const { meses, mes,funcionarios, possuiSelecaoDoMes = true } = props
+    console.log(mes)
 
     return (
         <div className={styles["container__visualizar__funcionarios"]}>
