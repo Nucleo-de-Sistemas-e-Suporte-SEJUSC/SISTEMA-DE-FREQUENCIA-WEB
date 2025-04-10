@@ -9,16 +9,14 @@ import { useEffect, useState } from "react";
 export function MainVisualizarServidores() {
     const data = new Date();
     const mesAtual = data.getMonth();
-    const mes = meses[mesAtual];
     const [servidores, setServidores] = useState([]);
     const [servidoresFiltrados, setServidoresFiltrados] = useState([]);
-    const [mesSelecionado, setMesSelecionado] = useState(mes);
-
-    console.log(mesSelecionado)
+    const [mesSelecionado, setMesSelecionado] = useState(meses[mesAtual]);
+    const [termoBusca, setTermoBusca] = useState("");
 
     async function listaServidoresPDF() {
         const dados = await api.get("/servidores/pdfs");
-        const { servidores_pdf: servidoresPDF } = await dados.data;
+        const { servidores_pdf: servidoresPDF } = dados.data;
         setServidores(servidoresPDF);
         filtrarServidoresPorMes(servidoresPDF, mesSelecionado);
     }
@@ -27,60 +25,68 @@ export function MainVisualizarServidores() {
         const resultado = [];
         for (const setorObj of data) {
             for (const [setor, conteudo] of Object.entries(setorObj)) {
-                
-                if (conteudo.servidor && conteudo.servidor[mesSelecionado]) {
+                // Usar mesFiltro em vez de mesSelecionado
+                if (conteudo.servidor && conteudo.servidor[mesFiltro]) {
                     for (const [nomeServidor, dadosServidor] of Object.entries(conteudo.servidor[mesFiltro])) {
                         resultado.push({
                             nome: nomeServidor,
                             setor: setor,
                             arquivos: dadosServidor.arquivos,
-                            mes: mesSelecionado
+                            mes: mesFiltro // Mesma correção aqui
                         });
                     }
                 }
             }
         }
-        
         return resultado;
     }
 
     function filtrarServidoresPorMes(data, mes) {
         const servidoresTransformados = transformarDados(data, mes);
         setServidoresFiltrados(servidoresTransformados);
-        setMesSelecionado(mes);
+        setMesSelecionado(mes); // Atualiza o estado com o novo mês
     }
 
+    // Busca dados apenas uma vez (no mount)
     useEffect(() => {
         listaServidoresPDF();
-    }, [mesSelecionado]);
+    }, []);
+
+    // Filtra servidores pelo termo de busca
+    const servidoresFiltradosComBusca = servidoresFiltrados.filter(servidor => {
+        const termo = termoBusca.toLowerCase();
+        return (
+            servidor.nome.toLowerCase().includes(termo) ||
+            servidor.setor.toLowerCase().includes(termo)
+        );
+    });
 
     return (
         <section className={styles["container__visualizar"]}>
-            <form action="#" className={styles["form__visualizar"]}>
+            <form className={styles["form__visualizar"]}>
                 <div className={styles["form__visualizar__container"]}>
                     <input
                         type="text"
-                        name="pesquisa"
-                        id="pesquisa"
                         placeholder="Pesquisa pelo servidor ou setor"
                         className={styles["form__visualizar__input"]}
+                        value={termoBusca}
+                        onChange={(e) => setTermoBusca(e.target.value)}
                     />
                 </div>
-
                 <p>Servidores - Mês: {mesSelecionado}</p>
             </form>
 
             <div className={styles["container__visualizar__content"]}>
                 <CardBuscaServidores 
                     meses={meses} 
-                    mes={mes}
+                    mes={mesSelecionado} // Passa o mês selecionado
                     visualizar="visualizar"
                     funcionarios={servidoresFiltrados}
-                    onMesChange={(novoMes) => filtrarServidoresPorMes(servidores, mesSelecionado)}
+                    onMesChange={(novoMes) => filtrarServidoresPorMes(servidores, novoMes)}
                 />
 
                 <CardVisualizarServidores>
-                    {servidoresFiltrados.map((servidor, index) => (
+                    {servidoresFiltradosComBusca.map((servidor, index) => (
                         <details key={index} className={styles["card__details"]}>
                             <summary className={styles["card__summary"]}>
                                 {servidor.nome}
@@ -103,6 +109,7 @@ export function MainVisualizarServidores() {
                 </CardVisualizarServidores>
             </div>
 
+            {/* ... (botões de mesclar/visualizar) */}
             <div className={styles["container__buttons--visualizar"]}>
                 <button className={styles["container__buttons--visualizar-button"]}>
                     Mesclar Arquivos
