@@ -4,6 +4,7 @@ import { meses } from "../../../utils/meses";
 import { CardFuncionarios } from "../../cards/card-funcionarios";
 import { api } from "../../../api/axios";
 import { toast } from "sonner";
+import axios from "axios";
 
 export function MainServidores() {
     const data = new Date()
@@ -39,44 +40,60 @@ export function MainServidores() {
         setSetoresFiltrados(setores)
     }
 
-    console.log(checkedServidores)
     async function converteServidoresParaPdfAPI() {
-       try {
-            const idServidores = Object.keys(checkedServidores)
-            setIsLoading(true)
-            const dados = await api.post(`/servidores/pdf`, {
+        try {
+            const idServidores = Object.keys(checkedServidores); // IDs dos servidores selecionados
+            setIsLoading(true);
+    
+            // Faz a chamada para gerar os PDFs
+            const responseGeracao = await api.post(`/servidores/pdf`, {
                 mes: mesEscolhido,
                 funcionarios: idServidores 
-            },
-            {
-                responseType: 'blob',
+            });
+    
+            console.log(responseGeracao);
+    
+            // Verifica se a geração foi bem-sucedida
+            if (responseGeracao.status === 200) {
+                console.log("PDFs gerados com sucesso!");
+    
+                // Itera sobre os IDs dos servidores e chama a rota de download para cada PDF gerado
+                for (const servidorId of idServidores) {
+                    await api.get(`/servidores/pdf/download/${servidorId}`, { responseType: 'blob' })
+                        .then(response => {
+                            const blob = new Blob([response.data], { type: 'application/pdf' });
+                            const url = window.URL.createObjectURL(blob);
+                            const link = document.createElement('a');
+                            link.href = url;
+                            link.download = `frequencia_mensal_${servidorId}.pdf`; // Nome do arquivo baixado
+                            document.body.appendChild(link);
+                            link.click();
+                            document.body.removeChild(link);
+                            window.URL.revokeObjectURL(url);
+                        })
+                        .catch(error => {
+                            console.error('Erro ao baixar o PDF:', error);
+                        });
+                }
+            } else {
+                console.error("Erro na geração dos PDFs:", responseGeracao.data);
             }
-        )
-        .then(response =>{
-            const blob = new Blob([response.data], { type: 'application/pdf' })
-            const url = window.URL.createObjectURL(blob)
-            const a = document.createElement('a')
-            a.href = url
-            a.download = `servidores.pdf`
-            a.click()
-            window.URL.revokeObjectURL(url)
-        })
-           
-        setCheckedServidores({})
-       } catch(e) {
-            console.error("Error => ", e)
-            throw new Error("Erro aqui => ", e)
-       } finally {
-        setIsLoading(false)
-       }
+    
+            setCheckedServidores({});
+        } catch (e) {
+            console.error("Error => ", e);
+            throw new Error("Erro aqui => ", e);
+        } finally {
+            setIsLoading(false);
+        }
     }
 
     async function converteSetoresParaPdfAPI() {
         try {
             setIsLoading(true)
-            const resposta = await api.post("/setores/pdf", {
-                mes: mesEscolhido,
-                setor: checkedSetores.setor
+            const resposta = await api.post("api/setores/pdf", {
+                mes: '2025-04',
+                setor: []
             })
             await resposta.data
             
@@ -118,15 +135,17 @@ export function MainServidores() {
         if (type === "setor") {
             setCheckedSetores(prevState => ({
                 ...prevState,
-                setor: id,
+                [valor]: !prevState[valor],
                 [id]: !prevState[id]
-                
+
             }));
+            setCheckedServidores({});
         } else if (type === "servidor") {
             setCheckedServidores(prevState => ({
                 ...prevState,
                 [id]: !prevState[id]
             }));
+            setCheckedSetores({});
         }
     };
 
