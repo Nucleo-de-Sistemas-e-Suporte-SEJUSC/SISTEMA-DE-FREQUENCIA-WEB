@@ -86,19 +86,27 @@ export function MainServidores() {
 
     async function converteSetoresParaPdfAPI() {
         try {
-            const setoresSelecionados = Object.keys(checkedSetores).filter(setor => checkedSetores[setor]);
+            // Obtém o setor selecionado (por exemplo, "GTI")
+            const setorSelecionado = Object.keys(checkedSetores).find(setor => checkedSetores[setor]);
+            if (!setorSelecionado) {
+                console.error("Nenhum setor selecionado.");
+                return;
+            }
+    
             setIsLoading(true);
     
-            const responseGeracao = await api.post(`/api/setores/pdf`, {
-                mes: mesEscolhido,
-                setor: setoresSelecionados
+            // Faz a chamada para gerar os PDFs e criar o ZIP
+            const responseGeracao = await api.post(`/setores/pdf`, {
+                setor: setorSelecionado, 
+                mes: mesEscolhido 
             });
     
             console.log(responseGeracao);
     
+            // Verifica se a geração foi bem-sucedida e chama a função para baixar o ZIP
             if (responseGeracao.status === 200 && responseGeracao.data.zip_path) {
                 // Chama a função para baixar o ZIP
-                await downloadSetorZip(setoresSelecionados[0], mesEscolhido);
+                await downloadSetorZip(setorSelecionado, mesEscolhido);
             } else {
                 console.error("Erro na geração dos documentos:", responseGeracao.data);
             }
@@ -109,18 +117,18 @@ export function MainServidores() {
         }
     }
 
-    async function downloadSetorZip(setorId, mesEscolhido) {
+    async function downloadSetorZip(setor, mesEscolhido) {
         try {
             setIsLoading(true);
     
             // Faz uma chamada para baixar o arquivo ZIP
-            await api.get(`/api/setores/pdf/download-zip/${setorId}/${mesEscolhido}`, { responseType: 'blob' })
+            await api.get(`/setores/pdf/download-zip/${setor}/${mesEscolhido}`, { responseType: 'blob' })
                 .then(response => {
                     const blob = new Blob([response.data], { type: 'application/zip' });
                     const url = window.URL.createObjectURL(blob);
                     const link = document.createElement('a');
                     link.href = url;
-                    link.download = `frequencia_mensal_${setorId}_${mesEscolhido}.zip`; // Nome do arquivo baixado
+                    link.download = `frequencia_mensal_${setor}_${mesEscolhido}.zip`;
                     document.body.appendChild(link);
                     link.click();
                     document.body.removeChild(link);
