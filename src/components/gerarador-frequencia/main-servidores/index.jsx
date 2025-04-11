@@ -87,18 +87,19 @@ export function MainServidores() {
     async function converteSetoresParaPdfAPI() {
         try {
             // Obtém o setor selecionado (por exemplo, "GTI")
-            const setorSelecionado = Object.keys(checkedSetores).find(setor => checkedSetores[setor]);
+            const setorSelecionado = Object.keys(checkedSetores);
             if (!setorSelecionado) {
                 console.error("Nenhum setor selecionado.");
                 return;
             }
     
             setIsLoading(true);
-    
+            console.log("setorSelecionado", setorSelecionado)
+            console.log("mes", mesEscolhido)
             // Faz a chamada para gerar os PDFs e criar o ZIP
             const responseGeracao = await api.post(`/setores/pdf`, {
-                setor: setorSelecionado, 
-                mes: mesEscolhido 
+                setor: setorSelecionado[1], 
+                mes: mesEscolhido,
             });
     
             console.log(responseGeracao);
@@ -106,7 +107,7 @@ export function MainServidores() {
             // Verifica se a geração foi bem-sucedida e chama a função para baixar o ZIP
             if (responseGeracao.status === 200 && responseGeracao.data.zip_path) {
                 // Chama a função para baixar o ZIP
-                await downloadSetorZip(setorSelecionado, mesEscolhido);
+                await downloadSetorZip(setorSelecionado[1], mesEscolhido);
             } else {
                 console.error("Erro na geração dos documentos:", responseGeracao.data);
             }
