@@ -61,6 +61,24 @@ export function MainVisualizarServidores() {
         );
     });
 
+    async function buscarPDF(setor, mes, nome) {
+        try {
+          const resposta = await fetch(`http://localhost:3000/api/servidores/pdf/view?setor=${encodeURIComponent(setor)}&mes=${encodeURIComponent(mes)}&nome=${encodeURIComponent(nome)}`);
+          
+          if (!resposta.ok) {
+            throw new Error('Arquivo não encontrado ou erro na requisição');
+          }
+      
+          const blob = await resposta.blob();
+          const url = window.URL.createObjectURL(blob); 
+          window.open(url, "_blank");
+        } catch (erro) {
+          console.error("Erro ao buscar PDF:", erro);
+          alert("Erro ao buscar o PDF. Tente novamente.");
+        }
+      }
+    
+
     return (
         <section className={styles["container__visualizar"]}>
             <form className={styles["form__visualizar"]}>
@@ -79,7 +97,7 @@ export function MainVisualizarServidores() {
             <div className={styles["container__visualizar__content"]}>
                 <CardBuscaServidores 
                     meses={meses} 
-                    mes={mesSelecionado} // Passa o mês selecionado
+                    mes={mesSelecionado}
                     visualizar="visualizar"
                     funcionarios={servidoresFiltrados}
                     onMesChange={(novoMes) => filtrarServidoresPorMes(servidores, novoMes)}
@@ -95,21 +113,21 @@ export function MainVisualizarServidores() {
                             <div className={styles["card__content"]}>
                                 {servidor.arquivos.map((arquivo, i) => (
                                     <div key={i}>
-                                        <Link 
-                                            to={`/visualizar/${encodeURIComponent(arquivo)}`} 
+                                        <button
+                                            onClick={() => buscarPDF(servidor.setor, servidor.mes, servidor.nome)}
                                             className={styles["card__link"]}
-                                        >
+                                            >
                                             {arquivo}
-                                        </Link>
+                                        </button>
                                     </div>
-                                ))}
+                                ))
+                                }
                             </div>
                         </details>
                     ))}
                 </CardVisualizarServidores>
             </div>
 
-            {/* ... (botões de mesclar/visualizar) */}
             <div className={styles["container__buttons--visualizar"]}>
                 <button className={styles["container__buttons--visualizar-button"]}>
                     Mesclar Arquivos

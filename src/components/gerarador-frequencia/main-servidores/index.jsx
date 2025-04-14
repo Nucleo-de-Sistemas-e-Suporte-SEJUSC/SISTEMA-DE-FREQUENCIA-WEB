@@ -44,27 +44,27 @@ export function MainServidores() {
         try {
             const idServidores = Object.keys(checkedServidores);
             setIsLoading(true);
-    
+            console.log("ID Servidores => ", idServidores)
+       
             // Faz a chamada para gerar os PDFs e criar o ZIP
             const responseGeracao = await api.post(`/servidores/pdf`, {
                 mes: mesEscolhido,
-                funcionarios: idServidores 
+                funcionarios: idServidores[0]
             });
-    
-            console.log(responseGeracao);
+
     
             // Verifica se a geração foi bem-sucedida e baixa o ZIP
             if (responseGeracao.status === 200 && responseGeracao.data.zip_path) {
                 const zipPath = responseGeracao.data.zip_path;
     
                 // Faz uma chamada para baixar o arquivo ZIP
-                await api.get(`/servidores/pdf/download-zip/${mesEscolhido}`, { responseType: 'blob' })
+                await api.get(`/servidores/${checkedServidores.nome}/pdf/download-zip/${mesEscolhido}`, { responseType: 'blob' })
                     .then(response => {
                         const blob = new Blob([response.data], { type: 'application/zip' });
                         const url = window.URL.createObjectURL(blob);
                         const link = document.createElement('a');
                         link.href = url;
-                        link.download = `${mesEscolhido}_frequencia_mensal.zip`;
+                        link.download = `${checkedServidores.nome}_${mesEscolhido}_frequencia_mensal.zip`;
                         document.body.appendChild(link);
                         link.click();
                         document.body.removeChild(link);
@@ -94,15 +94,11 @@ export function MainServidores() {
             }
     
             setIsLoading(true);
-            console.log("setorSelecionado", setorSelecionado)
-            console.log("mes", mesEscolhido)
             // Faz a chamada para gerar os PDFs e criar o ZIP
             const responseGeracao = await api.post(`/setores/pdf`, {
                 setor: setorSelecionado[1], 
                 mes: mesEscolhido,
             });
-    
-            console.log(responseGeracao);
     
             // Verifica se a geração foi bem-sucedida e chama a função para baixar o ZIP
             if (responseGeracao.status === 200 && responseGeracao.data.zip_path) {
@@ -178,13 +174,15 @@ export function MainServidores() {
                 ...prevState,
                 [valor]: !prevState[valor],
                 [id]: !prevState[id]
-
+                
             }));
             setCheckedServidores({});
         } else if (type === "servidor") {
+         
             setCheckedServidores(prevState => ({
                 ...prevState,
-                [id]: !prevState[id]
+                nome: valor,
+                [id]: !prevState[id],
             }));
             setCheckedSetores({});
         }
@@ -306,7 +304,7 @@ export function MainServidores() {
                                         nome={servidor.nome.toUpperCase()} 
                                         id={servidor.id}
                                         isChecked={!!checkedServidores[servidor.id]}
-                                        onChecked={() => handleCheckboxChange(servidor.id, "servidor")}
+                                        onChecked={() => handleCheckboxChange(servidor.id, "servidor", servidor.nome)}
                                         onArquivaServidor={() => arquivarServidorAPI(servidor.id)}
                                         mensagem={mensagemServidores}
                                     />
