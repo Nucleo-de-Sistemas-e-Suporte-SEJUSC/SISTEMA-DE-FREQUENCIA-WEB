@@ -2,13 +2,15 @@ import "./style.css"
 import { useEffect, useState } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
 import { meses } from "../../../utils/meses";
-import { FormCadastrarSetor } from "../../formularios/form-cadastrar-setor";
-import { FormCadastrarFuncionarios } from "../../formularios/form-cadastrar-funcionarios";
 import { CardFuncionarios } from "../../cards/card-funcionarios";
-import IconeLapis from "../../../assets/lapis.svg"
 import { api } from "../../../api/axios";
 
 export function MainEstagiario() {
+    const data = new Date()
+    const mesAtual = data.getMonth()
+    const mes = meses[mesAtual]
+
+
     const [filtro, setFiltro] = useState("setor")
     const [estagiarios, setEstagiarios] = useState([])
     const [setores, setSetores] = useState([])
@@ -16,10 +18,8 @@ export function MainEstagiario() {
     const [checkedEstagiarios, setCheckedEstagiarios] = useState({});
     const [filtroNomes, setFiltroNomes] = useState("")
     const [filtroSetor, setFiltroSetor] = useState("")
-
-    const data = new Date()
-    const mesAtual = data.getMonth()
-    const mes = meses[mesAtual]
+    const [isLoading, setIsLoading] = useState(false)
+    const [mesEscolhido, setMesEscolhido] = useState(mes)
 
     async function pegaEstagiariosAPI() {
         const dados = await api.get("/estagiarios")
@@ -78,6 +78,25 @@ export function MainEstagiario() {
         )
         setSetoresFiltrados(filtrados)
     }
+
+      async function converteEstagiariosParaPdfAPI() {
+            try {
+                const idServidores = Object.keys(checkedEstagiarios);
+                setIsLoading(true);
+           
+                // Faz a chamada para gerar os PDFs e criar o ZIP
+                await api.post(`/estagiario/pdf`, {
+                    mes: mesEscolhido,
+                    estagiarios: idServidores
+                });
+
+        
+            } catch (e) {
+                console.error("Error => ", e);
+            } finally {
+                setIsLoading(false);
+            }
+        }
 
     return (
         <main>
@@ -172,6 +191,7 @@ export function MainEstagiario() {
                                 return <CardFuncionarios
                                     nome={estagiario.nome} 
                                     id={estagiario.id}
+                                    key={estagiario.id}
                                     isChecked={!!checkedEstagiarios[estagiario.id]}
                                     onChecked={() => handleCheckboxChange(estagiario.id, "estagiario")}
                                 />
@@ -204,7 +224,7 @@ export function MainEstagiario() {
             <section className="container__cadastrar__button">
 
                 <div className="container__gerar__button">
-                    <button>Gerar  { filtro === 'estagiario' ? "estagiários" : "setores" } </button>
+                    <button disabled={isLoading} onClick={ () => {  filtro === 'estagiario' &&  converteEstagiariosParaPdfAPI()}} className="button__gerar__servidor">Gerar  { filtro === 'estagiario' ? "estagiários" : "setores" } </button>
                     <button>Gerar todos os { filtro === 'estagiario' ? "estagiários" : "setores" } </button>
                 </div>
             </section>

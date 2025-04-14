@@ -3,8 +3,6 @@ import { useEffect, useState } from "react";
 import { meses } from "../../../utils/meses";
 import { CardFuncionarios } from "../../cards/card-funcionarios";
 import { api } from "../../../api/axios";
-import { toast } from "sonner";
-import axios from "axios";
 
 export function MainServidores() {
     const data = new Date()
