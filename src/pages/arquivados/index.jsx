@@ -21,7 +21,7 @@ export function Arquivados() {
                 handleMenu={setMenu}
             />
 
-            <section>
+            <section className="container__conteudo-principal">
                 <Header
                     titulo="Arquivados"
                 />

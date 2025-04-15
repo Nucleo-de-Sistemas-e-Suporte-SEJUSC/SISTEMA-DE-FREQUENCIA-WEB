@@ -20,7 +20,7 @@ export function VisualizarServidor() {
                 handleMenu={setMenu}
             />
 
-            <section>
+            <section className="container__conteudo-principal">
                 <Header 
                     titulo="Visualização de Frequência"
                  />

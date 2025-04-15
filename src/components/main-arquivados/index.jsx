@@ -16,7 +16,7 @@ export function MainArquivados(props) {
                 setIsLoading(true)
                 const dados = await api.get("/servidores/arquivados")
                 const { servidores } = dados.data
-
+                console.log(servidores)
                 setFuncionariosArquivados(servidores)
               
             } catch(e) {
@@ -28,6 +28,7 @@ export function MainArquivados(props) {
 
         async function ativaFuncionariosAPI(idServidor) {
             try {
+                
                 const usuario = JSON.parse(localStorage.getItem("usuario"))
                 const dados = await api.patch(`/servidores/${idServidor}/atualizar-status`)
                 const { mensagem,servidor_ativado: servidorAtivado } = await dados.data
