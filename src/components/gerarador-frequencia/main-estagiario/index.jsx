@@ -1,6 +1,5 @@
 import "./style.css"
 import { useEffect, useState } from "react";
-import * as Dialog from "@radix-ui/react-dialog";
 import { meses } from "../../../utils/meses";
 import { CardFuncionarios } from "../../cards/card-funcionarios";
 import { api } from "../../../api/axios";
@@ -10,10 +9,11 @@ export function MainEstagiario() {
     const mesAtual = data.getMonth()
     const mes = meses[mesAtual]
 
-
     const [filtro, setFiltro] = useState("setor")
     const [estagiarios, setEstagiarios] = useState([])
+    const [estagiariosFiltrados, setEstagiariosFiltrados] = useState([])
     const [setores, setSetores] = useState([])
+    const [setoresFiltrados, setSetoresFiltrados] = useState([])
     const [checkedSetores, setCheckedSetores] = useState({});
     const [checkedEstagiarios, setCheckedEstagiarios] = useState({});
     const [filtroNomes, setFiltroNomes] = useState("")
@@ -21,20 +21,49 @@ export function MainEstagiario() {
     const [isLoading, setIsLoading] = useState(false)
     const [mesEscolhido, setMesEscolhido] = useState(mes)
 
+    // Busca estagiários da API
     async function pegaEstagiariosAPI() {
         const dados = await api.get("/estagiarios")
         const { estagiarios } = await dados.data
-
         setEstagiarios(estagiarios)
+        setEstagiariosFiltrados(estagiarios) // Inicializa com todos os estagiários
     }
 
+    // Busca setores da API
     async function pegaSetoresAPI() {
         const dados = await api.get("/setor/estagiarios")
         const { setores } = await dados.data
-
         setSetores(setores)
+        setSetoresFiltrados(setores) // Inicializa com todos os setores
     }
 
+    // Filtra estagiários por nome
+    function filtrarEstagiarios(nome) {
+        if (!nome) {
+            setEstagiariosFiltrados(estagiarios)
+            return
+        }
+        
+        const filtrados = estagiarios.filter(estagiario =>
+            estagiario.nome.toLowerCase().includes(nome.toLowerCase())
+        )
+        setEstagiariosFiltrados(filtrados)
+    }
+
+    // Filtra setores por nome
+    function filtrarSetores(nomeSetor) {
+        if (!nomeSetor) {
+            setSetoresFiltrados(setores)
+            return
+        }
+        
+        const filtrados = setores.filter(setor =>
+            setor.lotacao.toLowerCase().includes(nomeSetor.toLowerCase())
+        )
+        setSetoresFiltrados(filtrados)
+    }
+
+    // Manipula seleção de checkboxes
     const handleCheckboxChange = (id, type) => {
         if (type === "setor") {
             setCheckedSetores(prevState => ({
@@ -51,11 +80,19 @@ export function MainEstagiario() {
         }
     };
 
+    // Atualiza lista de estagiários filtrados quando o filtro ou lista original muda
+    useEffect(() => {
+        filtrarEstagiarios(filtroNomes)
+    }, [filtroNomes, estagiarios])
+
+    // Atualiza lista de setores filtrados quando o filtro ou lista original muda
+    useEffect(() => {
+        filtrarSetores(filtroSetor)
+    }, [filtroSetor, setores])
+
+    // Carrega dados iniciais
     useEffect(() => {
         pegaEstagiariosAPI()
-    }, [])
-
-    useEffect(() => {
         pegaSetoresAPI()
     }, [])
 
@@ -69,26 +106,49 @@ export function MainEstagiario() {
 
     function filtrarSetores(termo) {
         if (!termo) {
-            setSetoresFiltrados(todosSetores) 
+            setSetoresFiltrados(setores) // Usa 'setores' em vez de 'todosSetores'
             return
         }
         
-        const filtrados = todosSetores.filter(setor => 
+        const filtrados = setores.filter(setor => 
             setor.lotacao.toLowerCase().includes(termo.toLowerCase())
         )
         setSetoresFiltrados(filtrados)
     }
 
+    const idServidores = Object.keys(checkedEstagiarios);
+
       async function converteEstagiariosParaPdfAPI() {
             try {
                 const idServidores = Object.keys(checkedEstagiarios);
-                setIsLoading(true);
-           
+                setIsLoading(true); 
+                
                 // Faz a chamada para gerar os PDFs e criar o ZIP
-                await api.post(`/estagiario/pdf`, {
+                const responseGeracao = await api.post(`/estagiario/pdf`, {
                     mes: mesEscolhido,
                     estagiarios: idServidores
                 });
+                console.log(responseGeracao.data)
+
+                if (responseGeracao.status === 200 && responseGeracao.data.zip_path) {
+                    const zipPath = responseGeracao.data.zip_path;
+                    // Baixa o ZIP com nome genérico (o back-end vai definir)
+                    await api.get(`/servidores/pdf/download-zip/${mesEscolhido}`, { 
+                        params: { ids: idServidores.join(',') },
+                        responseType: 'blob' 
+                    })
+                    .then(response => {
+                        const blob = new Blob([response.data], { type: 'application/zip' });
+                        const url = window.URL.createObjectURL(blob);
+                        const link = document.createElement('a');
+                        link.href = url;
+                        link.download = `frequencia_mensal_${mesEscolhido}.zip`;
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                        window.URL.revokeObjectURL(url);
+                    });
+                }
 
         
             } catch (e) {
@@ -138,88 +198,75 @@ export function MainEstagiario() {
                 </div>
             </form>
 
-            {
-                filtro === "setor" && (
-                    <section className="container__pesquisa__gerador">
+            {filtro === "setor" && (
+                <section className="container__pesquisa__gerador">
+                    <form action="#" className="filtros">
+                        <div className="filtros__container">
+                            <input
+                                type="text"
+                                name="setor"
+                                id="setor"
+                                placeholder="Pesquisa pelo setor"
+                                className="filtros__input"
+                                value={filtroSetor}
+                                onChange={(e) => {
+                                    setFiltroSetor(e.target.value)
+                                    // A filtragem agora é feita no useEffect
+                                }}
+                            />
+                        </div>
+                    </form>
+                </section>
+            )}
 
-                        <form action="#" className="filtros">
-                                    <div className="filtros__container">
-                                        <input
-                                            type="text"
-                                            name="setor"
-                                            id="setor"
-                                            placeholder="Pesquisa pelo setor"
-                                            className="filtros__input"
-                                            value={filtroSetor}
-                                            onChange={(e) => {
-                                                setFiltroSetor(e.target.value)
-                                                filtrarSetores(e.target.value)
-                                            }}
-                                        />
-                                    </div>
-                        </form>
-                    </section>
-                )
-            }
+            {filtro === 'estagiario' && (
+                <section className="container__pesquisa__gerador">
+                    <form action="#" className="filtros">
+                        <div className="filtros__container">
+                            <input
+                                type="search"
+                                name="estagiario"
+                                id="estagiario"
+                                placeholder="Pesquisa pelo estagiario"
+                                className="filtros__input"
+                                value={filtroNomes}
+                                onChange={e => {
+                                    setFiltroNomes(e.target.value)
+                                    // A filtragem agora é feita no useEffect
+                                }}
+                            />
+                        </div>
+                    </form>
+                </section>
+            )}
+            {filtro === 'estagiario' && (
+                <section className="container__servidores">
+                    {estagiariosFiltrados.map(estagiario => (
+                        <CardFuncionarios
+                            nome={estagiario.nome} 
+                            id={estagiario.id}
+                            key={estagiario.id}
+                            isChecked={!!checkedEstagiarios[estagiario.id]}
+                            onChecked={() => handleCheckboxChange(estagiario.id, "estagiario")}
+                        />
+                    ))}
+                </section>
+            )}
 
-            {
-                filtro === 'estagiario' && (
-                    <section className="container__pesquisa__gerador">
-
-                        <form action="#" className="filtros">
-                            <div className="filtros__container">
-                                <input
-                                    type="search"
-                                    name="estagiario"
-                                    id="estagiario"
-                                    placeholder="Pesquisa pelo estagiario"
-                                    className="filtros__input"
-                                    value={filtroNomes}
-                                    onChange={e => setFiltroNomes(e.target.value)}
-                                />
-                            </div>
-                        </form>
-                    </section>
-                )
-            }
-
-            {
-                filtro === 'estagiario' && (
-                    <section className="container__servidores">
-                        {
-                            estagiarios.map(estagiario => {
-                                return <CardFuncionarios
-                                    nome={estagiario.nome} 
-                                    id={estagiario.id}
-                                    key={estagiario.id}
-                                    isChecked={!!checkedEstagiarios[estagiario.id]}
-                                    onChecked={() => handleCheckboxChange(estagiario.id, "estagiario")}
-                                />
-                            })
-                        }
-                    </section>
-                )
-            }
-
-            {
-                filtro === 'setor' && (
-                    <section className="container__servidores">
-                        {
-
-                            setores.map(setor => {
-                                return <CardFuncionarios 
-                                    key={setor.id} 
-                                    nome={setor.lotacao}
-                                    id={setor.id}
-                                    quantidadeServidores={setor.quantidade}
-                                    isChecked={!!checkedSetores[setor.id]}
-                                    onChecked={() => handleCheckboxChange(setor.id, "setor")}
-                                />
-                            })
-                        }
-                    </section>
-                )
-            }
+            {filtro === 'setor' && (
+                <section className="container__servidores">
+                    {setoresFiltrados.map(setor => (
+                        <CardFuncionarios 
+                            key={setor.id} 
+                            nome={setor.lotacao}
+                            id={setor.id}
+                            quantidadeServidores={setor.quantidade}
+                            isChecked={!!checkedSetores[setor.id]}
+                            onChecked={() => handleCheckboxChange(setor.id, "setor")}
+                        />
+                    ))}
+                </section>
+            )}
 
             <section className="container__cadastrar__button">
 

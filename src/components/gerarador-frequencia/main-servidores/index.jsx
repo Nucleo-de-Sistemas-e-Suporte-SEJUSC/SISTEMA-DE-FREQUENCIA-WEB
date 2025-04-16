@@ -37,44 +37,38 @@ export function MainServidores() {
         setTodosSetores(setores)
         setSetoresFiltrados(setores)
     }
+    const idServidores = Object.keys(checkedServidores);
 
     async function converteServidoresParaPdfAPI() {
         try {
-            const idServidores = Object.keys(checkedServidores);
+            const idServidores = Object.keys(checkedServidores).filter(id => id !== 'nome');
             setIsLoading(true);
-            console.log("ID Servidores => ", idServidores)
        
-            // Faz a chamada para gerar os PDFs e criar o ZIP
+            // Envia TODOS os IDs selecionados
             const responseGeracao = await api.post(`/servidores/pdf`, {
                 mes: mesEscolhido,
-                funcionarios: idServidores[0]
+                funcionarios: idServidores// Envia array completo
             });
-
     
-            // Verifica se a geração foi bem-sucedida e baixa o ZIP
             if (responseGeracao.status === 200 && responseGeracao.data.zip_path) {
                 const zipPath = responseGeracao.data.zip_path;
-    
-                // Faz uma chamada para baixar o arquivo ZIP
-                await api.get(`/servidores/${checkedServidores.nome}/pdf/download-zip/${mesEscolhido}`, { responseType: 'blob' })
-                    .then(response => {
-                        const blob = new Blob([response.data], { type: 'application/zip' });
-                        const url = window.URL.createObjectURL(blob);
-                        const link = document.createElement('a');
-                        link.href = url;
-                        link.download = `${checkedServidores.nome}_${mesEscolhido}_frequencia_mensal.zip`;
-                        document.body.appendChild(link);
-                        link.click();
-                        document.body.removeChild(link);
-                        window.URL.revokeObjectURL(url);
-                    })
-                    .catch(error => {
-                        console.error('Erro ao baixar o arquivo ZIP:', error);
-                    });
-            } else {
-                console.error("Erro na geração dos documentos:", responseGeracao.data);
+                // Baixa o ZIP com nome genérico (o back-end vai definir)
+                await api.get(`/servidores/pdf/download-zip/${mesEscolhido}`, { 
+                    params: { ids: idServidores.join(',') },
+                    responseType: 'blob' 
+                })
+                .then(response => {
+                    const blob = new Blob([response.data], { type: 'application/zip' });
+                    const url = window.URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.download = `frequencia_mensal_${mesEscolhido}.zip`;
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    window.URL.revokeObjectURL(url);
+                });
             }
-    
         } catch (e) {
             console.error("Error => ", e);
         } finally {
