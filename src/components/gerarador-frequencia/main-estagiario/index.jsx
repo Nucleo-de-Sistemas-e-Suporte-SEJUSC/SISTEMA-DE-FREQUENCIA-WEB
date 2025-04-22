@@ -116,46 +116,67 @@ export function MainEstagiario() {
         setSetoresFiltrados(filtrados)
     }
 
-    const idServidores = Object.keys(checkedEstagiarios);
-
-      async function converteEstagiariosParaPdfAPI() {
-            try {
-                const idServidores = Object.keys(checkedEstagiarios);
-                setIsLoading(true); 
-                
-                // Faz a chamada para gerar os PDFs e criar o ZIP
-                const responseGeracao = await api.post(`/estagiario/pdf`, {
-                    mes: mesEscolhido,
-                    estagiarios: idServidores
-                });
-
-                if (responseGeracao.status === 200 && responseGeracao.data.zip_path) {
-                    const zipPath = responseGeracao.data.zip_path;
-                    // Baixa o ZIP com nome genérico (o back-end vai definir)
-                    await api.get(`/estagiarios/pdf/download-zip/${mes}`, { 
-                        //params: { ids: idServidores.join(',') },
-                        responseType: 'blob' 
-                    })
-                    .then(response => {
-                        const blob = new Blob([response.data], { type: 'application/zip' });
-                        const url = window.URL.createObjectURL(blob);
-                        const link = document.createElement('a');
-                        link.href = url;
-                        link.download = `frequencia_mensal_${mes}.zip`;
-                        document.body.appendChild(link);
-                        link.click();
-                        document.body.removeChild(link);
-                        window.URL.revokeObjectURL(url);
-                    });
-                }
-
-        
-            } catch (e) {
-                console.error("Error => ", e);
-            } finally {
-                setIsLoading(false);
+    async function gerarZipEstagiariosAPI() {
+        setIsLoading(true);
+        try {
+            const idServidores = Object.keys(checkedEstagiarios);
+            const responseGeracao = await api.post("/estagiario/pdf", {
+                mes: mesEscolhido,
+                estagiarios: idServidores
+            });
+            console.log("to aquiiiiii 1")
+            if (responseGeracao.status === 200) {
+                // Não depende mais de zip_path
+                console.log("to aquiiiiii 2")
+                return true;
+            } else {
+                alert("Erro ao gerar o arquivo ZIP.");
+                console.error(error);
+                return false;
             }
+        } catch (e) {
+            alert("Erro inesperado ao gerar o ZIP.");
+            console.error("Error => ", e);
+            return false;
+        } finally {
+            setIsLoading(false);
         }
+    }
+
+    async function baixarZipEstagiariosAPI() {
+        setIsLoading(true);
+        console.log("to aquiiiiii 3")
+        try {
+            const response = await api.get(`/estagiarios/pdf/download-zip/${mesEscolhido}`, {
+                responseType: "blob"
+            });
+            if (response.status === 200) {
+                const blob = new Blob([response.data], { type: "application/zip" });
+                const url = window.URL.createObjectURL(blob);
+                const link = document.createElement("a");
+                link.href = url;
+                link.download = `frequencia_mensal_${mesEscolhido}.zip`;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                window.URL.revokeObjectURL(url);
+            } else {
+                alert("Erro ao baixar o arquivo ZIP.");
+            }
+        } catch (e) {
+            alert("Erro inesperado ao baixar o ZIP.");
+            console.error("Error => ", e);
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
+    async function handleGerarEstagiarios() {
+        const gerado = await gerarZipEstagiariosAPI();
+        if (gerado) {
+            await baixarZipEstagiariosAPI();
+        }
+    }
 
     return (
         <main>
@@ -270,7 +291,7 @@ export function MainEstagiario() {
             <section className="container__cadastrar__button">
 
                 <div className="container__gerar__button">
-                    <button disabled={isLoading} onClick={ () => {  filtro === 'estagiario' &&  converteEstagiariosParaPdfAPI()}} className="button__gerar__servidor">Gerar  { filtro === 'estagiario' ? "estagiários" : "setores" } </button>
+                    <button disabled={isLoading} onClick={ () => {  filtro === 'estagiario' &&  handleGerarEstagiarios()}} className="button__gerar__servidor">Gerar  { filtro === 'estagiario' ? "estagiários" : "setores" } </button>
                     <button>Gerar todos os { filtro === 'estagiario' ? "estagiários" : "setores" } </button>
                 </div>
             </section>
