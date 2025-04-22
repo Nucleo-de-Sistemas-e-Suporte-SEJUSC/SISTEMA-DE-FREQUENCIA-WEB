@@ -63,15 +63,12 @@ export function MainEstagiario() {
         setSetoresFiltrados(filtrados)
     }
 
-
-    console.log(checkedSetores)
     // Manipula seleção de checkboxes
-    const handleCheckboxChange = (id, type, valor) => {
+    const handleCheckboxChange = (id, type) => {
         if (type === "setor") {
             setCheckedSetores(prevState => ({
                 ...prevState,
-                setor: valor,
-                [id]: !prevState[id],
+                [id]: !prevState[id]
             }));
             setCheckedEstagiarios({});
         } else if (type === "estagiario") {
@@ -119,6 +116,8 @@ export function MainEstagiario() {
         setSetoresFiltrados(filtrados)
     }
 
+    const idServidores = Object.keys(checkedEstagiarios);
+
       async function converteEstagiariosParaPdfAPI() {
             try {
                 const idServidores = Object.keys(checkedEstagiarios);
@@ -133,8 +132,8 @@ export function MainEstagiario() {
                 if (responseGeracao.status === 200 && responseGeracao.data.zip_path) {
                     const zipPath = responseGeracao.data.zip_path;
                     // Baixa o ZIP com nome genérico (o back-end vai definir)
-                    await api.get(`/servidores/pdf/download-zip/${mesEscolhido}`, { 
-                        params: { ids: idServidores.join(',') },
+                    await api.get(`/estagiarios/pdf/download-zip/${mes}`, { 
+                        //params: { ids: idServidores.join(',') },
                         responseType: 'blob' 
                     })
                     .then(response => {
@@ -142,7 +141,7 @@ export function MainEstagiario() {
                         const url = window.URL.createObjectURL(blob);
                         const link = document.createElement('a');
                         link.href = url;
-                        link.download = `frequencia_mensal_${mesEscolhido}.zip`;
+                        link.download = `frequencia_mensal_${mes}.zip`;
                         document.body.appendChild(link);
                         link.click();
                         document.body.removeChild(link);
@@ -153,30 +152,6 @@ export function MainEstagiario() {
         
             } catch (e) {
                 console.error("Error => ", e);
-            } finally {
-                setIsLoading(false);
-            }
-        }
-
-    async function converteSetoresParaPdfAPI() {
-            try {
-                // Obtém o setor selecionado (por exemplo, "GTI")
-                const setorSelecionado = Object.keys(checkedSetores);
-                if (!setorSelecionado) {
-                    console.error("Nenhum setor selecionado.");
-                    return;
-                }
-                console.log("setorSelecionado", setorSelecionado)
-                console.log("mesEscolhido", mesEscolhido)
-                setIsLoading(true);
-                // Faz a chamada para gerar os PDFs e criar o ZIP
-                const responseGeracao = await api.post(`/setor/estagiar/pdf`, {
-                    setor: checkedSetores.setor, 
-                    mes: mesEscolhido,
-                });
-    
-            } catch (e) {
-                console.error("Erro ao converter setores para PDF:", e);
             } finally {
                 setIsLoading(false);
             }
@@ -286,7 +261,7 @@ export function MainEstagiario() {
                             id={setor.id}
                             quantidadeServidores={setor.quantidade}
                             isChecked={!!checkedSetores[setor.id]}
-                            onChecked={() => handleCheckboxChange(setor.id, "setor", setor.lotacao)}
+                            onChecked={() => handleCheckboxChange(setor.id, "setor")}
                         />
                     ))}
                 </section>
@@ -295,7 +270,7 @@ export function MainEstagiario() {
             <section className="container__cadastrar__button">
 
                 <div className="container__gerar__button">
-                <button disabled={isLoading} onClick={ () => {  filtro === 'estagiario' ?  converteEstagiariosParaPdfAPI() :  converteSetoresParaPdfAPI() }} className="button__gerar__servidor">Gerar  { filtro === 'servidor' ? "servidores" : "setores" } selecionados </button>
+                    <button disabled={isLoading} onClick={ () => {  filtro === 'estagiario' &&  converteEstagiariosParaPdfAPI()}} className="button__gerar__servidor">Gerar  { filtro === 'estagiario' ? "estagiários" : "setores" } </button>
                     <button>Gerar todos os { filtro === 'estagiario' ? "estagiários" : "setores" } </button>
                 </div>
             </section>
