@@ -24,6 +24,7 @@ export function MainVisualizarServidores() {
     function transformarDados(data, mesFiltro) {
         const resultado = [];
         for (const setorObj of data) {
+         
             for (const [setor, conteudo] of Object.entries(setorObj)) {
                 // Usar mesFiltro em vez de mesSelecionado
                 if (conteudo.servidor && conteudo.servidor[mesFiltro]) {
@@ -38,6 +39,7 @@ export function MainVisualizarServidores() {
                 }
             }
         }
+     
         return resultado;
     }
 
@@ -62,8 +64,9 @@ export function MainVisualizarServidores() {
     });
 
     async function buscarPDF(setor, mes, nome) {
+       
         try {
-          const resposta = await fetch(`http://localhost:3000/api/servidores/pdf/view?setor=${encodeURIComponent(setor)}&mes=${encodeURIComponent(mes)}&nome=${encodeURIComponent(nome)}`);
+          const resposta = await fetch(`http://localhost:3000/api/servidores/pdf/view?setor=${encodeURIComponent(setor)}&mes=${encodeURIComponent(mes)}&nome=${encodeURIComponent(nome)}`); // Adicionei o id aqui
           
           if (!resposta.ok) {
             throw new Error('Arquivo não encontrado ou erro na requisição');
@@ -77,7 +80,6 @@ export function MainVisualizarServidores() {
           alert("Erro ao buscar o PDF. Tente novamente.");
         }
       }
-    
 
     return (
         <section className={styles["container__visualizar"]}>
@@ -105,6 +107,7 @@ export function MainVisualizarServidores() {
 
                 <CardVisualizarServidores>
                     {servidoresFiltradosComBusca.map((servidor, index) => (
+                        
                         <details key={index} className={styles["card__details"]}>
                             <summary className={styles["card__summary"]}>
                                 {servidor.nome}
@@ -114,17 +117,20 @@ export function MainVisualizarServidores() {
                                 {servidor.arquivos.map((arquivo, i) => (
                                     <div key={i}>
                                         <button
-                                            onClick={() => buscarPDF(servidor.setor, servidor.mes, servidor.nome)}
+                                            onClick={() => buscarPDF(servidor.setor, servidor.mes, servidor.nome, servidor.id)}
                                             className={styles["card__link"]}
                                             >
                                             {arquivo}
                                         </button>
                                     </div>
+                                  
                                 ))
                                 }
                             </div>
                         </details>
-                    ))}
+                        
+                    ))
+                    }
                 </CardVisualizarServidores>
             </div>
 
