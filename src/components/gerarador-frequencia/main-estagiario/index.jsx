@@ -107,7 +107,7 @@ export function MainEstagiario() {
 
     function filtrarSetores(termo) {
         if (!termo) {
-            setSetoresFiltrados(setores) // Usa 'setores' em vez de 'todosSetores'
+            setSetoresFiltrados(setores) 
             return
         }
         
@@ -117,44 +117,7 @@ export function MainEstagiario() {
         setSetoresFiltrados(filtrados)
     }
 
-    async function converteEstagiariosParaPdfAPI() {
-            try {
-                const idServidores = Object.keys(checkedEstagiarios);
-                setIsLoading(true); 
-                
-                // Faz a chamada para gerar os PDFs e criar o ZIP
-                const responseGeracao = await api.post(`/estagiario/pdf`, {
-                    mes: mesEscolhido,
-                    estagiarios: idServidores
-                });
-
-                if (responseGeracao.status === 200 && responseGeracao.data.zip_path) {
-                    const zipPath = responseGeracao.data.zip_path;
-                    // Baixa o ZIP com nome genérico (o back-end vai definir)
-                    await api.get(`/estagiarios/pdf/download-zip/${mes}`, { 
-                        //params: { ids: idServidores.join(',') },
-                        responseType: 'blob' 
-                    })
-                    .then(response => {
-                        const blob = new Blob([response.data], { type: 'application/zip' });
-                        const url = window.URL.createObjectURL(blob);
-                        const link = document.createElement('a');
-                        link.href = url;
-                        link.download = `frequencia_mensal_${mes}.zip`;
-                        document.body.appendChild(link);
-                        link.click();
-                        document.body.removeChild(link);
-                        window.URL.revokeObjectURL(url);
-                    });
-                }
-
-        
-            } catch (e) {
-                console.error("Error => ", e);
-            } finally {
-                setIsLoading(false);
-            }
-        }
+   
 
     async function converteSetoresParaPdfAPI() {
             try {
@@ -171,18 +134,136 @@ export function MainEstagiario() {
                     setor: checkedSetores.setor, 
                     mes: mesEscolhido,
                 });
-        
-                // Verifica se a geração foi bem-sucedida e chama a função para baixar o ZIP
-                // if (responseGeracao.status === 200 && responseGeracao.data.zip_path) {
-                //     // Chama a função para baixar o ZIP
-                //     await downloadSetorZip(setorSelecionado[1], mesEscolhido);
-                // } else {
-                //     console.error("Erro na geração dos documentos:", responseGeracao.data);
-                // }
+
             } catch (e) {
                 console.error("Erro ao converter setores para PDF:", e);
             } finally {
                 setIsLoading(false);
+            }
+        }
+
+        async function gerarZipSetoresAPI() {
+            setIsLoading(true);
+            try {
+                // Pegando os setores selecionados (ajuste conforme sua lógica)
+                const setoresSelecionados = Object.keys(checkedSetores);
+                if (!setoresSelecionados || setoresSelecionados.length === 0) {
+                    alert("Nenhum setor selecionado.");
+                    return false;
+                }
+        
+                const responseGeracao = await api.post("/setor/estagiar/pdf", {
+                    setor: setoresSelecionados, // ou ajuste conforme esperado pelo backend
+                    mes: mesEscolhido,
+                });
+        
+                if (responseGeracao.status === 200) {
+                    return true;
+                } else {
+                    alert("Erro ao gerar o arquivo ZIP.");
+                    return false;
+                }
+            } catch (e) {
+                alert("Erro inesperado ao gerar o ZIP.");
+                console.error("Error => ", e);
+                return false;
+            } finally {
+                setIsLoading(false);
+            }
+        }
+
+        async function baixarZipSetoresAPI() {
+            setIsLoading(true);
+            try {
+                const response = await api.get(`/setor/estagiar/pdf/download-zip/${mesEscolhido}`, {
+                    responseType: "blob"
+                });
+                if (response.status === 200) {
+                    const blob = new Blob([response.data], { type: "application/zip" });
+                    const url = window.URL.createObjectURL(blob);
+                    const link = document.createElement("a");
+                    link.href = url;
+                    link.download = `frequencia_setores_${mesEscolhido}.zip`;
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    window.URL.revokeObjectURL(url);
+                } else {
+                    alert("Erro ao baixar o arquivo ZIP.");
+                }
+            } catch (e) {
+                alert("Erro inesperado ao baixar o ZIP.");
+                console.error("Error => ", e);
+            } finally {
+                setIsLoading(false);
+            }
+        }
+
+        async function handleGerarSetores() {
+            const gerado = await gerarZipSetoresAPI();
+            if (gerado) {
+                await baixarZipSetoresAPI();
+            }
+        }
+        
+        async function gerarZipEstagiariosAPI() {
+            setIsLoading(true);
+            try {
+                const idServidores = Object.keys(checkedEstagiarios);
+                const responseGeracao = await api.post("/estagiario/pdf", {
+                    mes: mesEscolhido,
+                    estagiarios: idServidores
+                });
+                if (responseGeracao.status === 200) {
+                    // Não depende mais de zip_path
+                    console.log("to aquiiiiii 2")
+                    return true;
+                } else {
+                    alert("Erro ao gerar o arquivo ZIP.");
+                    console.error(error);
+                    return false;
+                }
+            } catch (e) {
+                alert("Erro inesperado ao gerar o ZIP.");
+                console.error("Error => ", e);
+                return false;
+            } finally {
+                setIsLoading(false);
+            }
+        }
+    
+        async function baixarZipEstagiariosAPI() {
+            setIsLoading(true);
+
+            try {
+                const response = await api.get(`/estagiarios/pdf/download-zip/${mesEscolhido}`, {
+                    responseType: "blob"
+                });
+                if (response.status === 200) {
+                    const blob = new Blob([response.data], { type: "application/zip" });
+                    const url = window.URL.createObjectURL(blob);
+                    const link = document.createElement("a");
+                    link.href = url;
+                    link.download = `frequencia_mensal_${mesEscolhido}.zip`;
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    window.URL.revokeObjectURL(url);
+                } else {
+                    alert("Erro ao baixar o arquivo ZIP.");
+                }
+            } catch (e) {
+                alert("Erro inesperado ao baixar o ZIP.");
+                console.error("Error => ", e);
+            } finally {
+                setIsLoading(false);
+            }
+        }
+    
+        async function handleGerarEstagiarios() {
+            const gerado = await gerarZipEstagiariosAPI();
+            if (gerado) {
+                await baixarZipEstagiariosAPI();
             }
         }
 
@@ -299,7 +380,7 @@ export function MainEstagiario() {
             <section className="container__cadastrar__button">
 
                 <div className="container__gerar__button">
-                <button disabled={isLoading} onClick={ () => {  filtro === 'estagiario' ?  converteEstagiariosParaPdfAPI() :  converteSetoresParaPdfAPI() }} className="button__gerar__servidor">Gerar  selecionados </button>
+                <button disabled={isLoading} onClick={ () => {  filtro === 'estagiario' ?  handleGerarEstagiarios() :  handleGerarSetores() }} className="button__gerar__servidor">Gerar  selecionados </button>
                     <button>Gerar todos os { filtro === 'estagiario' ? "estagiários" : "setores" } </button>
                 </div>
             </section>

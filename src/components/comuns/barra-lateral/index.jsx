@@ -56,7 +56,7 @@ export function BarraLateral(props) {
                         </div>
                     </NavLink>
                    
-                    <NavLink to="/frequencia/mensal" className={({isActive}) =>
+                    {/* <NavLink to="/frequencia/mensal" className={({isActive}) =>
                         isActive ? styles["container__buttons__menu--hamburger"] : styles["container__buttons__menu--hamburger--nao-ativo"]
                     }>
                         <div>
@@ -66,7 +66,7 @@ export function BarraLateral(props) {
                             }
                         
                         </div>
-                    </NavLink>
+                    </NavLink> */}
                    
                     <NavLink to="/historico-alteracao" className={({isActive}) =>
                         isActive ? styles["container__buttons__menu--hamburger"] : styles["container__buttons__menu--hamburger--nao-ativo"]
