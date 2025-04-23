@@ -37,7 +37,6 @@ export function MainServidores() {
         setTodosSetores(setores)
         setSetoresFiltrados(setores)
     }
-    const idServidores = Object.keys(checkedServidores);
 
     async function converteServidoresParaPdfAPI() {
         try {
@@ -328,7 +327,7 @@ export function MainServidores() {
             
 
                 <div className="container__gerar__button">
-                    <button disabled={isLoading} onClick={ () => {  filtro === 'servidor' ?  converteServidoresParaPdfAPI() :  converteSetoresParaPdfAPI() }} className="button__gerar__servidor">Gerar  { filtro === 'servidor' ? "servidores" : "setores" } selecionados </button>
+                    <button disabled={isLoading} onClick={ () => {  filtro === 'servidor' ?  converteServidoresParaPdfAPI() :  converteSetoresParaPdfAPI() }} className="button__gerar__servidor">Gerar selecionados </button>
                     <button>Gerar todos os { filtro === 'servidor' ? "servidores" : "setores" } </button>
                 </div>
             </section>
