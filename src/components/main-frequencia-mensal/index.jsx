@@ -31,6 +31,7 @@ export function MainFrequenciaMensal(props) {
                     <CardBuscaServidores 
                         meses={meses} 
                         mes={mes}
+                        funcionarios={[]}
                     />
 
                     <CardVisualizarServidores>
@@ -39,7 +40,7 @@ export function MainFrequenciaMensal(props) {
                             <p>Frequencia Mensal Postada : xx/xx/xx</p>
 
                             <div className={styles["card__details__container__button"]}>
-                                <button className={`${styles["card__details__historico__button"]} ${styles["card__details__button"]} `}>Cancelar</button>
+                                <button className={`${styles["card__details__historico__button"]} ${styles["card__details__button"]} ${styles["card__details__button__cancelar"]} `}>Visualizar</button>
                             </div>
                         </details>
 
@@ -48,7 +49,7 @@ export function MainFrequenciaMensal(props) {
                             <p>Frequencia Mensal desse Mês em Falta / data limite: xx/xx/xx</p>
 
                             <div className={styles["card__details__container__button"]}>
-                                <button className={`${styles["card__details__historico__button"]} ${styles["card__details__button"]} `}>Anexar</button>
+                                <button className={`${styles["card__details__historico__button"]} ${styles["card__details__button"]} ${styles["card__details__button__pendente"]}`}>Visualizar</button>
                             </div>
                         </details>
 
@@ -57,7 +58,7 @@ export function MainFrequenciaMensal(props) {
                             <p>Frequencia Mensal de outro mês em falta </p>
 
                             <div className={styles["card__details__container__button"]}>
-                                <button className={`${styles["card__details__historico__button"]} ${styles["card__details__button"]} `}>Anexar</button>
+                                <button className={`${styles["card__details__historico__button"]} ${styles["card__details__button"]} ${styles["card__details__button__nao-enviado-vencido"]} `} >Visualizar</button>
                             </div>
                         </details>
 
@@ -66,7 +67,7 @@ export function MainFrequenciaMensal(props) {
                             <p>Frequencia Mensal data limite: xx/xx/xx</p>
 
                             <div className={styles["card__details__container__button"]}>
-                                <button className={`${styles["card__details__historico__button"]} ${styles["card__details__button"]} `}>Anexar</button>
+                                <button className={`${styles["card__details__historico__button"]} ${styles["card__details__button"]} ${styles["card__details__button__anexo"]} ${styles["card__details__button__nao-enviado"]}  `}>Visualizar</button>
                             </div>
                         </details>
                     </CardVisualizarServidores>

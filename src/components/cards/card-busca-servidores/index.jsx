@@ -1,51 +1,43 @@
+
 import styles from "./style.module.css"
 
 export function CardBuscaServidores(props) {
-    const { meses, mes, possuiSelecaoDoMes = true } = props
+    const { meses, mes, funcionarios, onMesChange, possuiSelecaoDoMes } = props;
 
     return (
         <div className={styles["container__visualizar__funcionarios"]}>
+            {/* Lista de funcionários */}
             <div className={styles["card__container__details"]}>
-                <details className={styles["card__details"]}>
-                    <summary className={styles["card__summary"]}>MARCOS LUIZ PEREIRA DOS SANTOS</summary>
-                    <p>GTI</p>
-                </details>
-                <details className={styles["card__details"]}>
-                    <summary className={styles["card__summary"]}>MARCOS LUIZ PEREIRA DOS SANTOS</summary>
-                    <p>GTI</p>
-                </details>
-                <details className={styles["card__details"]}>
-                    <summary className={styles["card__summary"]}>MARCOS LUIZ PEREIRA DOS SANTOS</summary>
-                    <p>GTI</p>
-                </details>
-                <details className={styles["card__details"]}>
-                    <summary className={styles["card__summary"]}>MARCOS LUIZ PEREIRA DOS SANTOS</summary>
-                    <p>GTI</p>
-                </details>
-                <details className={styles["card__details"]}>
-                    <summary className={styles["card__summary"]}>MARCOS LUIZ PEREIRA DOS SANTOS</summary>
-                    <p>GTI</p>
-                </details>
-                <details className={styles["card__details"]}>
-                    <summary className={styles["card__summary"]}>MARCOS LUIZ PEREIRA DOS SANTOS</summary>
-                    <p>GTI</p>
-                </details>
+                {funcionarios.map((funcionario, index) => (
+                    <details key={index} className={styles["card__details"]}>
+                        <summary className={styles["card__summary"]}>
+                            {funcionario.nome}
+                        </summary>
+                        <p>{funcionario.setor}</p>
+                    </details>
+                ))}
             </div>
 
-            { possuiSelecaoDoMes && (
-                    <div className={styles["form__filtro__select__container--visualizar"]}>
-                    <label htmlFor="selecione">Selecione o mês:</label>
-                    <select name="meses" id="meses" className="form__filtro__select form__siltro__select--visualizar" defaultValue={mes}>
-                        { meses.map((mes, index) => {
-                            return <option key={index} value={mes}>{mes}</option>
-                        }) }
-                    </select>
-                </div>
-            ) }
+            {/* Selector de Mês */}
 
-            <div className={styles["container__button__form--visualizar"]}>
-                <button>Ir</button>
-            </div>  
+            {
+                possuiSelecaoDoMes && (
+                    <div className={styles["form__filtro__select__container"]}>
+                        <label htmlFor="meses">Selecione o mês:</label>
+                        <select 
+                            name="meses" 
+                            id="meses" 
+                            className="form__filtro__select form__siltro__select--visualizar"
+                            value={mes} // Controlado pelo estado mesSelecionado
+                            onChange={(e) => onMesChange(e.target.value)}
+                        >
+                            {meses.map((mesOption, index) => (
+                                <option key={index} value={mesOption}>{mesOption}</option>
+                            ))}
+                        </select>
+                    </div>
+                )
+            } 
         </div>
-    )
+    );
 }

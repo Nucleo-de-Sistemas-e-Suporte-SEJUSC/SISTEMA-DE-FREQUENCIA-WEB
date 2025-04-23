@@ -1,73 +1,181 @@
 import { Link } from "react-router-dom";
 import { meses } from "../../../utils/meses";
-import { CardBuscaServidores } from "../../cards/card-busca-servidores"
+import { CardBuscaServidores } from "../../cards/card-busca-servidores";
 import { CardVisualizarServidores } from "../../cards/card-visualizar-servidores";
-import  styles from "./style.module.css";
+import styles from "./style.module.css";
+import { api } from "../../../api/axios";
+import { useEffect, useState } from "react";
 
 export function MainVisualizarEstagiarios() {
-    const data = new Date()
-    const mesAtual = data.getMonth()
-    const mes = meses[mesAtual]
+        const data = new Date();
+        const mesAtual = data.getMonth();
+        const [loading, setLoading] = useState(false);
+        const [error, setError] = useState(false);
+        const [estagiarios, setEstagiarios] = useState([]);
+        const [estagiariosFiltrados, setEstagiariosFiltrados] = useState([]);
+        const [mesSelecionado, setMesSelecionado] = useState(meses[mesAtual]);
+        const [termoBusca, setTermoBusca] = useState("");
+        const [setorSelecionado, setSetorSelecionado] = useState("GTI"); // Valor padrão
+
+        async function listaEstagiariosPDF() {
+                setLoading(true);
+                setError(null);
+                try {
+                    const dados = await api.get("/estagiarios/pdfs");
+                    
+                    const { estagiarios_pdf: estagiariosPDF } = dados.data;
+                    
+                    // Filtra apenas os setores que têm estagiários
+                    const setoresComEstagiarios = estagiariosPDF.map(item => {
+                        const filteredItem = {};
+                        for (const [setor, conteudo] of Object.entries(item)) {
+                            if (conteudo.estagiario) {
+                                filteredItem[setor] = conteudo;
+                            }
+                        }
+                        return filteredItem;
+                    });
+                    
+                    
+                    setEstagiarios(setoresComEstagiarios);
+                    const filtro = filtrarEstagiarios(setoresComEstagiarios, mesSelecionado, setorSelecionado);
+                } catch (error) {
+                    setError("Erro ao carregar dados dos estagiários");
+                } finally {
+                    setLoading(false);
+                }
+            }
+
+
+        function transformarDados(data, mesFiltro, setorFiltro) {
+                const resultado = [];
+                
+                if (!Array.isArray(data)) {
+                
+                return resultado;
+                }
+        
+                for (const item of data) {
+                if (!item || typeof item !== 'object') continue;
+        
+                for (const [setor, conteudo] of Object.entries(item)) {
+                        // Verifica se é o setor desejado E tem a chave "estagiario" (não "servidor")
+                        // if (setor === setorFiltro && conteudo?.estagiario?.[mesFiltro]) {
+                        for (const [nomeEstagiario, dadosEstagiario] of Object.entries(conteudo.estagiario[mesFiltro])) {
+                                resultado.push({
+                                        nome: nomeEstagiario,
+                                        setor: setor,
+                                        arquivos: dadosEstagiario.arquivos || [],
+                                        mes: mesFiltro
+                                });
+                        }
+                        // }
+                }
+                }
+
+                return resultado;
+        }
+
+        function filtrarEstagiarios(data, mes, setor) {
+                const estagiariosTransformados = transformarDados(data, mes, setor);
+                setEstagiariosFiltrados(estagiariosTransformados);
+                setMesSelecionado(mes);
+                setSetorSelecionado(setor);
+        }
+
+        // Busca dados apenas uma vez (no mount)
+        useEffect(() => {
+                listaEstagiariosPDF();
+        }, []);
+
+        // Filtra estagiários pelo termo de busca
+        const estagiariosFiltradosComBusca = estagiariosFiltrados.filter(estagiario => {
+                const termo = termoBusca.toLowerCase();
+                return (
+                estagiario.nome.toLowerCase().includes(termo) ||
+                estagiario.setor.toLowerCase().includes(termo)
+                )
+        });
+
+
+    async function buscarPDF(setor, mes, nome) {
+        try {
+            // Remove espaços e formata o nome para corresponder ao nome do arquivo
+            const resposta = await fetch(`http://localhost:3000/api/estagiarios/pdf/view?setor=${encodeURIComponent(setor)}&mes=${encodeURIComponent(mes)}&nome=${encodeURIComponent(nome)}`);
+            
+            if (!resposta.ok) {
+                throw new Error('Arquivo não encontrado ou erro na requisição');
+            }
+        
+            const blob = await resposta.blob();
+            const url = window.URL.createObjectURL(blob); 
+            window.open(url, "_blank");
+        } catch (erro) {
+
+            alert("Erro ao buscar o PDF. Tente novamente.");
+        }
+    }
 
     return (
         <section className={styles["container__visualizar"]}>
-
-            <form action="#" className={styles["form__visualizar"]}>
+            <form className={styles["form__visualizar"]}>
                 <div className={styles["form__visualizar__container"]}>
                     <input
                         type="text"
-                        name="pesquisa"
-                        id="pesquisa"
                         placeholder="Pesquisa pelo estagiário ou setor"
                         className={styles["form__visualizar__input"]}
+                        value={termoBusca}
+                        onChange={(e) => setTermoBusca(e.target.value)}
                     />
                 </div>
-
-                <p>Estagiários - Setor: GTI / Mês: Fevereiro </p>
+                <p>Estagiários - Setor: {setorSelecionado} / Mês: {mesSelecionado}</p>
             </form>
 
             <div className={styles["container__visualizar__content"]}>
-               <CardBuscaServidores meses={meses} mes={mes}/>
+                <CardBuscaServidores 
+                    meses={meses} 
+                    mes={mesSelecionado}
+                    visualizar="visualizar"
+                    funcionarios={estagiariosFiltrados}
+                    onMesChange={(novoMes) => filtrarEstagiarios(estagiarios, novoMes, setorSelecionado)}
+                    onSetorChange={(novoSetor) => filtrarEstagiarios(estagiarios, mesSelecionado, novoSetor)}
+                />
 
-               <CardVisualizarServidores>
-                    <details className={styles["card__details"]}>
-                            <summary className={styles["card__summary"]}>Lucas</summary>
-                            <p>GTI</p>
-                    </details>
-                    <details className={styles["card__details"]}>
-                            <summary className={styles["card__summary"]}>Lucas</summary>
-                            <p>GTI</p>
-                    </details>
-                    <details className={styles["card__details"]}>
-                            <summary className={styles["card__summary"]}>Lucas</summary>
-                            <p>GTI</p>
-                    </details>
-                    <details className={styles["card__details"]}>
-                            <summary className={styles["card__summary"]}>Lucas</summary>
-                            <p>GTI</p>
-                    </details>
-                    <details className={styles["card__details"]}>
-                            <summary className={styles["card__summary"]}>Lucas</summary>
-                            <p>GTI</p>
-                    </details>
-                    <details className={styles["card__details"]}>
-                            <summary className={styles["card__summary"]}>Lucas</summary>
-                            <p>GTI</p>
-                    </details>
-                    <details className={styles["card__details"]}>
-                            <summary className={styles["card__summary"]}>Lucas</summary>
-                            <p>GTI</p>
-                    </details>
-                    <details className={styles["card__details"]}>
-                            <summary className={styles["card__summary"]}>Lucas</summary>
-                            <p>GTI</p>
-                    </details>
-               </CardVisualizarServidores>
+                <CardVisualizarServidores>
+                    {estagiariosFiltradosComBusca.length > 0 ? (
+                        estagiariosFiltradosComBusca.map((estagiario, index) => (
+                            <details key={index} className={styles["card__details"]}>
+                                <summary className={styles["card__summary"]}>
+                                    {estagiario.nome}
+                                </summary>
+                                <p>{estagiario.setor}</p>
+                                <div className={styles["card__content"]}>
+                                    {estagiario.arquivos.map((arquivo, i) => (
+                                        <div key={i}>
+                                            <button
+                                                onClick={() => buscarPDF(estagiario.setor, estagiario.mes, estagiario.nome)}
+                                                className={styles["card__link"]}
+                                            >
+                                                {arquivo}
+                                            </button>
+                                        </div>
+                                    ))}
+                                </div>
+                            </details>
+                        ))
+                    ) : (
+                        <p>Nenhum estagiário encontrado</p>
+                    )}
+                </CardVisualizarServidores>
             </div>
 
             <div className={styles["container__buttons--visualizar"]}>
-                <button className={styles["container__buttons--visualizar-button"]}>Mesclar Arquivos</button>
-                <button className={styles["container__buttons--visualizar-button"]}>Visualizar Arquivos</button>
+                <button className={styles["container__buttons--visualizar-button"]}>
+                    Mesclar Arquivos
+                </button>
+                <button className={styles["container__buttons--visualizar-button"]}>
+                    Visualizar Arquivos
+                </button>
             </div>
         </section>
     );

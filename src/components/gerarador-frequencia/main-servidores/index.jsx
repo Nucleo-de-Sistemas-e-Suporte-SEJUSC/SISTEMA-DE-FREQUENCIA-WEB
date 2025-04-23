@@ -1,33 +1,179 @@
 import "./style.css"
-import { useState } from "react";
-import * as Dialog from "@radix-ui/react-dialog";
+import { useEffect, useState } from "react";
 import { meses } from "../../../utils/meses";
-import { testeServidores, testeSetor } from "../../../utils/teste";
-import { FormCadastrarSetor } from "../../formularios/form-cadastrar-setor";
-import { FormCadastrarFuncionarios } from "../../formularios/form-cadastrar-funcionarios";
 import { CardFuncionarios } from "../../cards/card-funcionarios";
-import IconeLapis from "../../../assets/lapis.svg"
+import { api } from "../../../api/axios";
 
 export function MainServidores() {
-    const [filtro, setFiltro] = useState("setor")
-    const [checkedSetores, setCheckedSetores] = useState({});
-    const [checkedServidores, setCheckedServidores] = useState({});
-
     const data = new Date()
     const mesAtual = data.getMonth()
     const mes = meses[mesAtual]
 
-    const handleCheckboxChange = (id, type) => {
+    const [isLoading, setIsLoading] = useState(false)
+    const [filtro, setFiltro] = useState("setor")
+    const [servidores, setServidores] = useState([])
+    const [todosSetores, setTodosSetores] = useState([]) 
+    const [mensagemServidores, setMensagemServidores] = useState("")
+    const [setoresFiltrados, setSetoresFiltrados] = useState([]) 
+    const [checkedSetores, setCheckedSetores] = useState({})
+    const [checkedServidores, setCheckedServidores] = useState({})
+    const [mesEscolhido, setMesEscolhido] = useState(mes)
+    const [filtroNomes, setFiltroNomes] = useState("")
+    const [filtroSetor, setFiltroSetor] = useState("")
+
+    async function pegaServidoresAPI() {
+        const resposta = await api.get(`/servidores`, {
+            params: {
+                nome: filtroNomes
+            }
+        })
+        const { servidores } = await resposta.data
+        setServidores(servidores)
+    }
+
+    async function pegaSetoresAPI() {
+        const resposta = await api.get('/buscar_setor')
+        const { setores } = await resposta.data
+        setTodosSetores(setores)
+        setSetoresFiltrados(setores)
+    }
+
+    async function converteServidoresParaPdfAPI() {
+        try {
+            const idServidores = Object.keys(checkedServidores).filter(id => id !== 'nome');
+            setIsLoading(true);
+       
+            // Envia TODOS os IDs selecionados
+            const responseGeracao = await api.post(`/servidores/pdf`, {
+                mes: mesEscolhido,
+                funcionarios: idServidores// Envia array completo
+            });
+    
+            if (responseGeracao.status === 200 && responseGeracao.data.zip_path) {
+                const zipPath = responseGeracao.data.zip_path;
+                // Baixa o ZIP com nome genérico (o back-end vai definir)
+                await api.get(`/servidores/pdf/download-zip/${mesEscolhido}`, { 
+                    params: { ids: idServidores.join(',') },
+                    responseType: 'blob' 
+                })
+                .then(response => {
+                    const blob = new Blob([response.data], { type: 'application/zip' });
+                    const url = window.URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.download = `frequencia_mensal_${mesEscolhido}.zip`;
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    window.URL.revokeObjectURL(url);
+                });
+            }
+        } catch (e) {
+            console.error("Error => ", e);
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
+    async function converteSetoresParaPdfAPI() {
+        try {
+            // Obtém o setor selecionado (por exemplo, "GTI")
+            const setorSelecionado = Object.keys(checkedSetores);
+            if (!setorSelecionado) {
+                console.error("Nenhum setor selecionado.");
+                return;
+            }
+    
+            setIsLoading(true);
+            // Faz a chamada para gerar os PDFs e criar o ZIP
+            const responseGeracao = await api.post(`/setores/pdf`, {
+                setor: setorSelecionado[1], 
+                mes: mesEscolhido,
+            });
+    
+            // Verifica se a geração foi bem-sucedida e chama a função para baixar o ZIP
+            if (responseGeracao.status === 200 && responseGeracao.data.zip_path) {
+                // Chama a função para baixar o ZIP
+                await downloadSetorZip(setorSelecionado[1], mesEscolhido);
+            } else {
+                console.error("Erro na geração dos documentos:", responseGeracao.data);
+            }
+        } catch (e) {
+            console.error("Erro ao converter setores para PDF:", e);
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
+    async function downloadSetorZip(setor, mesEscolhido) {
+        try {
+            setIsLoading(true);
+    
+            // Faz uma chamada para baixar o arquivo ZIP
+            await api.get(`/setores/pdf/download-zip/${setor}/${mesEscolhido}`, { responseType: 'blob' })
+                .then(response => {
+                    const blob = new Blob([response.data], { type: 'application/zip' });
+                    const url = window.URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.download = `frequencia_mensal_${setor}_${mesEscolhido}.zip`;
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    window.URL.revokeObjectURL(url);
+                })
+                .catch(error => {
+                    console.error('Erro ao baixar o arquivo ZIP:', error);
+                });
+        } catch (e) {
+            console.error("Erro ao baixar ZIP:", e);
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
+    async function arquivarServidorAPI(idServidor) {
+        try {
+            setIsLoading(true)
+            const resposta = await api.patch(`/servidores/${idServidor}/arquivar`)
+            const { mensagem, servidor_arquivado: servidorArquivado } = await resposta.data
+            
+            return {
+                mensagem,
+                servidorArquivado
+            }
+        } catch(e) {
+            console.error("Error => ", e)
+        } finally {
+            setIsLoading(false)
+        }
+    }
+
+
+    useEffect(() => {
+        pegaServidoresAPI()
+    }, [filtroNomes])
+
+
+    useEffect(() => {
+        pegaSetoresAPI()
+    }, [])
+
+    const handleCheckboxChange = (id, type, valor) => {
         if (type === "setor") {
             setCheckedSetores(prevState => ({
                 ...prevState,
+                [valor]: !prevState[valor],
                 [id]: !prevState[id]
+                
             }));
             setCheckedServidores({});
         } else if (type === "servidor") {
+         
             setCheckedServidores(prevState => ({
                 ...prevState,
-                [id]: !prevState[id]
+                nome: valor,
+                [id]: !prevState[id],
             }));
             setCheckedSetores({});
         }
@@ -37,15 +183,29 @@ export function MainServidores() {
         setFiltro(event.target.value)
     }
 
-    function filtraSetores(setor) {
-        const filtraSetor = testeServidores.filter(servidor => servidor.setor === setor)
-        return filtraSetor.length
+    function handleMesEscolhido(event) {
+        setMesEscolhido(event.target.value)
     }
+
+    function filtrarSetores(termo) {
+        if (!termo) {
+            setSetoresFiltrados(todosSetores) 
+            return
+        }
+        
+        const filtrados = todosSetores.filter(setor => 
+            setor.setor.toLowerCase().includes(termo.toLowerCase())
+        )
+        setSetoresFiltrados(filtrados)
+    }
+
 
     return (
         <main>
             <form action="#" className="form__filtro">
-                <label htmlFor="selecione">Selecione o mês: </label>
+                <div>
+                <label htmlFor="selecione" className="form__filtro__label">Selecione o mês: </label>
+                </div>
 
                 <div className="form__inputs__container">
                     <div>
@@ -57,7 +217,7 @@ export function MainServidores() {
                             checked={filtro === "setor"}
                             onChange={handleFiltro}
                         />
-                        <label htmlFor="fitro" className="form__filtro__label">Setor</label>
+                        <label htmlFor="fitro" className="form__filtro__label">Setores</label>
                     </div>
 
                     <div>
@@ -69,59 +229,43 @@ export function MainServidores() {
                             checked={filtro === "servidor"}
                             onChange={handleFiltro}
                         />
-                        <label htmlFor="fitro" className="form__filtro__label">Servidor</label>
+                        <label htmlFor="fitro" className="form__filtro__label">Servidores</label>
                     </div>
 
                     <div className="form__filtro__select__container">
-                        <select name="meses" id="meses" className="form__filtro__select" defaultValue={mes}>
+                        <select name="meses" id="meses" className="form__filtro__select" defaultValue={mes} onChange={handleMesEscolhido}>
                             { meses.map((mes, index) => {
-                                return <option key={index} value={mes}>{mes}</option>
+                                return <option key={index} value={mes} >{mes}</option>
                             }) }
                         </select>
                     </div>
                 </div>
             </form>
 
-            {
-                filtro === "setor" && (
-                    <section className="container__pesquisa__gerador">
-                        <div className="modal">
-                            <Dialog.Root>
-                                <Dialog.Trigger className="botao__modal">
-                                    <img src={IconeLapis} alt="" />
-                                    <p>Cadastrar setor</p>
-                                </Dialog.Trigger>
-                                <FormCadastrarSetor />
-                            </Dialog.Root>
+            {filtro === "setor" && (
+                <section className="container__pesquisa__gerador">
+                    <form action="#" className="filtros">
+                        <div className="filtros__container">
+                            <input
+                                type="text"
+                                name="setor"
+                                id="setor"
+                                placeholder="Pesquisa pelo setor"
+                                className="filtros__input"
+                                value={filtroSetor}
+                                onChange={(e) => {
+                                    setFiltroSetor(e.target.value)
+                                    filtrarSetores(e.target.value)
+                                }}
+                            />
                         </div>
-
-                        <form action="#" className="filtros">
-                                    <div className="filtros__container">
-                                        <input
-                                            type="text"
-                                            name="setor"
-                                            id="setor"
-                                            placeholder="Pesquisa pelo setor"
-                                            className="filtros__input"
-                                        />
-                                    </div>
-                        </form>
-                    </section>
-                )
-            }
+                    </form>
+                </section>
+            )}
 
             {
                 filtro === 'servidor' && (
                     <section className="container__pesquisa__gerador">
-                        <div className="modal">
-                            <Dialog.Root>
-                                <Dialog.Trigger className="botao__modal">
-                                    <img src={IconeLapis} alt="" />
-                                    <p>Cadastrar servidor</p>
-                                </Dialog.Trigger>
-                                <FormCadastrarFuncionarios />
-                            </Dialog.Root>
-                        </div>
 
                         <form action="#" className="filtros">
                             <div className="filtros__container">
@@ -131,6 +275,8 @@ export function MainServidores() {
                                     id="servidor"
                                     placeholder="Pesquisa pelo servidor"
                                     className="filtros__input"
+                                    value={filtroNomes}
+                                    onChange={e => setFiltroNomes(e.target.value)}
                                 />
                             </div>
                         </form>
@@ -141,16 +287,21 @@ export function MainServidores() {
             {
                 filtro === 'servidor' && (
                     <section className="container__servidores">
-                        {
-                            testeServidores.map(servidor => {
-                                return <CardFuncionarios
-                                    key={servidor.id}
-                                    nome={servidor.nome} 
-                                    id={servidor.id}
-                                    isChecked={!!checkedServidores[servidor.id]}
-                                    onChecked={() => handleCheckboxChange(servidor.id, "servidor")}
-                                />
-                            })
+                        {   
+
+                            servidores.map(servidor => {
+                                    return <CardFuncionarios
+                                        key={servidor.id}
+                                        nome={servidor.nome.toUpperCase()} 
+                                        id={servidor.id}
+                                        isChecked={!!checkedServidores[servidor.id]}
+                                        onChecked={() => handleCheckboxChange(servidor.id, "servidor", servidor.nome)}
+                                        onArquivaServidor={() => arquivarServidorAPI(servidor.id)}
+                                        mensagem={mensagemServidores}
+                                    />
+                                })
+
+
                         }
                     </section>
                 )
@@ -159,28 +310,24 @@ export function MainServidores() {
             {
                 filtro === 'setor' && (
                     <section className="container__servidores">
-                        {
-
-                            testeSetor.map(setor => {
-                                const quantidadeDeServidoresNoSetor = filtraSetores(setor.nome)
-                                return <CardFuncionarios 
-                                    key={setor.id} 
-                                    nome={setor.nome}
-                                    id={setor.id}
-                                    quantidadeServidores={quantidadeDeServidoresNoSetor}
-                                    isChecked={!!checkedSetores[setor.id]}
-                                    onChecked={() => handleCheckboxChange(setor.id, "setor")}
-                                />
-                            })
-                        }
+                        {setoresFiltrados.map(setor => (
+                            <CardFuncionarios 
+                                key={setor.id} 
+                                nome={setor.setor}
+                                id={setor.setor} 
+                                quantidadeServidores={setor.quantidade}
+                                isChecked={!!checkedSetores[setor.setor]}
+                                onChecked={() => handleCheckboxChange(setor.setor, "setor")}
+                            />
+                        ))}
                     </section>
-                )
-            }
+            )}
 
             <section className="container__cadastrar__button">
+            
 
                 <div className="container__gerar__button">
-                    <button>Gerar  { filtro === 'servidor' ? "servidores" : "setores" } </button>
+                    <button disabled={isLoading} onClick={ () => {  filtro === 'servidor' ?  converteServidoresParaPdfAPI() :  converteSetoresParaPdfAPI() }} className="button__gerar__servidor">Gerar selecionados </button>
                     <button>Gerar todos os { filtro === 'servidor' ? "servidores" : "setores" } </button>
                 </div>
             </section>

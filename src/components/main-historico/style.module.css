@@ -134,3 +134,7 @@
     color: #fff;
     background-color: var(--lilas);
 }
+
+.summary {
+    list-style: none;
+}

@@ -1,0 +1,36 @@
+.navigation__list__buttons {
+    width: 40%;
+}
+
+.navigation__container--button {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-left: 20px ;
+}
+
+.container__input--ativo {
+    background-color: var(--lilas);
+    color: var(--branco);
+    font-size: 21px;
+    width: 50%;
+    text-align: center;
+    border-radius: 10px;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.container__input--nao-ativo {
+    color: var(--lilas);
+    background-color: var(--branco);
+    font-size: 21px;
+    width: 50%;
+    text-align: center;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.ativo-input {
+    width: 50%;
+    display: none;
+}

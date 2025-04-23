@@ -1,10 +1,41 @@
 import styles from "./style.module.css"
 import { toast } from "sonner"
 import Checked from "../../../assets/checked.svg"
+import { api } from "../../../api/axios"
+import { useState } from "react"
 
 export function CardFuncionarios(props) {
+    const [isLoading, setIsLoading] = useState(false)
+    const { nome, quantidadeServidores, isChecked, onChecked, id, onArquivaServidor  } = props
     
-    const { nome, quantidadeServidores, isChecked, onChecked, id  } = props
+    async function arquivaServidor() {
+        try {
+            setIsLoading(true)
+            const usuario = JSON.parse(localStorage.getItem("usuario"))
+            const  { mensagem, servidorArquivado }  = await onArquivaServidor()
+        
+            toast.success(mensagem, {
+                duration: 4000,
+                icon: false
+            })  
+            
+            await historicoLogsArquivar(usuario, servidorArquivado.nome, servidorArquivado.setor)
+            window.location.reload()
+        } catch(error) {
+            console.error(error)
+        } finally {
+            setIsLoading(false)
+
+        }
+    }
+
+    async function historicoLogsArquivar(usuario, nomeServidor, setorServidor) {
+        const dados = await api.post("/historico-logs", {
+            nome: usuario.nome,
+            acao: "Arquivar",  
+            mensagem: `O usuario de nome ${usuario.nome} arquivou o servidor(a) ${nomeServidor} do setor ${setorServidor}`,
+        })
+    }
 
     return (
         <section className={styles["card__servidores"]}>
@@ -16,18 +47,8 @@ export function CardFuncionarios(props) {
                 <div className={styles["card__details__container__button"]}>
                     <button className={`${styles["card__details__historico__button"]} ${styles["card__details__button"]} `}>Histórico</button>
                     <button className={`${styles["card__details__atualizar__button"]} ${styles["card__details__button"]} `}>Atualizar</button>
-                    <button className={`${styles["card__details__arquivar__button"]} ${styles["card__details__button"]} `} onClick={() => {
-                         toast.error("Arquivar Servidor", {
-                            description: "Esta ação moverá o Servidor para os Arquivados",
-                            duration: 15000,
-                            cancel: {
-                                label: "X"
-                            },
-                            action: {
-                                label: "Arquivar"
-                            }
-                        })
-                    }}>Arquivar</button>
+                    <button className={`${styles["card__details__arquivar__button"]} ${styles["card__details__button"]} `} onClick={arquivaServidor}
+                         >Arquivar</button>
                 </div>
             </details>
 

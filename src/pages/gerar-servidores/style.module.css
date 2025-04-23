@@ -16,3 +16,10 @@
 .seta {
     width: 20px;
 }
+
+@media (max-width:1024px) {
+
+    .container__conteudo-principal {
+        overflow: scroll;
+    }
+}

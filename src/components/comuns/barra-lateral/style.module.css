@@ -1,6 +1,15 @@
 .barra-lateral {
     display: flex;
     flex-direction: column;
+    padding: 20px;
+    justify-content: space-between;
+    background-color: var(--lilas);
+    height: 100vh;
+}
+
+.barra-lateral-fechada {
+    display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: space-between;
     background-color: var(--lilas);
@@ -8,9 +17,9 @@
 }
 
 .icone-hamburguer {
-    margin-bottom: 20px;
-    width: 40px;
-    height: 40px;
+    margin-bottom: 50px;
+    width: 50px;
+    height: 50px;
 }
 
 .container__buttons__menu--hamburger {
@@ -19,14 +28,14 @@
     align-items: center;
     justify-content: space-between;
     gap: 10px;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
 }
 
 .container__buttons__menu--hamburger--nao-ativo {
     position: relative;
     display: flex;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
 }
 
 .container__buttons__menu--hamburger  div, .container__buttons__menu--hamburger--nao-ativo div {
@@ -39,8 +48,8 @@
     content: " ";
     position: absolute;
     left: -28.5px;
-    width: 5px;
-    height: 35px;
+    width: 8px;
+    height: 60px;
     background-color: #fff;
 }
 
@@ -49,13 +58,20 @@
 }
 
 .container__buttons__menu-img {
-    width: 30px;
-    height: 30px;
-
+    width: 45px;
+    height: 45px;
+    cursor: pointer;
 }
 
 .container__buttons__menu--hamburger p {
-    font-size: 16px;
+    font-size: 18px;
     color: #fff;
+}
+
+
+.container__administrador__links {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 

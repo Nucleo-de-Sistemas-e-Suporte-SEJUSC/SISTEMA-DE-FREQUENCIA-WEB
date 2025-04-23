@@ -20,7 +20,7 @@ export function VisualizarEstagiario() {
                 handleMenu={setMenu}
             />
 
-            <section>
+            <section className="container__conteudo-principal">
                 <Header 
                     titulo="Visualização de Frequência"
                  />

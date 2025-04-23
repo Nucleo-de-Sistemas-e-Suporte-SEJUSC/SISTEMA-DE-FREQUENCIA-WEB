@@ -34,3 +34,14 @@
     width: 50%;
     display: none;
 }
+
+.container__conteudo-principal {
+    height: 100vh;
+    overflow: hidden;
+}
+@media (max-width:1024px) {
+
+    .container__conteudo-principal {
+        overflow: scroll;
+    }
+}

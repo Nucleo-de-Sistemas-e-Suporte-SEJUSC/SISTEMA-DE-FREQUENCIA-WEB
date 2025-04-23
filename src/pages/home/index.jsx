@@ -1,9 +1,21 @@
 import styles from "./style.module.css"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BarraLateral } from "../../components/comuns/barra-lateral";
 
+import { useNavigate } from 'react-router-dom';
+
 export function Home() {
-    const [menu, setMenu] =  useState(false)
+    const [menu, setMenu] =  useState(false);
+    const navigate = useNavigate();
+
+    const usuario = JSON.parse(localStorage.getItem("usuario")).nome.toLowerCase();
+
+
+    if(!usuario) {
+        useEffect(() => {
+            navigate("/");
+        }, [])
+    }
 
     return (
         <section className={
@@ -16,7 +28,7 @@ export function Home() {
 
             <section>
                 <header>
-                    <h1 className={styles["home__titulo"]}>Olá, Administrador</h1>
+                    <h1 className={styles["home__titulo"]}>Olá, { usuario } </h1>
                 </header>
     
             </section>

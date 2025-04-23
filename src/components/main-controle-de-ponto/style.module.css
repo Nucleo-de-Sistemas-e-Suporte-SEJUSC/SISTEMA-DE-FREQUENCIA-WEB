@@ -1,0 +1,34 @@
+.container__links__navegacao {
+    padding-left: 20px;
+}
+
+.links__navegacao {
+    background-color: var(--roxo);
+    padding: 10px 40px;
+    border-radius: 8px;
+    margin-right: 10px;
+}
+
+.container__horario {
+    display: flex;
+    gap: 50px;
+    margin-top: 30px;
+}
+
+.p-controle {
+    font-size: 21px;
+    color: #443776;
+}
+
+.container__dados {
+    margin-bottom: 30px;
+}
+
+.button-ponto {
+    border-radius: 10px;
+    border: none;
+    color: #fff;
+    background-color: var(--roxo);
+    padding: 10px 20px;
+    margin-bottom: 50px;
+}

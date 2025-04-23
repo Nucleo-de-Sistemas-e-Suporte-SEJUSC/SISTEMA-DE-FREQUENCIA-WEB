@@ -7,7 +7,6 @@ import { MainArquivados } from "../../components/main-arquivados"
 export function Arquivados() {
     const [menu, setMenu] =  useState(false)
     const [filtro, setFiltro] = useState("Servidores")
-    console.log(filtro)
 
     function handleFiltro(event) {
         setFiltro(event.target.value)
@@ -22,7 +21,7 @@ export function Arquivados() {
                 handleMenu={setMenu}
             />
 
-            <section>
+            <section className="container__conteudo-principal">
                 <Header
                     titulo="Arquivados"
                 />
