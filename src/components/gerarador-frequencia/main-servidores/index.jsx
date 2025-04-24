@@ -91,13 +91,7 @@ export function MainServidores() {
                 mes: mesEscolhido,
             });
     
-            // Verifica se a geração foi bem-sucedida e chama a função para baixar o ZIP
-            if (responseGeracao.status === 200 && responseGeracao.data.zip_path) {
-                // Chama a função para baixar o ZIP
-                await downloadSetorZip(setorSelecionado[1], mesEscolhido);
-            } else {
-                console.error("Erro na geração dos documentos:", responseGeracao.data);
-            }
+            await downloadSetorZip(setorSelecionado[1], mesEscolhido);
         } catch (e) {
             console.error("Erro ao converter setores para PDF:", e);
         } finally {
