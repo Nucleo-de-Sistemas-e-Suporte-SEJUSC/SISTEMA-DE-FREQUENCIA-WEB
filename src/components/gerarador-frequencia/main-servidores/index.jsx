@@ -3,6 +3,10 @@ import { useEffect, useState } from "react";
 import { meses } from "../../../utils/meses";
 import { CardFuncionarios } from "../../cards/card-funcionarios";
 import { api } from "../../../api/axios";
+import { pegaSetoresAPI } from "../../../api/setores/pega-setores";
+import { pegaServidoresAPI } from "../../../api/servidores/pega-servidores";
+import * as Dialog from '@radix-ui/react-dialog';
+import { FormCadastrarFuncionarios } from "../../formularios/form-cadastrar-funcionarios";
 
 export function MainServidores() {
     const data = new Date()
@@ -21,22 +25,13 @@ export function MainServidores() {
     const [filtroNomes, setFiltroNomes] = useState("")
     const [filtroSetor, setFiltroSetor] = useState("")
 
-    async function pegaServidoresAPI() {
-        const resposta = await api.get(`/servidores`, {
-            params: {
-                nome: filtroNomes
-            }
-        })
-        const { servidores } = await resposta.data
-        setServidores(servidores)
-    }
+    useEffect(() => {
+        pegaServidoresAPI(filtroNomes,setServidores )
+    }, [filtroNomes])
 
-    async function pegaSetoresAPI() {
-        const resposta = await api.get('/buscar_setor')
-        const { setores } = await resposta.data
-        setTodosSetores(setores)
-        setSetoresFiltrados(setores)
-    }
+    useEffect(() => {
+        pegaSetoresAPI(setTodosSetores, setSetoresFiltrados) 
+    }, [])
 
     async function converteServidoresParaPdfAPI() {
         try {
@@ -143,16 +138,6 @@ export function MainServidores() {
         }
     }
 
-
-    useEffect(() => {
-        pegaServidoresAPI()
-    }, [filtroNomes])
-
-
-    useEffect(() => {
-        pegaSetoresAPI()
-    }, [])
-
     const handleCheckboxChange = (id, type, valor) => {
         if (type === "setor") {
             setCheckedSetores(prevState => ({
@@ -192,7 +177,6 @@ export function MainServidores() {
         )
         setSetoresFiltrados(filtrados)
     }
-
 
     return (
         <main>
@@ -260,6 +244,16 @@ export function MainServidores() {
             {
                 filtro === 'servidor' && (
                     <section className="container__pesquisa__gerador">
+                         <Dialog.Root>
+                            <Dialog.Trigger asChild>
+                                <button>
+                                    Cadastrar Servidor
+                                </button>
+                            </Dialog.Trigger>
+
+                            <FormCadastrarFuncionarios />
+                        </Dialog.Root>
+
 
                         <form action="#" className="filtros">
                             <div className="filtros__container">
