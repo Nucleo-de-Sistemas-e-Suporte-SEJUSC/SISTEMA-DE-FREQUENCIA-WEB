@@ -25,6 +25,19 @@ export function MainHistoricoAlteracao() {
     
     }
 
+    function formataData(data) {
+        const dataFormatada = new Date(data).toLocaleDateString('pt-BR', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit'
+        })
+
+        return dataFormatada
+    }
+
     async function filtrarHistorioPelaAcao(acao, historicoDeAlteracao) {
         if(acao === "Selecione") return null
 
@@ -75,7 +88,7 @@ export function MainHistoricoAlteracao() {
                                         </p>
                                     </summary>
 
-                                    <p>{historico.data_criacao}</p>
+                                    <p>{formataData(historico.data_criacao)}</p>
                             </details>
                         )
                     })

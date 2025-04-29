@@ -8,7 +8,8 @@ export function Home() {
     const [menu, setMenu] =  useState(false);
     const navigate = useNavigate();
 
-    const usuario = JSON.parse(localStorage.getItem("usuario")).nome.toLowerCase();
+    const usuario = JSON.parse(localStorage.getItem("usuario")).nome.toLowerCase().split(" ")[0]
+    const usuarioFormatado = usuario.charAt(0).toUpperCase() + usuario.slice(1);
 
 
     if(!usuario) {
@@ -28,7 +29,7 @@ export function Home() {
 
             <section>
                 <header>
-                    <h1 className={styles["home__titulo"]}>Olá, { usuario } </h1>
+                    <h1 className={styles["home__titulo"]}>Olá, { usuarioFormatado } </h1>
                 </header>
     
             </section>
