@@ -68,14 +68,17 @@ export function MainEstagiario() {
         if (type === "setor") {
             setCheckedSetores(prevState => ({
                 ...prevState,
-                setor: valor,
+                [valor]: !prevState[valor],
                 [id]: !prevState[id]
+                
             }));
             setCheckedEstagiarios({});
         } else if (type === "estagiario") {
-            setCheckedEstagiarios(prevState => ({
+            
+            setCheckedServidores(prevState => ({
                 ...prevState,
-                [id]: !prevState[id]
+                //nome: valor,
+                [id]: !prevState[id],
             }));
             setCheckedSetores({});
         }
@@ -117,9 +120,8 @@ export function MainEstagiario() {
         setSetoresFiltrados(filtrados)
     }
 
-   
-
-    async function converteSetoresParaPdfAPI() {
+        async function gerarZipSetoresAPI() {
+            setIsLoading(true);
             try {
                 // Obtém o setor selecionado (por exemplo, "GTI")
                 const setorSelecionado = Object.keys(checkedSetores);
@@ -131,51 +133,23 @@ export function MainEstagiario() {
                 setIsLoading(true);
                 // Faz a chamada para gerar os PDFs e criar o ZIP
                 const responseGeracao = await api.post(`/setor/estagiar/pdf`, {
-                    setor: checkedSetores.setor, 
+                    setor: setorSelecionado[1], 
                     mes: mesEscolhido,
                 });
-
+        
+                await downloadSetorZip(setorSelecionado[1], mesEscolhido);
             } catch (e) {
                 console.error("Erro ao converter setores para PDF:", e);
             } finally {
                 setIsLoading(false);
             }
+            
         }
 
-        async function gerarZipSetoresAPI() {
+        async function downloadSetorZip(setor, mesEscolhido) {
             setIsLoading(true);
             try {
-                // Pegando os setores selecionados (ajuste conforme sua lógica)
-                const setoresSelecionados = Object.keys(checkedSetores);
-                if (!setoresSelecionados || setoresSelecionados.length === 0) {
-                    alert("Nenhum setor selecionado.");
-                    return false;
-                }
-        
-                const responseGeracao = await api.post("/setor/estagiar/pdf", {
-                    setor: setoresSelecionados, // ou ajuste conforme esperado pelo backend
-                    mes: mesEscolhido,
-                });
-        
-                if (responseGeracao.status === 200) {
-                    return true;
-                } else {
-                    alert("Erro ao gerar o arquivo ZIP.");
-                    return false;
-                }
-            } catch (e) {
-                alert("Erro inesperado ao gerar o ZIP.");
-                console.error("Error => ", e);
-                return false;
-            } finally {
-                setIsLoading(false);
-            }
-        }
-
-        async function baixarZipSetoresAPI() {
-            setIsLoading(true);
-            try {
-                const response = await api.get(`/setor/estagiar/pdf/download-zip/${mesEscolhido}`, {
+                const response = await api.get(`/setores/estagiarios/pdf/download-zip/${setor}/${mesEscolhido}`, {
                     responseType: "blob"
                 });
                 if (response.status === 200) {
@@ -183,7 +157,7 @@ export function MainEstagiario() {
                     const url = window.URL.createObjectURL(blob);
                     const link = document.createElement("a");
                     link.href = url;
-                    link.download = `frequencia_setores_${mesEscolhido}.zip`;
+                    link.download = `frequencia_mensal_${setor}_${mesEscolhido}.zip`;
                     document.body.appendChild(link);
                     link.click();
                     document.body.removeChild(link);
@@ -202,7 +176,7 @@ export function MainEstagiario() {
         async function handleGerarSetores() {
             const gerado = await gerarZipSetoresAPI();
             if (gerado) {
-                await baixarZipSetoresAPI();
+                await downloadSetorZip();
             }
         }
         

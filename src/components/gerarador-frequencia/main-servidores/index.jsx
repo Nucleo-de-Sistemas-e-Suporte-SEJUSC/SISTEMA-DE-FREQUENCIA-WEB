@@ -34,42 +34,65 @@ export function MainServidores() {
     }, [])
 
     async function converteServidoresParaPdfAPI() {
+        setIsLoading(true);
         try {
-            const idServidores = Object.keys(checkedServidores).filter(id => id !== 'nome');
-            setIsLoading(true);
-       
-            // Envia TODOS os IDs selecionados
-            const responseGeracao = await api.post(`/servidores/pdf`, {
-                mes: mesEscolhido,
-                funcionarios: idServidores// Envia array completo
+            const idServidores = Object.keys(checkedServidores); 
+            console.log(idServidores)
+            const responseGeracao = await api.post("/servidores/pdf",{
+                funcionarios: idServidores,
+                mes: mesEscolhido
             });
-    
-            if (responseGeracao.status === 200 && responseGeracao.data.zip_path) {
-                const zipPath = responseGeracao.data.zip_path;
-                // Baixa o ZIP com nome genérico (o back-end vai definir)
-                await api.get(`/servidores/pdf/download-zip/${mesEscolhido}`, { 
-                    params: { ids: idServidores.join(',') },
-                    responseType: 'blob' 
-                })
-                .then(response => {
-                    const blob = new Blob([response.data], { type: 'application/zip' });
-                    const url = window.URL.createObjectURL(blob);
-                    const link = document.createElement('a');
-                    link.href = url;
-                    link.download = `frequencia_mensal_${mesEscolhido}.zip`;
-                    document.body.appendChild(link);
-                    link.click();
-                    document.body.removeChild(link);
-                    window.URL.revokeObjectURL(url);
-                });
+            
+            if (responseGeracao.status === 200) {
+                //console.log("to aquiiiiii 2")
+                return true;
+            }else{
+                alert("erro ao gerar arquivo zip.");
+                console.log(error);
+                return false;
             }
         } catch (e) {
+            alert("Erro ao gerar PDF: ");
             console.error("Error => ", e);
         } finally {
             setIsLoading(false);
         }
     }
 
+
+    async function baixarServidoresZip(){
+        setIsLoading(true);
+        try{
+            console.log("to aqui 1111|")
+            const response = await api.get(`/servidores/pdf/download-zip/${mesEscolhido}`, { responseType: 'blob' });
+           console.log("to aqui 2222")
+         if(response.status === 200){
+            console.log("to aqui 3333")   
+            const blob = new Blob([response.data], {type: 'application/zip'});
+            const url = window.URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `frequencia_mensal_${mesEscolhido}.zip`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            window.URL.revokeObjectURL(url);
+        }else{
+            alert("erro ao baixar arquivo zip.");
+        }
+    } catch (e) {
+        alert("Erro ao baixar ZIP: ");
+    } finally {
+        setIsLoading(false);
+    }
+}
+
+    async function handleGerarServidores(){
+        const gerado = await converteServidoresParaPdfAPI();
+        if(gerado){
+            await baixarServidoresZip();
+        }
+    }
     async function converteSetoresParaPdfAPI() {
         try {
             // Obtém o setor selecionado (por exemplo, "GTI")
@@ -137,7 +160,8 @@ export function MainServidores() {
             setIsLoading(false)
         }
     }
-
+    console.log(checkedServidores)
+    
     const handleCheckboxChange = (id, type, valor) => {
         if (type === "setor") {
             setCheckedSetores(prevState => ({
@@ -148,10 +172,10 @@ export function MainServidores() {
             }));
             setCheckedServidores({});
         } else if (type === "servidor") {
-         
+            
             setCheckedServidores(prevState => ({
                 ...prevState,
-                nome: valor,
+                //nome: valor,
                 [id]: !prevState[id],
             }));
             setCheckedSetores({});
@@ -312,10 +336,10 @@ export function MainServidores() {
             )}
 
             <section className="container__cadastrar__button">
-            
+            //
 
                 <div className="container__gerar__button">
-                    <button disabled={isLoading} onClick={ () => {  filtro === 'servidor' ?  converteServidoresParaPdfAPI() :  converteSetoresParaPdfAPI() }} className="button__gerar__servidor">Gerar selecionados </button>
+                    <button disabled={isLoading} onClick={ () => {  filtro === 'servidor' ?  handleGerarServidores() :  converteSetoresParaPdfAPI() }} className="button__gerar__servidor">Gerar selecionados </button>
                     <button>Gerar todos os { filtro === 'servidor' ? "servidores" : "setores" } </button>
                 </div>
             </section>
