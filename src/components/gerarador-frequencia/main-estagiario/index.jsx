@@ -75,7 +75,7 @@ export function MainEstagiario() {
             setCheckedEstagiarios({});
         } else if (type === "estagiario") {
             
-            setCheckedServidores(prevState => ({
+            setCheckedEstagiarios(prevState => ({
                 ...prevState,
                 //nome: valor,
                 [id]: !prevState[id],
