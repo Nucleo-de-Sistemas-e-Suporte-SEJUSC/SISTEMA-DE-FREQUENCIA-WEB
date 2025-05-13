@@ -1,5 +1,5 @@
 .DialogOverlay {
-    background: rgba(0, 0, 0, 0.2);
+    background: rgba(0, 0, 0, 0.8);
     position: fixed;
     top: 0;
     left: 0;
@@ -20,7 +20,9 @@
     padding: 20px;
     border-radius: 8px;
     max-width: 1020px;
-    width: 100%;
+    width: 50%;
+    height: 80%;
+    overflow-y: auto;
     z-index: 1000; 
 }
 

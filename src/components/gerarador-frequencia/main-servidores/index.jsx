@@ -9,6 +9,7 @@ import * as Dialog from '@radix-ui/react-dialog';
 import { FormCadastrarFuncionarios } from "../../formularios/form-cadastrar-funcionarios";
 
 export function MainServidores() {
+    //<button>Gerar todos os { filtro === 'servidor' ? "servidores" : "setores" } </button>
     const data = new Date()
     const mesAtual = data.getMonth()
     const mes = meses[mesAtual]
@@ -336,11 +337,9 @@ export function MainServidores() {
             )}
 
             <section className="container__cadastrar__button">
-            //
 
                 <div className="container__gerar__button">
                     <button disabled={isLoading} onClick={ () => {  filtro === 'servidor' ?  handleGerarServidores() :  converteSetoresParaPdfAPI() }} className="button__gerar__servidor">Gerar selecionados </button>
-                    <button>Gerar todos os { filtro === 'servidor' ? "servidores" : "setores" } </button>
                 </div>
             </section>
         </main>

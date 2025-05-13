@@ -22,6 +22,7 @@ export function MainEstagiario() {
     const [mesEscolhido, setMesEscolhido] = useState(mes)
 
     // Busca estagiários da API
+    //<button>Gerar todos os { filtro === 'estagiario' ? "estagiários" : "setores" } </button>\
     async function pegaEstagiariosAPI() {
         const dados = await api.get("/estagiarios")
         const { estagiarios } = await dados.data
@@ -281,6 +282,7 @@ export function MainEstagiario() {
                 </div>
             </form>
 
+
             {filtro === "setor" && (
                 <section className="container__pesquisa__gerador">
                     <form action="#" className="filtros">
@@ -354,8 +356,7 @@ export function MainEstagiario() {
             <section className="container__cadastrar__button">
 
                 <div className="container__gerar__button">
-                <button disabled={isLoading} onClick={ () => {  filtro === 'estagiario' ?  handleGerarEstagiarios() :  handleGerarSetores() }} className="button__gerar__servidor">Gerar  selecionados </button>
-                    <button>Gerar todos os { filtro === 'estagiario' ? "estagiários" : "setores" } </button>
+                    <button disabled={isLoading} onClick={ () => {  filtro === 'estagiario' ?  handleGerarEstagiarios() :  handleGerarSetores() }} className="button__gerar__servidor">Gerar  selecionados </button>
                 </div>
             </section>
         </main>
