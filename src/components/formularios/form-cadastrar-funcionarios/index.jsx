@@ -46,46 +46,38 @@ export function FormCadastrarFuncionarios() {
         }));
     };
 
-    // Função para lidar com o envio do formulário
     const handleSubmit = async (e) => {
-        e.preventDefault();
+    e.preventDefault();
 
-        try {
-            const response = await api.post("/servidores", {
-                nome: formData.nomeCompleto,
-                setor: formData.setor.toUpperCase(),
-                entrada: formData.horarioEntrada,
-                saida: formData.horarioSaida,
-                feriasinicio: formData.feriasinicio,
-                feriasfinal: formData.feriasfinal,
-                funcao: formData.funcao,
-                matricula: formData.matricula,
-                horario: `${formData.horarioEntrada}-${formData.horarioSaida}`,
-                cargo: formData.cargo,
-                data_nascimento: formData.dataDoNascimento,
-                sexo: formData.sexo,
-                estado_civil: formData.estadoCivil,
-                identidade: formData.identidade,
-                nacionalidade: formData.nacionalidade,
-                titulo_eleitor: formData.tituloEleitor,
-                cpf: formData.tituloEleitor,
-                pis: formData.pisPasep
-            })
-    
-            const data = await response.data
+    try {
+        const response = await api.post("/criar/servidores", {
+            nome: formData.nomeCompleto,
+            setor: formData.setor.toUpperCase(),
+            matricula: formData.matricula,
+            cargo: formData.cargo,
+            funcao: formData.funcao,
+            horario: `${formData.horarioEntrada}-${formData.horarioSaida}`,
+            entrada: formData.horarioEntrada,
+            saida: formData.horarioSaida,
+            //feriasinicio: formData.feriasinicio,
+            //feriasfinal: formData.feriasfinal,
+            data_nascimento: formData.dataDoNascimento,
+            sexo: formData.sexo.toUpperCase(),
+            estado_civil: formData.estadoCivil.toUpperCase(),
+            naturalidade: formData.naturalidade,
+            nacionalidade: formData.nacionalidade,
+            identidade: formData.identidade,
+            titulo_eleitor: formData.tituloEleitor,
+            cpf: formData.cpf,
+            pis: formData.pisPasep
+        });
 
-            toast.success("Cadastrado", {
-                description: "Servidor cadastrado com sucesso!",
-                duration: 3000
-            });
-            
-        } catch (error) {
-            toast.error(error.status, {
-                description: error.message,
-                duration: 3000
-            });
-        }
-        /*
+        toast.success("Cadastrado", {
+            description: "Servidor cadastrado com sucesso!",
+            duration: 3000
+        });
+
+        // Limpa o formulário após envio bem-sucedido
         setFormData({
             nomeCompleto: '',
             mudancaDeNome: '',
@@ -108,13 +100,21 @@ export function FormCadastrarFuncionarios() {
             setor: '',
             horarioEntrada: '',
             horarioSaida: '',
+            feriasinicio: '',
+            feriasfinal: '',
             funcao: '',
             cargo: '',
             dataNomeacao: ''
         });
-        */
-    };
 
+    } catch (error) {
+        const message = error?.response?.data?.erro || error.message || 'Erro desconhecido';
+        toast.error("Erro ao cadastrar", {
+            description: message,
+            duration: 4000
+        });
+    }
+};
     return (
         <Dialog.Portal>
             <Dialog.Overlay className='DialogOverlay' />
