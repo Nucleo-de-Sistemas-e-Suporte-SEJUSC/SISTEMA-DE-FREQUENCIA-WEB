@@ -37,7 +37,7 @@ export function FormLogin() {
               
                 localStorage.setItem("usuario", JSON.stringify(usuarioStorage));
 
-                if (dados.role === "admin") {
+                if (dados.role === "admin", "editor") {
                     toast.success("Usuário autenticado!");
                     navigate("/home");
                 } else {
