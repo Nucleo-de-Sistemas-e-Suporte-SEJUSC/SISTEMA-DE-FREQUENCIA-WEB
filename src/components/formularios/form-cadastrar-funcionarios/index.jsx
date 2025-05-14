@@ -132,17 +132,6 @@ export function FormCadastrarFuncionarios() {
                         />
                     </div>
                     <div>
-                        <label htmlFor="mudanca-de-nome" className='form__dialog__label'>Mudança de Nome</label>
-                        <input
-                            type="text"
-                            name="mudancaDeNome"
-                            id="mudanca-de-nome"
-                            className='form__dialog__input'
-                            value={formData.mudancaDeNome}
-                            onChange={handleInputChange}
-                        />
-                    </div>
-                    <div>
                         <label htmlFor="matricula" className='form__dialog__label'>Matrícula</label>
                         <input
                             type="text"
@@ -152,20 +141,6 @@ export function FormCadastrarFuncionarios() {
                             value={formData.matricula}
                             onChange={handleInputChange}
                         />
-                    </div>
-                    <div>
-                        <label htmlFor="condicao-juridica" className='form__dialog__label'>Condicao Jurídica</label>
-                        <select
-                            name="condicaoJuridica"
-                            id="condicao-juridica"
-                            className='form__dialog__input'
-                            value={formData.condicaoJuridica}
-                            onChange={handleInputChange}
-                        >
-                            <option value="">Selecione</option>
-                            <option value="regular">regular</option>
-                            <option value="irregular">positivo</option>
-                        </select>
                     </div>
                     <div>
                         <label htmlFor="data-do-nascimento" className='form__dialog__label'>Data do Nascimento</label>
@@ -217,18 +192,6 @@ export function FormCadastrarFuncionarios() {
                         />
                     </div>
                     <div>
-                        <label htmlFor="carteira-profissional" className='form__dialog__label'>Carteira Profissional</label>
-                        <input
-                            type="text"
-                            name="carteiraProfissional"
-                            id="carteira-profissional"
-                            className='form__dialog__input'
-                            value={formData.carteiraProfissional}
-                            onChange={handleInputChange}
-                        />
-                    </div>
-
-                    <div>
                         <label htmlFor="servico-militar" className='form__dialog__label'>Serviço Militar</label>
                         <input
                             type="text"
@@ -239,7 +202,6 @@ export function FormCadastrarFuncionarios() {
                             onChange={handleInputChange}
                         />
                     </div>
-
                     <div>
                         <label htmlFor="cpf" className='form__dialog__label'>CPF</label>
                         <input
@@ -275,19 +237,6 @@ export function FormCadastrarFuncionarios() {
                             onChange={handleInputChange}
                         />
                     </div>
-
-                    <div>
-                        <label htmlFor="carteira-saude" className='form__dialog__label'>Carteira de Saúde</label>
-                        <input
-                            type="text"
-                            name="carteiraSaude"
-                            id="carteira-saude"
-                            className='form__dialog__input'
-                            value={formData.carteiraSaude}
-                            onChange={handleInputChange}
-                        />
-                    </div>
-
                     <div>
                         <label htmlFor="sexo" className='form__dialog__label'>Sexo</label>
                         <select
@@ -312,29 +261,6 @@ export function FormCadastrarFuncionarios() {
                             id="titulo-eleitor"
                             className='form__dialog__input'
                             value={formData.tituloEleitor}
-                            onChange={handleInputChange}
-                        />
-                    </div>
-
-                    <div>
-                        <label htmlFor="nome-mae" className='form__dialog__label'>Nome da Mãe</label>
-                        <input
-                            type="text"
-                            name="nomeMae"
-                            id="nome-mae"
-                            className='form__dialog__input'
-                            value={formData.nomeMae}
-                            onChange={handleInputChange}
-                        />
-                    </div>
-                    <div>
-                        <label htmlFor="nome-pai" className='form__dialog__label'>Nome do Pai</label>
-                        <input
-                            type="text"
-                            name="nomePai"
-                            id="nome-pai"
-                            className='form__dialog__input'
-                            value={formData.nomePai}
                             onChange={handleInputChange}
                         />
                     </div>
@@ -414,7 +340,6 @@ export function FormCadastrarFuncionarios() {
                             onChange={handleInputChange}
                         />
                     </div>
-
                     <div className='container__button__anexar'>
                         <button type="button">Anexar Documentos</button>
                     </div>
