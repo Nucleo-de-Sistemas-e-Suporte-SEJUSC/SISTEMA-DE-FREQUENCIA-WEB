@@ -4,6 +4,14 @@ main {
     padding-right: 5px;
     box-sizing: border-box;
 }
+.button__cadastrar__servidor{
+    background-color: var(--button);
+    color: #fff;
+    border-radius: 10px;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+}
 
 .form__filtro {
     display: flex;

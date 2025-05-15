@@ -271,7 +271,7 @@ export function MainServidores() {
                     <section className="container__pesquisa__gerador">
                          <Dialog.Root>
                             <Dialog.Trigger asChild>
-                                <button>
+                                <button className="button__cadastrar__servidor">
                                     Cadastrar Servidor
                                 </button>
                             </Dialog.Trigger>
