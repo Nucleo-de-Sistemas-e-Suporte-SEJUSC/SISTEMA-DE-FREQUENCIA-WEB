@@ -26,9 +26,6 @@ export function ArquivadosAtivos() {
                         <button className={styles["botao__arquivados__ativo"]}>Arquivados</button>
                     </NavLink>
 
-                    <NavLink to="/ativos">
-                        <button className={styles["botao__arquivados__ativo"]}>Ativos</button>
-                    </NavLink>
                 </main>
             </section>
         </section>
