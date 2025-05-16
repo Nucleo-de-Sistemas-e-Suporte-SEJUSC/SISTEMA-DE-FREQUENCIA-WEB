@@ -55,16 +55,6 @@ export function MainHistoricoAlteracao() {
         <section className={styles["container-historico-visualizacao"]}>
             <form action="#" className={styles["form-historico-alteracao"]}>
                 <div className={styles["container__input--historico-alteracao"]}>
-                    <label htmlFor="cargo" className={styles["label__historico__alteracao"]}>Cargo</label>
-                    <select name="cargo-opcao" id="cargo-opcao" className={styles["input__historico__alteracao"]}>
-                        <option value="Selecione" selected>Selecione</option>
-                        <option value="option 1">Option 1</option>
-                        <option value="option 2">Option 2</option>
-                        <option value="option 3">Option 3</option>
-                        <option value="option 4">Option 4</option>
-                    </select>
-                </div>
-                <div className={styles["container__input--historico-alteracao"]}>
                     <label htmlFor="acao" className={styles["label__historico__alteracao"]}>Ação</label>
                     <select name="acao-opcao" id="acao-opcao" className={styles["input__historico__alteracao"]} defaultValue={acao} onChange={(e) => setAcao(e.target.value)}>
                         <option value="Selecione" selected>Selecione</option>
