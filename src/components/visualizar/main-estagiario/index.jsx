@@ -15,13 +15,13 @@ export function MainVisualizarEstagiarios() {
         const [estagiariosFiltrados, setEstagiariosFiltrados] = useState([]);
         const [mesSelecionado, setMesSelecionado] = useState(meses[mesAtual]);
         const [termoBusca, setTermoBusca] = useState("");
-        const [setorSelecionado, setSetorSelecionado] = useState("GTI"); // Valor padrão
+        const [setorSelecionado, setSetorSelecionado] = useState(""); // Valor padrão
 
         async function listaEstagiariosPDF() {
                 setLoading(true);
                 setError(null);
                 try {
-                    const dados = await api.get("/estagiarios/pdfs");
+                    const dados = await api.get("/estagiarios/pdf");
                     
                     const { estagiarios_pdf: estagiariosPDF } = dados.data;
                     
@@ -101,7 +101,7 @@ export function MainVisualizarEstagiarios() {
     async function buscarPDF(setor, mes, nome) {
         try {
             // Remove espaços e formata o nome para corresponder ao nome do arquivo
-            const resposta = await fetch(`http://localhost:3000/api/estagiarios/pdf/view?setor=${encodeURIComponent(setor)}&mes=${encodeURIComponent(mes)}&nome=${encodeURIComponent(nome)}`);
+            const resposta = await fetch(`http://localhost:8000/api/estagiarios/pdf/view?setor=${encodeURIComponent(setor)}&mes=${encodeURIComponent(mes)}&nome=${encodeURIComponent(nome)}`);
             
             if (!resposta.ok) {
                 throw new Error('Arquivo não encontrado ou erro na requisição');

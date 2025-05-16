@@ -66,7 +66,7 @@ export function MainVisualizarServidores() {
     async function buscarPDF(setor, mes, nome) {
        
         try {
-          const resposta = await fetch(`http://localhost:3000/api/servidores/pdf/view?setor=${encodeURIComponent(setor)}&mes=${encodeURIComponent(mes)}&nome=${encodeURIComponent(nome)}`); // Adicionei o id aqui
+          const resposta = await fetch(`http://localhost:8000/api/servidores/pdf/view?setor=${encodeURIComponent(setor)}&mes=${encodeURIComponent(mes)}&nome=${encodeURIComponent(nome)}`); // Adicionei o id aqui
           
           if (!resposta.ok) {
             throw new Error('Arquivo não encontrado ou erro na requisição');
@@ -132,15 +132,6 @@ export function MainVisualizarServidores() {
                     ))
                     }
                 </CardVisualizarServidores>
-            </div>
-
-            <div className={styles["container__buttons--visualizar"]}>
-                <button className={styles["container__buttons--visualizar-button"]}>
-                    Mesclar Arquivos
-                </button>
-                <button className={styles["container__buttons--visualizar-button"]}>
-                    Visualizar Arquivos
-                </button>
             </div>
         </section>
     );
