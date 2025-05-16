@@ -15,30 +15,27 @@ export function MainVisualizarEstagiarios() {
         const [estagiariosFiltrados, setEstagiariosFiltrados] = useState([]);
         const [mesSelecionado, setMesSelecionado] = useState(meses[mesAtual]);
         const [termoBusca, setTermoBusca] = useState("");
-        const [setorSelecionado, setSetorSelecionado] = useState(""); // Valor padrão
+        const [setorSelecionado, setSetorSelecionado] = useState("GTI"); // Valor padrão
 
         async function listaEstagiariosPDF() {
                 setLoading(true);
                 setError(null);
                 try {
-                    const dados = await api.get("/estagiarios/pdf");
-                    
+                    const dados = await api.get("/estagiarios/pdfs");
                     const { estagiarios_pdf: estagiariosPDF } = dados.data;
-                    
-                    // Filtra apenas os setores que têm estagiários
-                    const setoresComEstagiarios = estagiariosPDF.map(item => {
-                        const filteredItem = {};
+
+                    // Junta todos os setores em um único objeto
+                    const setoresComEstagiarios = {};
+                    estagiariosPDF.forEach(item => {
                         for (const [setor, conteudo] of Object.entries(item)) {
                             if (conteudo.estagiario) {
-                                filteredItem[setor] = conteudo;
+                                setoresComEstagiarios[setor] = conteudo;
                             }
                         }
-                        return filteredItem;
                     });
-                    
-                    
-                    setEstagiarios(setoresComEstagiarios);
-                    const filtro = filtrarEstagiarios(setoresComEstagiarios, mesSelecionado, setorSelecionado);
+
+                    setEstagiarios([setoresComEstagiarios]);
+                    filtrarEstagiarios([setoresComEstagiarios], mesSelecionado);
                 } catch (error) {
                     setError("Erro ao carregar dados dos estagiários");
                 } finally {
@@ -47,20 +44,15 @@ export function MainVisualizarEstagiarios() {
             }
 
 
-        function transformarDados(data, mesFiltro, setorFiltro) {
+        function transformarDados(data, mesFiltro) {
                 const resultado = [];
-                
-                if (!Array.isArray(data)) {
-                
-                return resultado;
-                }
+                if (!Array.isArray(data)) return resultado;
         
                 for (const item of data) {
                 if (!item || typeof item !== 'object') continue;
         
                 for (const [setor, conteudo] of Object.entries(item)) {
-                        // Verifica se é o setor desejado E tem a chave "estagiario" (não "servidor")
-                        // if (setor === setorFiltro && conteudo?.estagiario?.[mesFiltro]) {
+                        if (conteudo?.estagiario?.[mesFiltro]) {
                         for (const [nomeEstagiario, dadosEstagiario] of Object.entries(conteudo.estagiario[mesFiltro])) {
                                 resultado.push({
                                         nome: nomeEstagiario,
@@ -69,18 +61,17 @@ export function MainVisualizarEstagiarios() {
                                         mes: mesFiltro
                                 });
                         }
-                        // }
+                        }
                 }
                 }
 
                 return resultado;
         }
 
-        function filtrarEstagiarios(data, mes, setor) {
-                const estagiariosTransformados = transformarDados(data, mes, setor);
+        function filtrarEstagiarios(data, mes) {
+                const estagiariosTransformados = transformarDados(data, mes);
                 setEstagiariosFiltrados(estagiariosTransformados);
                 setMesSelecionado(mes);
-                setSetorSelecionado(setor);
         }
 
         // Busca dados apenas uma vez (no mount)
@@ -167,15 +158,6 @@ export function MainVisualizarEstagiarios() {
                         <p>Nenhum estagiário encontrado</p>
                     )}
                 </CardVisualizarServidores>
-            </div>
-
-            <div className={styles["container__buttons--visualizar"]}>
-                <button className={styles["container__buttons--visualizar-button"]}>
-                    Mesclar Arquivos
-                </button>
-                <button className={styles["container__buttons--visualizar-button"]}>
-                    Visualizar Arquivos
-                </button>
             </div>
         </section>
     );
