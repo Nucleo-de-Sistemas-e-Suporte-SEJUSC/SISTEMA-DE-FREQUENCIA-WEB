@@ -21,7 +21,7 @@ export function FormLogin() {
                         "Content-Type": "application/json"
                     },
                     body: JSON.stringify({
-                        matriculas,
+                        matricula,
                         senha
                     }),
                     credentials: 'include'
