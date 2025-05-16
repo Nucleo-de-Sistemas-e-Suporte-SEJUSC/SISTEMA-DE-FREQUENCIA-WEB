@@ -107,7 +107,7 @@ export function MainArquivados(props) {
             <div className={styles["container__visualizar__content"]}>
                 {funcionariosFiltrados.length === 0 ? (
                     <p style={{ color: "red", margin: "2rem" }}>
-                        Nenhum funcionário ou setor encontrado para "{pesquisa}".
+                        Nenhum funcionário ou setor encontrado.
                     </p>
                 ) : (
                     <>
