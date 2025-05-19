@@ -24,9 +24,11 @@ export function MainVisualizarEstagiarios() {
                     const dados = await api.get("/estagiarios/pdfs");
                     const { estagiarios_pdf: estagiariosPDF } = dados.data;
 
+
                     // Junta todos os setores em um único objeto
                     const setoresComEstagiarios = {};
                     estagiariosPDF.forEach(item => {
+                        console.log(Object.entries(item))
                         for (const [setor, conteudo] of Object.entries(item)) {
                             if (conteudo.estagiario) {
                                 setoresComEstagiarios[setor] = conteudo;

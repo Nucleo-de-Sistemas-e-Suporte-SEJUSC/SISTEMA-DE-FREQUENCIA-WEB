@@ -6,8 +6,7 @@ import { useState } from "react"
 
 export function CardFuncionarios(props) {
     const [isLoading, setIsLoading] = useState(false)
-    const { nome, quantidadeServidores, isChecked, onChecked, id, onArquivaServidor } = props
-
+    const { identificador, nome, quantidadeServidores, isChecked, onChecked, id, onArquivaServidor } = props
     const toggleDetails = (event) => {
         const detailsElement = event.currentTarget.querySelector('details');
         if (detailsElement) {
@@ -52,7 +51,7 @@ export function CardFuncionarios(props) {
                 <summary className={styles["card__summary"]} onClick={(e) => e.stopPropagation()}>
                     {nome}
                 </summary>
-                {quantidadeServidores > 0 && <p>{quantidadeServidores} Servidores</p>}
+                {quantidadeServidores > 0 && <p>{quantidadeServidores} {identificador ? 'Estagiários' : 'Servidores'}</p>}
                 {quantidadeServidores === 0 && <p>Nenhum servidor</p>}
 
                 <div className={styles["card__details__container__button"]}>

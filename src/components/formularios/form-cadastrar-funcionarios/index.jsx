@@ -68,6 +68,7 @@ export function FormCadastrarFuncionarios() {
                 horario: `${formData.horarioEntrada}-${formData.horarioSaida}`,
                 entrada: formData.horarioEntrada,
                 saida: formData.horarioSaida,
+                dataAdmissao: formData.dataAdmissao
                 //feriasinicio: formData.feriasinicio,
                 //feriasfinal: formData.feriasfinal,
             });

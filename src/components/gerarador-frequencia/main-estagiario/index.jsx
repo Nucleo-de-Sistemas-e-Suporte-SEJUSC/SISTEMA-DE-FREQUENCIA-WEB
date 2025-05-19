@@ -355,6 +355,7 @@ export function MainEstagiario() {
                 <section className="container__servidores">
                     {setoresFiltrados.map(setor => (
                         <CardFuncionarios
+                            identificador={'estagiario'}
                             key={setor.id}
                             nome={setor.lotacao}
                             id={setor.id}
