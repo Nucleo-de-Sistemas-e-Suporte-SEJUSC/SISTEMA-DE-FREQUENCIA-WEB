@@ -66,6 +66,23 @@ export function MainEstagiario() {
         setSetoresFiltrados(filtrados)
     }
 
+    async function arquivarEstagiarioAPI(idEstagiario) {
+        try {
+            setIsLoading(true)
+            const resposta = await api.patch(`/estagiarios/${idEstagiario}/arquivar`)
+            const { mensagem, estagiario_arquivado: estagiarioArquivado } = await resposta.data
+            
+            return {
+                mensagem,
+                estagiarioArquivado
+            }
+        } catch(e) {
+            console.error("Error => ", e)
+        } finally {
+            setIsLoading(false)
+        }
+    }
+
     // Manipula seleção de checkboxes
     const handleCheckboxChange = (id, type, valor) => {
         if (type === "setor") {
@@ -341,10 +358,12 @@ export function MainEstagiario() {
                 <section className="container__servidores">
                     {estagiariosFiltrados.map(estagiario => (
                         <CardFuncionarios
+                            identificador={'estagiario'}
                             nome={estagiario.nome}
                             id={estagiario.id}
                             key={estagiario.id}
                             isChecked={!!checkedEstagiarios[estagiario.id]}
+                            onArquivaEstagiario={() => arquivarEstagiarioAPI(estagiario.id)}
                             onChecked={() => handleCheckboxChange(estagiario.id, "estagiario")}
                         />
                     ))}

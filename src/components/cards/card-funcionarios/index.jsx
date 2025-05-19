@@ -7,9 +7,9 @@ import { useState } from "react"
 export function CardFuncionarios(props) {
     // <button className={`${styles["card__details__historico__button"]} ${styles["card__details__button"]} `}>Histórico</button>
     // <button className={`${styles["card__details__atualizar__button"]} ${styles["card__details__button"]} `}>Atualizar</button>
-    
+
     const [isLoading, setIsLoading] = useState(false)
-    const { identificador, nome, quantidadeServidores, isChecked, onChecked, id, onArquivaServidor } = props
+    const { identificador, nome, quantidadeServidores, isChecked, onChecked, id, onArquivaServidor, onArquivaEstagiario } = props
     const toggleDetails = (event) => {
         const detailsElement = event.currentTarget.querySelector('details');
         if (detailsElement) {
@@ -17,31 +17,52 @@ export function CardFuncionarios(props) {
         }
     };
 
-    async function arquivaServidor() {
-        try {
-            setIsLoading(true)
-            const usuario = JSON.parse(localStorage.getItem("usuario"))
-            const { mensagem, servidorArquivado } = await onArquivaServidor()
+    async function arquiva() {
+        if (!identificador) {
+            try {
+                setIsLoading(true)
+                const usuario = JSON.parse(localStorage.getItem("usuario"))
+                const { mensagem, servidorArquivado } = await onArquivaServidor()
 
-            toast.success(mensagem, {
-                duration: 4000,
-                icon: false
-            })
+                toast.success(mensagem, {
+                    duration: 4000,
+                    icon: false
+                })
 
-            await historicoLogsArquivar(usuario, servidorArquivado.nome, servidorArquivado.setor)
-            window.location.reload()
-        } catch (error) {
-            console.error(error)
-        } finally {
-            setIsLoading(false)
+                await historicoLogsArquivar(usuario, servidorArquivado.nome, servidorArquivado.setor)
+                window.location.reload()
+            } catch (error) {
+                console.error(error)
+            } finally {
+                setIsLoading(false)
+            }
+        } else {
+            try {
+                setIsLoading(true)
+                const usuario = JSON.parse(localStorage.getItem("usuario"))
+                const { mensagem, estagiarioArquivado } = await onArquivaEstagiario()
+
+                toast.success(mensagem, {
+                    duration: 4000,
+                    icon: false
+                })
+
+                await historicoLogsArquivar(usuario, estagiarioArquivado.nome, estagiarioArquivado.setor)
+                window.location.reload()
+            } catch (error) {
+                console.error(error)
+            } finally {
+                setIsLoading(false)
+            }
         }
     }
 
     async function historicoLogsArquivar(usuario, nomeServidor, setorServidor) {
+        const servidorOuEstagiario = identificador ? 'estagiario(a)' : 'servidor(a)'
         const dados = await api.post("/historico-logs", {
             nome: usuario.nome,
             acao: "Arquivar",
-            mensagem: `O usuario de nome ${usuario.nome} arquivou o servidor(a) ${nomeServidor} do setor ${setorServidor}`,
+            mensagem: `O usuario de nome ${usuario.nome} arquivou o ${servidorOuEstagiario} ${nomeServidor} do setor ${setorServidor}`,
         })
     }
 
@@ -58,8 +79,8 @@ export function CardFuncionarios(props) {
                 {quantidadeServidores === 0 && <p>Nenhum servidor</p>}
 
                 <div className={styles["card__details__container__button"]}>
-                    
-                    <button className={`${styles["card__details__arquivar__button"]} ${styles["card__details__button"]} `} onClick={arquivaServidor}>Arquivar</button>
+
+                    <button className={`${styles["card__details__arquivar__button"]} ${styles["card__details__button"]} `} onClick={arquiva}>Arquivar</button>
                 </div>
             </details>
 
