@@ -5,6 +5,9 @@ import { api } from "../../../api/axios"
 import { useState } from "react"
 
 export function CardFuncionarios(props) {
+    // <button className={`${styles["card__details__historico__button"]} ${styles["card__details__button"]} `}>Histórico</button>
+    // <button className={`${styles["card__details__atualizar__button"]} ${styles["card__details__button"]} `}>Atualizar</button>
+    
     const [isLoading, setIsLoading] = useState(false)
     const { identificador, nome, quantidadeServidores, isChecked, onChecked, id, onArquivaServidor } = props
     const toggleDetails = (event) => {
@@ -55,8 +58,7 @@ export function CardFuncionarios(props) {
                 {quantidadeServidores === 0 && <p>Nenhum servidor</p>}
 
                 <div className={styles["card__details__container__button"]}>
-                    <button className={`${styles["card__details__historico__button"]} ${styles["card__details__button"]} `}>Histórico</button>
-                    <button className={`${styles["card__details__atualizar__button"]} ${styles["card__details__button"]} `}>Atualizar</button>
+                    
                     <button className={`${styles["card__details__arquivar__button"]} ${styles["card__details__button"]} `} onClick={arquivaServidor}>Arquivar</button>
                 </div>
             </details>
