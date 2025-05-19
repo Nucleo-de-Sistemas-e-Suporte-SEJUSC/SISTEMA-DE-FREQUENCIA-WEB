@@ -8,11 +8,21 @@ import Perfil from "../../../assets/icones-menu/perfil.svg"
 import Relogio from "../../../assets/icones-menu/relogio.svg"
 import Servidores from "../../../assets/icones-menu/servidores.svg"
 import Menu from "../../../assets/icones-menu/menu.svg"
-
+import { useEffect, useState } from "react";
 
 export function BarraLateral(props) {
     const { menuOpen, handleMenu } =  props
     const navigate = useNavigate()
+
+    // Adicione este estado para armazenar o nome do usuário
+    const [nomeUsuario, setNomeUsuario] = useState("");
+
+    useEffect(() => {
+        const usuario = JSON.parse(localStorage.getItem("usuario"));
+        if (usuario && usuario.nome) {
+            setNomeUsuario(usuario.nome);
+        }
+    }, []);
 
     const handleLogout = () => {   
         localStorage.removeItem("usuario")
@@ -79,6 +89,7 @@ export function BarraLateral(props) {
                         
                         </div>
                     </NavLink>
+
                    
                 </div>
                 
@@ -92,7 +103,7 @@ export function BarraLateral(props) {
                         <div className={`${styles["container__buttons__menu__admin"]}`}>
                             <img src={Perfil} alt="" className={styles["container__buttons__menu-img"]}/>
                             {
-                                menuOpen && ( <p>Administrador</p>)
+                                menuOpen && ( <p>{nomeUsuario || "Usuário"}</p> )
                             }
                         </div>
                     </NavLink>
