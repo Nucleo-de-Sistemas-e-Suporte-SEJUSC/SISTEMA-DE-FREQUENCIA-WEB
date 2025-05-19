@@ -15,7 +15,6 @@ export function MainVisualizarEstagiarios() {
         const [estagiariosFiltrados, setEstagiariosFiltrados] = useState([]);
         const [mesSelecionado, setMesSelecionado] = useState(meses[mesAtual]);
         const [termoBusca, setTermoBusca] = useState("");
-        const [setorSelecionado, setSetorSelecionado] = useState("GTI"); // Valor padrão
 
         async function listaEstagiariosPDF() {
                 setLoading(true);
@@ -118,10 +117,10 @@ export function MainVisualizarEstagiarios() {
                         placeholder="Pesquisa pelo estagiário ou setor"
                         className={styles["form__visualizar__input"]}
                         value={termoBusca}
-                        onChange={(e) => setTermoBusca(e.target.value)}
+                        onChange={e => setTermoBusca(e.target.value)}
                     />
                 </div>
-                <p>Estagiários - Setor: {setorSelecionado} / Mês: {mesSelecionado}</p>
+                <p>Estagiários ou Setor: {termoBusca || "GTI"} / Mês: {mesSelecionado}</p>
             </form>
 
             <div className={styles["container__visualizar__content"]}>

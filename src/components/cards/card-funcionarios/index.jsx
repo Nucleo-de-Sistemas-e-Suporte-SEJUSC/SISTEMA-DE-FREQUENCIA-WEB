@@ -75,7 +75,7 @@ export function CardFuncionarios(props) {
                 <summary className={styles["card__summary"]} onClick={(e) => e.stopPropagation()}>
                     {nome}
                 </summary>
-                {quantidadeServidores > 0 && <p>{quantidadeServidores} {identificador ? 'Estagiários' : 'Servidores'}</p>}
+                {quantidadeServidores > 0 && <p>{quantidadeServidores} Servidores</p>}
                 {quantidadeServidores === 0 && <p>Nenhum servidor</p>}
 
                 <div className={styles["card__details__container__button"]}>
@@ -86,9 +86,9 @@ export function CardFuncionarios(props) {
 
             <div
                 className={styles["container-selecionar"]}
-                onClick={(e) => {
-                    e.stopPropagation(); // Impede que o clique afete o card
-                    onChecked({ target: { checked: !isChecked } }); // Alterna o estado do checkbox
+                onClick={e => {
+                    e.stopPropagation();
+                    onChecked({ target: { checked: !isChecked } });
                 }}
             >
                 <input
@@ -97,7 +97,7 @@ export function CardFuncionarios(props) {
                     id={`selecionar-${id}`}
                     className={styles["container-selecionar__input"]}
                     checked={isChecked}
-                    onChange={(e) => e.stopPropagation()} // Impede que o clique no input afete o card
+                    readOnly
                 />
                 <div className={styles["container-selecionar__label"]}>
                     <img

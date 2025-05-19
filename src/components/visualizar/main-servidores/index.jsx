@@ -93,7 +93,7 @@ export function MainVisualizarServidores() {
                         onChange={(e) => setTermoBusca(e.target.value)}
                     />
                 </div>
-                <p>Servidores - Mês: {mesSelecionado}</p>
+                <p>Servidores - Setor: {termoBusca || "GTI"} / Mês: {mesSelecionado}</p>
             </form>
 
             <div className={styles["container__visualizar__content"]}>
