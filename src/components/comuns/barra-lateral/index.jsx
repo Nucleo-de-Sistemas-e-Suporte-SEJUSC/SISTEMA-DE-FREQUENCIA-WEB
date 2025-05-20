@@ -3,28 +3,26 @@ import { NavLink, useNavigate } from "react-router-dom"
 import Porta from "../../../assets/icones-menu/porta.svg"
 import FrequenciaGerador from "../../../assets/icones-menu/frequencia-gerador.svg"
 import FrequenciaLog from "../../../assets/icones-menu/frequencia-log.svg"
-import Frequencia from "../../../assets/icones-menu/frequencia.svg"
 import Perfil from "../../../assets/icones-menu/perfil.svg"
-import Relogio from "../../../assets/icones-menu/relogio.svg"
 import Servidores from "../../../assets/icones-menu/servidores.svg"
 import Menu from "../../../assets/icones-menu/menu.svg"
 import { useEffect, useState } from "react";
 
 export function BarraLateral(props) {
-    const { menuOpen, handleMenu } =  props
+    const { menuOpen, handleMenu } = props
     const navigate = useNavigate()
 
     // Adicione este estado para armazenar o nome do usuário
-    const [nomeUsuario, setNomeUsuario] = useState("");
+    const [dadosDoUsuario, setDadosDoUsuario] = useState("");
 
     useEffect(() => {
         const usuario = JSON.parse(localStorage.getItem("usuario"));
         if (usuario && usuario.nome) {
-            setNomeUsuario(usuario.nome);
+            setDadosDoUsuario(usuario);
         }
     }, []);
 
-    const handleLogout = () => {   
+    const handleLogout = () => {
         localStorage.removeItem("usuario")
         navigate("/")
     }
@@ -33,39 +31,53 @@ export function BarraLateral(props) {
         <aside className={menuOpen ? styles["barra-lateral"] : styles["barra-lateral-fechada"]}>
 
             <div>
-                <div>
-                    <img 
-                            className={`${styles["icone-hamburguer"]} `} 
-                            src={Menu} 
-                            alt="" 
-                            onClick={() => handleMenu(!menuOpen)} 
-                        />
+                <div className={styles["container__administrador__links"]}>
+                    <div className={styles["container__administrador__links__admin"]}>
+                        <NavLink to="/home" className={({ isActive }) =>
+                            isActive ? styles["container__buttons__menu--hamburger"] : styles["container__buttons__menu--hamburger--nao-ativo"]
+                        }>
+                            <div className={`${styles["container__buttons__menu__admin"]}`}>
+                                <img onClick={() => handleMenu(!menuOpen)} src={Perfil} alt="" className={styles["container__buttons__menu-img"]} />
+                                {
+                                    menuOpen && (<p>{dadosDoUsuario.cargo || "Usuário"}</p>)
+                                }
+                            </div>
+                        </NavLink>
+                    </div>
+
+                    <div className={styles["container__buttons__menu--hamburger--nao-ativo"]}>
+                        {
+                            menuOpen && (
+                                <img src={Porta} alt="" className={styles["container__buttons__menu-img"]} onClick={handleLogout} />
+                            )
+                        }
+                    </div>
                 </div>
 
                 <div>
-                    <NavLink to="/servidores" className={({isActive}) =>
+                    <NavLink to="/servidores" className={({ isActive }) =>
                         isActive ? styles["container__buttons__menu--hamburger"] : styles["container__buttons__menu--hamburger--nao-ativo"]
                     }>
                         <div >
-                            <img src={FrequenciaGerador} alt="" className={styles["container__buttons__menu-img"]}/>
+                            <img src={FrequenciaGerador} alt="" className={styles["container__buttons__menu-img"]} />
                             {
-                                menuOpen && ( <p>Gerador de Frequência</p> )
+                                menuOpen && (<p>Gerador de Frequência</p>)
                             }
                         </div>
                     </NavLink>
-                    
-                    <NavLink to="/arquivados-ativos" className={({isActive}) =>
+
+                    <NavLink to="/arquivados-ativos" className={({ isActive }) =>
                         isActive ? styles["container__buttons__menu--hamburger"] : styles["container__buttons__menu--hamburger--nao-ativo"]
                     }>
                         <div>
-                            <img src={Servidores} alt="" className={styles["container__buttons__menu-img"]}/>
+                            <img src={Servidores} alt="" className={styles["container__buttons__menu-img"]} />
                             {
-                                menuOpen && ( <p>Funcionários</p>)
+                                menuOpen && (<p>Funcionários</p>)
                             }
-                        
+
                         </div>
                     </NavLink>
-                   
+
                     {/* <NavLink to="/frequencia/mensal" className={({isActive}) =>
                         isActive ? styles["container__buttons__menu--hamburger"] : styles["container__buttons__menu--hamburger--nao-ativo"]
                     }>
@@ -77,48 +89,27 @@ export function BarraLateral(props) {
                         
                         </div>
                     </NavLink> */}
-                   
-                    <NavLink to="/historico-alteracao" className={({isActive}) =>
+
+                    <NavLink to="/historico-alteracao" className={({ isActive }) =>
                         isActive ? styles["container__buttons__menu--hamburger"] : styles["container__buttons__menu--hamburger--nao-ativo"]
                     }>
                         <div>
-                            <img src={FrequenciaLog} alt="" className={styles["container__buttons__menu-img"]}/>
+                            <img src={FrequenciaLog} alt="" className={styles["container__buttons__menu-img"]} />
                             {
-                                menuOpen && ( <p>Alterações</p>)
+                                menuOpen && (<p>Alterações</p>)
                             }
-                        
+
                         </div>
                     </NavLink>
 
-                   
+
                 </div>
-                
+
             </div>
 
-            <div className={styles["container__administrador__links"]}>
-                <div className={styles["container__administrador__links__admin"]}>
-                    <NavLink to="/home" className={({isActive}) =>
-                        isActive ? styles["container__buttons__menu--hamburger"] : styles["container__buttons__menu--hamburger--nao-ativo"]
-                    }>
-                        <div className={`${styles["container__buttons__menu__admin"]}`}>
-                            <img src={Perfil} alt="" className={styles["container__buttons__menu-img"]}/>
-                            {
-                                menuOpen && ( <p>{nomeUsuario || "Usuário"}</p> )
-                            }
-                        </div>
-                    </NavLink>
-                </div>
 
-                <div className={styles["container__buttons__menu--hamburger--nao-ativo"]}>
-                    {
-                        menuOpen && (
-                                <img src={Porta} alt="" className={styles["container__buttons__menu-img"]} onClick={handleLogout}  />      
-                        )
-                    }
-                </div>
-            </div>
 
-            
+
         </aside>
     )
 }

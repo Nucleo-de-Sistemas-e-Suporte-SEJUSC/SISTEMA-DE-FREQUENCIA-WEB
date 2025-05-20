@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 
 import { toast } from "sonner";
 import styles from "./style.module.css";
-import { api } from "../../../api/axios";
 
 export function FormLogin() {
     const [matricula, setMatricula] = useState('');
@@ -35,10 +34,10 @@ export function FormLogin() {
                 }
 
                 const dados = await response.json()
-
                 const usuarioStorage = {
                     nome: dados.nome,
                     role: dados.role,
+                    cargo: dados.cargo,
                     matricula
                 }
               
@@ -62,8 +61,7 @@ export function FormLogin() {
     return (
         <section className={styles["container__form"]}>
             <div>
-                <h1 className={styles["container__form__titulo__header"]}>Gestão do RH</h1>
-                <h2 className={styles["container__form__titulo"]}>Login</h2>
+                <h1 className={styles["container__form__titulo__header"]}>SEJUSC - RH</h1>
             </div>
 
             <section className={styles["container__section__form"]}>

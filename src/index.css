@@ -2,15 +2,15 @@
 
 :root {
   --font-family: "Alata", sans-serif;
-  --button: #443776;
-  --lilas: #5C5CBE;
+  --button: #133960;
+  --lilas: #133960;
   --vermelho: #EC221F;
-  --roxo: #4C4357;
+  --roxo: #133960;
   --branco: #F1F4FF;
   --preto: #000;
-  --roxo-500: #65558F;
-  --roxo-900: #5933ba;
-  --azul-escuro: #021D51;
+  --roxo-500: #133960;
+  --roxo-900: #06213b;
+  --azul-escuro: #1E1E1E;
   --laranja: #E5A000;
   --cinza: #B3B3B3;
   --cinza-200: #EDEBEB;
@@ -32,6 +32,8 @@ body{
   font-weight: 400;
   font-family: var(--font-family);
   background-color: var(--branco);
+  height: 100%;
+  width: 100%;
 }
 
 input, label, section, div, body, header {

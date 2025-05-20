@@ -101,7 +101,9 @@ export function MainServidores() {
             if (!setorSelecionado) {
                 console.error("Nenhum setor selecionado.");
                 return;
-            }
+            }            
+
+            console.log(setorSelecionado[1], mesEscolhido)
     
             setIsLoading(true);
             // Faz a chamada para gerar os PDFs e criar o ZIP
@@ -161,7 +163,6 @@ export function MainServidores() {
             setIsLoading(false)
         }
     }
-    console.log(checkedServidores)
     
     const handleCheckboxChange = (id, type, valor) => {
         if (type === "setor") {
