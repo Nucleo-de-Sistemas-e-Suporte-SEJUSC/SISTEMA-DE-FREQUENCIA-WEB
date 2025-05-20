@@ -15,7 +15,7 @@ export function FormLogin() {
             event.preventDefault();
 
             try {
-                const response = await fetch('http://12.90.4.98:8000/login', {
+                const response = await fetch('http://12.90.4.191:8000/login', {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"
@@ -26,8 +26,15 @@ export function FormLogin() {
                     }),
                     credentials: 'include'
                 });
-                const dados = await response.json();
-                console.log(dados)
+
+                const status = response.status
+
+                if (status !== 200) {
+                    const dados = await response.json();
+                    throw new Error(dados.erro)
+                }
+
+                const dados = await response.json()
 
                 const usuarioStorage = {
                     nome: dados.nome,
@@ -60,7 +67,7 @@ export function FormLogin() {
             </div>
 
             <section className={styles["container__section__form"]}>
-                <form action="#" method="POST" className={styles["form"]}>
+                <form className={styles["form"]}>
                     <div className={styles["container__input"]}>
                         <label htmlFor="matricula" className={styles["label__form"]}>Matrícula</label>
                         <input 

@@ -45,6 +45,7 @@
     background-color: var(--roxo-500);
     color: var(--branco);
     border: none;
+    cursor: pointer;
 }
 
 .form__button:hover {

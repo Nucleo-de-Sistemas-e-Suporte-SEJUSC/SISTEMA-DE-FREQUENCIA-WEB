@@ -52,30 +52,42 @@
 }
 
 .container-selecionar {
-    width: 10%;
+    width: 22%;
     border-radius: 5px;
-    padding: 8px;
+    padding: 16px;
     background-color: var(--branco);
     color: var(--roxo);
-    border: 1px solid var(--roxo);
-}
-
-.container-selecionar__input {
-    display: none;
-}
-
-.container-selecionar:has(.container-selecionar__input:checked)  {
-    background-color: var(--roxo);
-    color: var(--branco);
+    border: 2px solid var(--roxo);
+    cursor: pointer;
 }
 
 .container-selecionar__label {
-    cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 5px;
-    padding: 8px;
+    min-width: 140px;
+    max-width: 140px;
+    border-radius: 5px;
+    padding: 16px;
+    background-color: var(--branco);
+    color: var(--roxo);
+    border: 2px solid var(--roxo);
+    cursor: pointer;
+    position: relative;
+}
+
+.container-selecionar__input {
+    opacity: 0;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+.container-selecionar__label:has(.container-selecionar__input:checked) {
+    background-color: var(--roxo);
+    color: var(--branco);
 }
 
 .icon-check-hidden {
