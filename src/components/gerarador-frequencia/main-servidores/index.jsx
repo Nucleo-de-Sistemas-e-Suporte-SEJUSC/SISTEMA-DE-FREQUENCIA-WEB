@@ -221,7 +221,7 @@ export function MainServidores() {
                             checked={filtro === "setor"}
                             onChange={handleFiltro}
                         />
-                        <label htmlFor="fitro" className="form__filtro__label">Setores</label>
+                        <label htmlFor="fitro" className="form__filtro__label">Setor</label>
                     </div>
 
                     <div>
@@ -233,7 +233,7 @@ export function MainServidores() {
                             checked={filtro === "servidor"}
                             onChange={handleFiltro}
                         />
-                        <label htmlFor="fitro" className="form__filtro__label">Servidores</label>
+                        <label htmlFor="fitro" className="form__filtro__label">Servidor</label>
                     </div>
 
                     <div className="form__filtro__select__container">

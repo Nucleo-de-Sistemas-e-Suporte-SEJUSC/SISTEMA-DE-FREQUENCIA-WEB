@@ -43,7 +43,8 @@
     margin-bottom: 30px;
 }
 
-.container__buttons__menu--hamburger  div, .container__buttons__menu--hamburger--nao-ativo div {
+.container__buttons__menu--hamburger div,
+.container__buttons__menu--hamburger--nao-ativo div {
     display: flex;
     align-items: center;
     gap: 10px;
@@ -73,11 +74,15 @@
     color: #fff;
 }
 
-
 .container__administrador__links {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
+    align-items: flex-start;
+    justify-content: center;
     margin-bottom: 50px;
+    gap: 20px;
 }
 
+.container__administrador__links p {
+    font-size: 18px;
+    color: #fff;
+}
