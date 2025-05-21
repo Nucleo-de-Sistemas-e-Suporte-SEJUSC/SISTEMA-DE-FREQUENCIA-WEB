@@ -5,7 +5,7 @@ import { Header } from "../../components/comuns/header"
 import { MainArquivados } from "../../components/main-arquivados"
 
 export function Arquivados() {
-    const [menu, setMenu] =  useState(false)
+    const [menu, setMenu] = useState(false)
     const [filtro, setFiltro] = useState("Servidores")
 
     function handleFiltro(event) {
@@ -31,31 +31,37 @@ export function Arquivados() {
                         <div className={
                             filtro === "Servidores" ? styles["container__input--ativo"] : styles["container__input--nao-ativo"]
                         }>
-                            <input
-                                type="radio"
-                                name="link-checado"
-                                id="servidores"
-                                value="Servidores"
-                                checked={filtro === "Servidores"}
-                                onChange={handleFiltro}
-                                className={styles["ativo-input"]}
-                            />
-                            <label htmlFor="servidores">Servidores</label>
+
+                            <label htmlFor="servidores">
+                                <input
+                                    type="radio"
+                                    name="link-checado"
+                                    id="servidores"
+                                    value="Servidores"
+                                    checked={filtro === "Servidores"}
+                                    onChange={handleFiltro}
+                                    className={styles["ativo-input"]}
+                                />
+                                Servidores
+                            </label>
                         </div>
 
                         <div className={
-                            filtro === "Estagiarios" ? styles["container__input--ativo"] : styles["container__input--nao-ativo"]
+                            filtro === "ESTAGIÁRIO" ? styles["container__input--ativo"] : styles["container__input--nao-ativo"]
                         }>
-                            <input
-                                type="radio"
-                                name="link-checado"
-                                id="estagiarios"
-                                value="Estagiarios"
-                                checked={filtro === "Estagiarios"}
-                                onChange={handleFiltro}
-                                className={styles["ativo-input"]}
-                            />
-                            <label htmlFor="estagiarios">Estagiários</label>
+
+                            <label htmlFor="estagiarios">
+                                <input
+                                    type="radio"
+                                    name="link-checado"
+                                    id="estagiarios"
+                                    value="ESTAGIÁRIO"
+                                    checked={filtro === "ESTAGIÁRIO"}
+                                    onChange={handleFiltro}
+                                    className={styles["ativo-input"]}
+                                />
+                                Estagiários
+                            </label>
                         </div>
                     </div>
                 </div>

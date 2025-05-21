@@ -7,6 +7,8 @@ import { useState } from "react";
 import { toast } from "sonner";
 
 export function MainArquivados(props) {
+    //<button className={`${styles["card__details__atualizar__button"]} ${styles["card__details__button"]}`}>Atualizar</button>
+    //<button className={`${styles["card__details__historico__button"]} ${styles["card__details__button"]}`}>Histórico</button>
     const { funcionarios } = props
     const [funcionariosArquivados, setFuncionariosArquivados] = useState([])
     const [isLoading, setIsLoading] = useState(false)
@@ -94,14 +96,14 @@ export function MainArquivados(props) {
                         type="text"
                         name="pesquisa"
                         id="pesquisa"
-                        placeholder={`Pesquisa pelos ${funcionarios} ou setor`}
+                        placeholder={`Pesquisa pelos ${funcionarios.toLowerCase()} ou setor`}
                         className={styles["form__visualizar__input"]}
                         value={pesquisa}
                         onChange={e => setPesquisa(e.target.value)}
                     />
                 </div>
 
-                <p>{getInfoPesquisa()}</p>
+                <p>{getInfoPesquisa().toLowerCase()}</p>
             </form>
 
             <div className={styles["container__visualizar__content"]}>
@@ -121,9 +123,8 @@ export function MainArquivados(props) {
                                     <summary className={styles["card__summary"]}>{funcionario.nome}</summary>
                                     <p>Arquivado</p>
                                     <div className={styles["card__details__container__button"]}>
-                                        <button className={`${styles["card__details__atualizar__button"]} ${styles["card__details__button"]}`}>Atualizar</button>
+                                        
                                         <button className={`${styles["card__details__arquivar__button"]} ${styles["card__details__button"]}`} onClick={() => ativaFuncionariosAPI(funcionario.id)}>Desarquivar</button>
-                                        <button className={`${styles["card__details__historico__button"]} ${styles["card__details__button"]}`}>Histórico</button>
                                     </div>
                                 </details>
                             ))}

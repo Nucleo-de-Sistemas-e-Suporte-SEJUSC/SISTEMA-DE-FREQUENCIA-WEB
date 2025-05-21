@@ -45,7 +45,7 @@ export function FormLogin() {
 
                 if (dados.role === "admin", "editor") {
                     toast.success("Usuário autenticado!");
-                    navigate("/home");
+                    navigate("/servidores");
                 } else {
                     toast.error("Matrícula ou senha inválidos!");
                 }
@@ -53,8 +53,6 @@ export function FormLogin() {
             } catch (erro) {
                 toast.error("Erro ao buscar dados");
                 console.error(erro);
-            } finally {
-                console.log("Requisição finalizada.");
             }
     };
 

@@ -6,6 +6,8 @@ import FrequenciaLog from "../../../assets/icones-menu/frequencia-log.svg"
 import Perfil from "../../../assets/icones-menu/perfil.svg"
 import Servidores from "../../../assets/icones-menu/servidores.svg"
 import { useEffect, useState } from "react";
+import Logo from '../../../assets/SISHR.png'
+
 
 export function BarraLateral(props) {
 	const { menuOpen, handleMenu } = props
@@ -14,12 +16,21 @@ export function BarraLateral(props) {
 	// Adicione este estado para armazenar o nome do usuário
 	const [dadosDoUsuario, setDadosDoUsuario] = useState("");
 
+	const cargo = "GESTORA"
+
 	useEffect(() => {
 		const usuario = JSON.parse(localStorage.getItem("usuario"));
 		if (usuario && usuario.nome) {
 			setDadosDoUsuario(usuario);
 		}
 	}, []);
+
+	function roleOfUserNormalized(cargo) {
+		const firstLetterInUpperCase = cargo.toLowerCase().charAt(0).toUpperCase()
+		const restOfWordInLowerCase = cargo.slice(1).toLowerCase()
+
+		return firstLetterInUpperCase + restOfWordInLowerCase
+	}
 
 	const handleLogout = () => {
 		localStorage.removeItem("usuario")
@@ -35,21 +46,20 @@ export function BarraLateral(props) {
 						<div>
 							<div className={`${styles["container__buttons__menu__admin"]}`}>
 								<img onClick={() => handleMenu(!menuOpen)} src={Perfil} alt="" className={styles["container__buttons__menu-img"]} />
-
 							</div>
 						</div>
 					</div>
 
 					<div>
 						{
-							menuOpen && (<p>{dadosDoUsuario.cargo || "Usuário"}</p>)
+							menuOpen && (<p>{roleOfUserNormalized(dadosDoUsuario.cargo) || "Usuário"}</p>)
 						}
 					</div>
 
 					<div className={styles["container__buttons__menu--hamburger--nao-ativo"]}>
 						{
 							menuOpen && (
-								<img src={Porta} alt="" className={styles["container__buttons__menu-img"]} onClick={handleLogout} />
+								<img src={Porta} alt="" className={styles["container__buttons__logout"]} onClick={handleLogout} />
 							)
 						}
 					</div>
@@ -107,10 +117,7 @@ export function BarraLateral(props) {
 				</div>
 
 			</div>
-
-
-
-
+			<img src={Logo} className={styles["logo-overlay"]} />
 		</aside>
 	)
 }
