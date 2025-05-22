@@ -12,15 +12,72 @@
   overflow: hidden;
 }
 
-.overlay {
-  position: absolute;
-  inset: 0; /* equivale a top: 0; right: 0; bottom: 0; left: 0 */
-  background-color: rgba(0, 0, 0, 0.5); /* escurece o fundo */
-  z-index: 1;
+.container__form {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
 }
 
-/* FormLogin ou conteúdo deve vir acima do overlay */
-.container__login > *:not(.overlay) {
-  position: relative;
-  z-index: 2;
+.container__form__titulo__header {
+  font-size: 40px;
+  font-weight: 100;
+  color: var(--branco);
+}
+
+.container__section__form {
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 10px;
+}
+
+.form {
+  width: 450px;
+  padding: 24px;
+}
+
+.container__button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.container__button__link {
+  width: 60%;
+}
+
+.form__button {
+  width: 100%;
+  padding: 11px;
+  margin-top: 10px;
+  border-radius: 10px;
+  background-color: var(--roxo-500);
+  color: var(--branco);
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.form__button:hover {
+  transition: .5;
+  background-color: var(--roxo-900);
+}
+
+.container__input {
+  margin-bottom: 16px;
+}
+
+.label__form {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 14px;
+  font-weight: 100;
+  color: var(--azul-escuro);
+}
+
+.input__form {
+  box-sizing: border-box;
+  width: 100%;
+  border-radius: 5px;
+  padding: 12px;
+  border: 1px solid var(--cor-borda);
 }

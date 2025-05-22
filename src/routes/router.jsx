@@ -1,5 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { Login } from "../pages/login"
+import { LoginScreen } from "../pages/login"
 import { FrequenciaMensal } from "../pages/frequencia-mensal";
 import { NotFound } from "../pages/not-found";
 import { GerarServidores } from "../pages/gerar-servidores";
@@ -9,13 +9,9 @@ import { HistoricoAlteracao } from "../pages/historico-alteracao";
 import { Historico } from "../pages/historico";
 import { VisualizarServidor } from "../pages/visualizar-servidor";
 import { VisualizarEstagiario } from "../pages/visualizar-estagiario";
-import { Home } from "../pages/home";
 import { ArquivadosAtivos } from "../pages/arquivados-ativos";
 import { Ativos } from "../pages/ativos";
 import { ControleDePonto } from "../pages/controle-de-ponto";
-
-
-//felipe esteve aqui
 
 export default function Router() {
     
@@ -23,8 +19,7 @@ export default function Router() {
     
        <BrowserRouter>
             <Routes>
-                <Route path="/" element={<Login />} />
-                <Route path="/home" element={<Home />} />
+                <Route path="/" element={<LoginScreen />} />
                 <Route path="/servidores" element={<GerarServidores />} />
                 <Route path="/estagiarios" element={<GerarEstagiarios />} />
                 <Route path="/visualizar/servidores" element={<VisualizarServidor />} />

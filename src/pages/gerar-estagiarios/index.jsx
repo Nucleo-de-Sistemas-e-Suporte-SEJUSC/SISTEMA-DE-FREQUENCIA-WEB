@@ -11,7 +11,7 @@ export function GerarEstagiarios() {
     const [menu, setMenu] =  useState(false)
 
     return (
-        <section className={
+        <div className={
             menu ? styles["container__principal"] : styles["container__principal__menu__fechado"]
         } >
             <BarraLateral 
@@ -19,7 +19,7 @@ export function GerarEstagiarios() {
                 handleMenu={setMenu}
             />
 
-            <section className={styles["container__conteudo-principal"]}>
+            <div className={styles["container__conteudo-principal"]}>
                 <Header 
                     titulo="Gerador de Frequência"
                  />
@@ -53,7 +53,7 @@ export function GerarEstagiarios() {
                     </div>
                 </Navigation>
                 <MainEstagiario />
-            </section> 
-        </section>
+            </div> 
+        </div>
     )
 }

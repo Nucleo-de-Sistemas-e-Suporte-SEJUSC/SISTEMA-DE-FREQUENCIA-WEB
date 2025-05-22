@@ -16,13 +16,15 @@ export function BarraLateral(props) {
 	// Adicione este estado para armazenar o nome do usuário
 	const [dadosDoUsuario, setDadosDoUsuario] = useState("");
 
-	const cargo = "GESTORA"
-
 	useEffect(() => {
 		const usuario = JSON.parse(localStorage.getItem("usuario"));
 		if (usuario && usuario.nome) {
 			setDadosDoUsuario(usuario);
+			return;
 		}
+
+		navigate("/");
+
 	}, []);
 
 	function roleOfUserNormalized(cargo) {
