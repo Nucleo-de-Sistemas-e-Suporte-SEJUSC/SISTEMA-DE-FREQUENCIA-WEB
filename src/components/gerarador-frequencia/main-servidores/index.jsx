@@ -83,52 +83,84 @@ export function MainServidores() {
 	}
 
 	async function converteSetoresParaPdfAPI() {
-		try {
-			const setorSelecionado = Object.keys(checkedSetores);
-			if (!setorSelecionado) {
-				console.error("Nenhum setor selecionado.");
-				return;
-			}
+    try {
+        const setoresSelecionados = Object.keys(checkedSetores);
+        if (!setoresSelecionados || setoresSelecionados.length === 0) {
+            console.error("Nenhum setor selecionado.");
+            return;
+        }
 
-			setIsLoading(true);
-			// Faz a chamada para gerar os PDFs e criar o ZIP
-			const responseGeracao = await api.post(`/setores/pdf`, {
-				setor: setorSelecionado[1],
-				mes: mesEscolhido,
-			});
+        setIsLoading(true);
 
-			await downloadSetorZip(setorSelecionado[1], mesEscolhido);
-		} catch (e) {
-			console.error("Erro ao converter setores para PDF:", e);
-		} finally {
-			setIsLoading(false);
-		}
-	}
+        // Chama a API para gerar os PDFs e o ZIP
+        const responseGeracao = await api.post(`/setores/pdf`, {
+            setores: setoresSelecionados,
+            mes: mesEscolhido,
+        });
 
-	async function downloadSetorZip(setor, mesEscolhido) {
-		try {
-			setIsLoading(true);
-			await api.get(`/setores/pdf/download-zip/${setor}/${mesEscolhido}`, { responseType: 'blob' })
-				.then(response => {
-					const blob = new Blob([response.data], { type: 'application/zip' });
-					const url = window.URL.createObjectURL(blob);
-					const link = document.createElement('a');
-					link.href = url;
-					link.download = `frequencia_mensal_${setor}_${mesEscolhido}.zip`;
-					document.body.appendChild(link);
-					link.click();
-					document.body.removeChild(link);
-					window.URL.revokeObjectURL(url);
-				})
-				.catch(error => {
-					console.error('Erro ao baixar o arquivo ZIP:', error);
-				});
-		} catch (e) {
-			console.error("Erro ao baixar ZIP:", e);
-		} finally {
-			setIsLoading(false);
-		}
-	}
+        // Se for mais de um setor, chama a rota de multissetores
+        if (setoresSelecionados.length > 1) {
+            await downloadMultissetoresZip(mesEscolhido);
+        } else {
+            await downloadSetorZip(setoresSelecionados[0], mesEscolhido);
+        }
+    } catch (e) {
+        console.error("Erro ao converter setores para PDF:", e);
+    } finally {
+        setIsLoading(false);
+    }
+}
+
+async function downloadSetorZip(setor, mesEscolhido) {
+    try {
+        setIsLoading(true);
+        await api.get(`/setores/pdf/download-zip/${setor}/${mesEscolhido}`, { responseType: 'blob' })
+            .then(response => {
+                const blob = new Blob([response.data], { type: 'application/zip' });
+                const url = window.URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = `frequencia_mensal_${setor}_${mesEscolhido}.zip`;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                window.URL.revokeObjectURL(url);
+            })
+            .catch(error => {
+                console.error('Erro ao baixar o arquivo ZIP:', error);
+            });
+    } catch (e) {
+        console.error("Erro ao baixar ZIP:", e);
+    } finally {
+        setIsLoading(false);
+    }
+}
+
+async function downloadMultissetoresZip(mesEscolhido) {
+    try {
+        setIsLoading(true);
+        await api.get(`/setores/pdf/download-zip-multissetores/${mesEscolhido}`, { responseType: 'blob' })
+            .then(response => {
+                const blob = new Blob([response.data], { type: 'application/zip' });
+                const url = window.URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = `frequencias_multissetores_${mesEscolhido}.zip`;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                window.URL.revokeObjectURL(url);
+            })
+            .catch(error => {
+                console.error('Erro ao baixar o arquivo ZIP multissetores:', error);
+            });
+    } catch (e) {
+        console.error("Erro ao baixar ZIP multissetores:", e);
+    } finally {
+        setIsLoading(false);
+    }
+}
+
 
 	async function arquivarServidorAPI(idServidor) {
 		try {
