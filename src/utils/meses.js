@@ -10,4 +10,5 @@ export const meses = [
     "Setembro", 
     "Outubro", 
     "Novembro", 
-    "Dezembro"];
+    "Dezembro"
+];

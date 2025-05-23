@@ -1,51 +1,42 @@
 import "./style.css"
-import { useEffect, useState } from "react";
-import { meses } from "../../../utils/meses";
+import { useState } from "react";
 import { CardFuncionarios } from "../../cards/card-funcionarios";
 import { api } from "../../../api/axios";
-import { pegaSetoresAPI } from "../../../api/setores/pega-setores";
-import { pegaServidoresAPI } from "../../../api/servidores/pega-servidores";
 import * as Dialog from '@radix-ui/react-dialog';
 import { FormCadastrarFuncionarios } from "../../formularios/form-cadastrar-funcionarios";
+import { useMainServidores } from "../../../hooks/useMainServidores";
 
 export function MainServidores() {
-	//<button>Gerar todos os { filtro === 'servidor' ? "servidores" : "setores" } </button>
-	const data = new Date()
-	const mesAtual = data.getMonth()
-	const mes = meses[mesAtual]
+	const {
+		isLoading,
+		month,
+		arrayOfMonths,
+		opcoesDeFiltro,
+		setores,
+		filtroNomes,
+		servidores,
+		setIsLoading,
+		handleCheckboxChange,
+		handleSearchChange,
+		handleSelectedMonth,
+		setFiltroNomes
+	} = useMainServidores()
 
-	const [isLoading, setIsLoading] = useState(false)
-	const [filtro, setFiltro] = useState("setor")
-	const [servidores, setServidores] = useState([])
-	const [todosSetores, setTodosSetores] = useState([])
 	const [mensagemServidores, setMensagemServidores] = useState("")
-	const [setoresFiltrados, setSetoresFiltrados] = useState([])
 	const [checkedSetores, setCheckedSetores] = useState({})
 	const [checkedServidores, setCheckedServidores] = useState({})
-	const [mesEscolhido, setMesEscolhido] = useState(mes)
-	const [filtroNomes, setFiltroNomes] = useState("")
-	const [filtroSetor, setFiltroSetor] = useState("")
-
-	useEffect(() => {
-		pegaServidoresAPI(filtroNomes, setServidores)
-	}, [filtroNomes])
-
-	useEffect(() => {
-		pegaSetoresAPI(setTodosSetores, setSetoresFiltrados)
-	}, [])
+	const [mesEscolhido, setMesEscolhido] = useState(month)
 
 	async function converteServidoresParaPdfAPI() {
 		setIsLoading(true);
 		try {
 			const idServidores = Object.keys(checkedServidores);
-			console.log(idServidores)
 			const responseGeracao = await api.post("/servidores/pdf", {
 				funcionarios: idServidores,
 				mes: mesEscolhido
 			});
 
 			if (responseGeracao.status === 200) {
-				//console.log("to aquiiiiii 2")
 				return true;
 			} else {
 				alert("erro ao gerar arquivo zip.");
@@ -60,15 +51,11 @@ export function MainServidores() {
 		}
 	}
 
-
 	async function baixarServidoresZip() {
 		setIsLoading(true);
 		try {
-			console.log("to aqui 1111|")
 			const response = await api.get(`/servidores/pdf/download-zip/${mesEscolhido}`, { responseType: 'blob' });
-			console.log("to aqui 2222")
 			if (response.status === 200) {
-				console.log("to aqui 3333")
 				const blob = new Blob([response.data], { type: 'application/zip' });
 				const url = window.URL.createObjectURL(blob);
 				const link = document.createElement('a');
@@ -94,16 +81,14 @@ export function MainServidores() {
 			await baixarServidoresZip();
 		}
 	}
+
 	async function converteSetoresParaPdfAPI() {
 		try {
-			// Obtém o setor selecionado (por exemplo, "GTI")
 			const setorSelecionado = Object.keys(checkedSetores);
 			if (!setorSelecionado) {
 				console.error("Nenhum setor selecionado.");
 				return;
 			}
-
-			console.log(setorSelecionado[1], mesEscolhido)
 
 			setIsLoading(true);
 			// Faz a chamada para gerar os PDFs e criar o ZIP
@@ -123,8 +108,6 @@ export function MainServidores() {
 	async function downloadSetorZip(setor, mesEscolhido) {
 		try {
 			setIsLoading(true);
-
-			// Faz uma chamada para baixar o arquivo ZIP
 			await api.get(`/setores/pdf/download-zip/${setor}/${mesEscolhido}`, { responseType: 'blob' })
 				.then(response => {
 					const blob = new Blob([response.data], { type: 'application/zip' });
@@ -164,7 +147,7 @@ export function MainServidores() {
 		}
 	}
 
-	const handleCheckboxChange = (id, type, valor) => {
+	const handleSelectedCheckboxChange = (id, type, valor) => {
 		if (type === "setor") {
 			setCheckedSetores(prevState => ({
 				...prevState,
@@ -173,40 +156,20 @@ export function MainServidores() {
 
 			}));
 			setCheckedServidores({});
-		} else if (type === "servidor") {
 
+		} else if (type === "servidor") {
 			setCheckedServidores(prevState => ({
 				...prevState,
-				//nome: valor,
 				[id]: !prevState[id],
 			}));
 			setCheckedSetores({});
 		}
 	};
 
-	function handleFiltro(event) {
-		setFiltro(event.target.value)
-	}
-
-	function handleMesEscolhido(event) {
-		setMesEscolhido(event.target.value)
-	}
-
-	function filtrarSetores(termo) {
-		if (!termo) {
-			setSetoresFiltrados(todosSetores)
-			return
-		}
-
-		const filtrados = todosSetores.filter(setor =>
-			setor.setor.toLowerCase().includes(termo.toLowerCase())
-		)
-		setSetoresFiltrados(filtrados)
-	}
-
 	return (
-		<main>
-			<form action="#" className="form__filtro">
+		<main className="main__servidores">
+
+			<form className="form__filtro">
 				<div>
 					<label htmlFor="selecione" className="form__filtro__label">Selecione o mês: </label>
 				</div>
@@ -218,8 +181,8 @@ export function MainServidores() {
 							value="setor"
 							name="fitro"
 							id="filtro"
-							checked={filtro === "setor"}
-							onChange={handleFiltro}
+							checked={opcoesDeFiltro.checkboxFiltro === "setor"}
+							onChange={({ target }) => handleCheckboxChange(target)}
 						/>
 						<label htmlFor="fitro" className="form__filtro__label">Setor</label>
 					</div>
@@ -230,25 +193,26 @@ export function MainServidores() {
 							value="servidor"
 							id="filtro"
 							name="fitro"
-							checked={filtro === "servidor"}
-							onChange={handleFiltro}
+							checked={opcoesDeFiltro.checkboxFiltro === "servidor"}
+							onChange={({ target }) => handleCheckboxChange(target)}
 						/>
 						<label htmlFor="fitro" className="form__filtro__label">Servidor</label>
 					</div>
 
 					<div className="form__filtro__select__container">
-						<select name="meses" id="meses" className="form__filtro__select" defaultValue={mes} onChange={handleMesEscolhido}>
-							{meses.map((mes, index) => {
-								return <option key={index} value={mes} >{mes}</option>
+						<select name="meses" id="meses" className="form__filtro__select" value={month} onChange={handleSelectedMonth}>
+							{arrayOfMonths.map((mes, index) => {
+								return <option key={index} value={mes}>{mes}</option>
 							})}
 						</select>
 					</div>
+
 				</div>
 			</form>
 
-			{filtro === "setor" && (
-				<section className="container__pesquisa__gerador">
-					<form action="#" className="filtros">
+			{opcoesDeFiltro.checkboxFiltro === "setor" && (
+				<div className="container__pesquisa__gerador">
+					<form className="filtros">
 						<div className="filtros__container">
 							<input
 								type="text"
@@ -256,93 +220,79 @@ export function MainServidores() {
 								id="setor"
 								placeholder="Pesquisa pelo setor"
 								className="filtros__input"
-								value={filtroSetor}
-								onChange={(e) => {
-									setFiltroSetor(e.target.value)
-									filtrarSetores(e.target.value)
-								}}
+								value={opcoesDeFiltro.searchFiltro}
+								onChange={({ target }) => handleSearchChange(target)}
 							/>
 						</div>
 					</form>
-				</section>
+				</div>
 			)}
 
-			{
-				filtro === 'servidor' && (
-					<section className="container__pesquisa__gerador">
-						<Dialog.Root>
-							<Dialog.Trigger asChild>
-								<button className="button__cadastrar__servidor">
-									Cadastrar Servidor
-								</button>
-							</Dialog.Trigger>
+			{opcoesDeFiltro.checkboxFiltro === 'setor' && (
+				<div className="container__servidores">
+					{setores.setoresFiltrados.map(setor => (
+						<CardFuncionarios
+							key={setor.id}
+							nome={setor.setor}
+							id={setor.setor}
+							quantidadeServidores={setor.quantidade}
+							isChecked={!!checkedSetores[setor.setor]}
+							onChecked={() => handleSelectedCheckboxChange(setor.setor, "setor")}
+						/>
+					))}
+				</div>
+			)}
 
-							<FormCadastrarFuncionarios />
-						</Dialog.Root>
+			{opcoesDeFiltro.checkboxFiltro === 'servidor' && (
+				<div className="container__pesquisa__gerador">
+					<Dialog.Root>
+						<Dialog.Trigger asChild>
+							<button className="button__cadastrar__servidor">
+								Cadastrar Servidor
+							</button>
+						</Dialog.Trigger>
 
-
-						<form action="#" className="filtros">
-							<div className="filtros__container">
-								<input
-									type="search"
-									name="servidor"
-									id="servidor"
-									placeholder="Pesquisa pelo servidor"
-									className="filtros__input"
-									value={filtroNomes}
-									onChange={e => setFiltroNomes(e.target.value)}
-								/>
-							</div>
-						</form>
-					</section>
-				)
-			}
-
-			{
-				filtro === 'servidor' && (
-					<section className="container__servidores">
-						{
-
-							servidores.map(servidor => {
-								return <CardFuncionarios
-									key={servidor.id}
-									nome={servidor.nome.toUpperCase()}
-									id={servidor.id}
-									isChecked={!!checkedServidores[servidor.id]}
-									onChecked={() => handleCheckboxChange(servidor.id, "servidor", servidor.nome)}
-									onArquivaServidor={() => arquivarServidorAPI(servidor.id)}
-									mensagem={mensagemServidores}
-								/>
-							})
+						<FormCadastrarFuncionarios />
+					</Dialog.Root>
 
 
-						}
-					</section>
-				)
-			}
-
-			{
-				filtro === 'setor' && (
-					<section className="container__servidores">
-						{setoresFiltrados.map(setor => (
-							<CardFuncionarios
-								key={setor.id}
-								nome={setor.setor}
-								id={setor.setor}
-								quantidadeServidores={setor.quantidade}
-								isChecked={!!checkedSetores[setor.setor]}
-								onChecked={() => handleCheckboxChange(setor.setor, "setor")}
+					<form className="filtros">
+						<div className="filtros__container">
+							<input
+								type="search"
+								name="servidor"
+								id="servidor"
+								placeholder="Pesquisa pelo servidor"
+								className="filtros__input"
+								value={filtroNomes}
+								onChange={({ target }) => setFiltroNomes(target.value)}
 							/>
-						))}
-					</section>
-				)}
+						</div>
+					</form>
+				</div>
+			)}
 
-			<section className="container__cadastrar__button">
+			{opcoesDeFiltro.checkboxFiltro === 'servidor' && (
+				<div className="container__servidores">
+					{servidores.map(servidor => {
+						return <CardFuncionarios
+							key={servidor.id}
+							nome={servidor.nome.toUpperCase()}
+							id={servidor.id}
+							isChecked={!!checkedServidores[servidor.id]}
+							onChecked={() => handleSelectedCheckboxChange(servidor.id, "servidor", servidor.nome)}
+							onArquivaServidor={() => arquivarServidorAPI(servidor.id)}
+							mensagem={mensagemServidores}
+						/>
+					})}
+				</div>
+			)}
 
+			<div className="container__cadastrar__button">
 				<div className="container__gerar__button">
 					<button disabled={isLoading} onClick={() => { filtro === 'servidor' ? handleGerarServidores() : converteSetoresParaPdfAPI() }} className="button__gerar__servidor">Gerar selecionados </button>
 				</div>
-			</section>
+			</div>
 		</main>
 	)
 }
