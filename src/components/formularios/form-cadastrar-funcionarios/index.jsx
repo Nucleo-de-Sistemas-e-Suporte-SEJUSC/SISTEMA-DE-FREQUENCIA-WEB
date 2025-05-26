@@ -34,9 +34,6 @@ export function FormCadastrarFuncionarios() {
         feriasfinal: '',
     });
 
-    console.log(typeof formData.dataAdmissao)
-
-
     // Função para atualizar o estado quando os inputs mudam
     const handleInputChange = (e) => {
         const { name, value } = e.target;

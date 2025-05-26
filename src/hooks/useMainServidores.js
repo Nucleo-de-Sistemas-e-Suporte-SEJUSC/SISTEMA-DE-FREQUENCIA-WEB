@@ -22,12 +22,14 @@ export function useMainServidores() {
 	const month = arrayOfMonths[actualMonth]
 
 	const [isLoading, setIsLoading] = useState(false)
-	const [servidores, setServidores] = useState([])
+	const [servidores, setServidores] = useState({
+		todosServidores: [],
+		servidoresFiltrados: []
+	})
 	const [setores, setSetores] = useState({
 		todosSetores: [],
 		setoresFiltrados: []
 	})
-	console.log(setores)
 	const [filtroNomes, setFiltroNomes] = useState("")
 	const [opcoesDeFiltro, setOpcoesDeFiltro] = useState({
 		checkboxFiltro: 'setor',
@@ -62,38 +64,60 @@ export function useMainServidores() {
 						nome: filtroNomes
 					}
 				})
-				const { servidores } = await resposta.data
-				setServidores(servidores)
+				const servidores = resposta.data.servidores
+				setServidores(() => ({
+					todosServidores: servidores,
+					servidoresFiltrados: servidores
+				}))
 			} catch (error) {
 				console.log("Erro ao buscar servidores", error)
 			}
 		}
 
 		buscaListaDeServidoresApi()
-	}, [filtroNomes])
+	}, [])
 
 	const handleCheckboxChange = (target) => {
 		setOpcoesDeFiltro((prev) => ({ ...prev, checkboxFiltro: target.value }))
 	}
 
 	const handleSearchChange = (target) => {
-		setOpcoesDeFiltro((prev) => ({ ...prev, searchFiltro: target.value }))
+		setOpcoesDeFiltro((prev) => ({
+			...prev, searchFiltro: target.value
+		}))
 
 		if (!target.value) {
 			setSetores(prev => ({
 				...prev,
 				todosSetores: setores.todosSetores
 			}));
+			setServidores(prev => ({
+				...prev,
+				todosServidores: servidores.todosServidores
+			}))
 			return;
 		}
 
-		const filtrados = setores.todosSetores.filter(setor =>
-			setor.setor.toLowerCase().includes(target.value.toLowerCase())
-		);
-		setSetores(prev => ({
-			...prev,
-			setoresFiltrados: filtrados
-		}));
+		if (opcoesDeFiltro.checkboxFiltro === 'setor') {
+			const setoresFiltrados = setores.todosSetores.filter(setor =>
+				setor.setor.toLowerCase().includes(target.value.toLowerCase())
+			);
+			setSetores(prev => ({
+				...prev,
+				setoresFiltrados: setoresFiltrados
+			}));
+		}
+
+		if (opcoesDeFiltro.checkboxFiltro === 'servidor') {
+			const servidoresFiltrados = servidores.todosServidores.filter(servidor =>
+				servidor.nome.toLowerCase().includes(target.value.toLowerCase())
+			);
+
+			setServidores(prev => ({
+				...prev,
+				servidoresFiltrados: servidoresFiltrados
+			}))
+		}
 	}
 
 	const handleSelectedMonth = (target) => {

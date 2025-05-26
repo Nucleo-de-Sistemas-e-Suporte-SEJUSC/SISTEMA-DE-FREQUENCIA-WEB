@@ -83,84 +83,84 @@ export function MainServidores() {
 	}
 
 	async function converteSetoresParaPdfAPI() {
-    try {
-        const setoresSelecionados = Object.keys(checkedSetores);
-        if (!setoresSelecionados || setoresSelecionados.length === 0) {
-            console.error("Nenhum setor selecionado.");
-            return;
-        }
+		try {
+			const setoresSelecionados = Object.keys(checkedSetores);
+			if (!setoresSelecionados || setoresSelecionados.length === 0) {
+				console.error("Nenhum setor selecionado.");
+				return;
+			}
 
-        setIsLoading(true);
+			setIsLoading(true);
 
-        // Chama a API para gerar os PDFs e o ZIP
-        const responseGeracao = await api.post(`/setores/pdf`, {
-            setores: setoresSelecionados,
-            mes: mesEscolhido,
-        });
+			// Chama a API para gerar os PDFs e o ZIP
+			await api.post(`/setores/pdf`, {
+				setores: setoresSelecionados,
+				mes: mesEscolhido,
+			});
 
-        // Se for mais de um setor, chama a rota de multissetores
-        if (setoresSelecionados.length > 1) {
-            await downloadMultissetoresZip(mesEscolhido);
-        } else {
-            await downloadSetorZip(setoresSelecionados[0], mesEscolhido);
-        }
-    } catch (e) {
-        console.error("Erro ao converter setores para PDF:", e);
-    } finally {
-        setIsLoading(false);
-    }
-}
+			// Se for mais de um setor, chama a rota de multissetores
+			if (setoresSelecionados.length > 1) {
+				await downloadMultissetoresZip(mesEscolhido);
+			} else {
+				await downloadSetorZip(setoresSelecionados[0], mesEscolhido);
+			}
 
-async function downloadSetorZip(setor, mesEscolhido) {
-    try {
-        setIsLoading(true);
-        await api.get(`/setores/pdf/download-zip/${setor}/${mesEscolhido}`, { responseType: 'blob' })
-            .then(response => {
-                const blob = new Blob([response.data], { type: 'application/zip' });
-                const url = window.URL.createObjectURL(blob);
-                const link = document.createElement('a');
-                link.href = url;
-                link.download = `frequencia_mensal_${setor}_${mesEscolhido}.zip`;
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-                window.URL.revokeObjectURL(url);
-            })
-            .catch(error => {
-                console.error('Erro ao baixar o arquivo ZIP:', error);
-            });
-    } catch (e) {
-        console.error("Erro ao baixar ZIP:", e);
-    } finally {
-        setIsLoading(false);
-    }
-}
+		} catch (e) {
+			console.error("Erro ao converter setores para PDF:", e);
+		} finally {
+			setIsLoading(false);
+		}
+	}
 
-async function downloadMultissetoresZip(mesEscolhido) {
-    try {
-        setIsLoading(true);
-        await api.get(`/setores/pdf/download-zip-multissetores/${mesEscolhido}`, { responseType: 'blob' })
-            .then(response => {
-                const blob = new Blob([response.data], { type: 'application/zip' });
-                const url = window.URL.createObjectURL(blob);
-                const link = document.createElement('a');
-                link.href = url;
-                link.download = `frequencias_multissetores_${mesEscolhido}.zip`;
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-                window.URL.revokeObjectURL(url);
-            })
-            .catch(error => {
-                console.error('Erro ao baixar o arquivo ZIP multissetores:', error);
-            });
-    } catch (e) {
-        console.error("Erro ao baixar ZIP multissetores:", e);
-    } finally {
-        setIsLoading(false);
-    }
-}
+	async function downloadSetorZip(setor, mesEscolhido) {
+		try {
+			setIsLoading(true);
+			await api.get(`/setores/pdf/download-zip/${setor}/${mesEscolhido}`, { responseType: 'blob' })
+				.then(response => {
+					const blob = new Blob([response.data], { type: 'application/zip' });
+					const url = window.URL.createObjectURL(blob);
+					const link = document.createElement('a');
+					link.href = url;
+					link.download = `frequencia_mensal_${setor}_${mesEscolhido}.zip`;
+					document.body.appendChild(link);
+					link.click();
+					document.body.removeChild(link);
+					window.URL.revokeObjectURL(url);
+				})
+				.catch(error => {
+					console.error('Erro ao baixar o arquivo ZIP:', error);
+				});
+		} catch (e) {
+			console.error("Erro ao baixar ZIP:", e);
+		} finally {
+			setIsLoading(false);
+		}
+	}
 
+	async function downloadMultissetoresZip(mesEscolhido) {
+		try {
+			setIsLoading(true);
+			await api.get(`/setores/pdf/download-zip-multissetores/${mesEscolhido}`, { responseType: 'blob' })
+				.then(response => {
+					const blob = new Blob([response.data], { type: 'application/zip' });
+					const url = window.URL.createObjectURL(blob);
+					const link = document.createElement('a');
+					link.href = url;
+					link.download = `frequencias_multissetores_${mesEscolhido}.zip`;
+					document.body.appendChild(link);
+					link.click();
+					document.body.removeChild(link);
+					window.URL.revokeObjectURL(url);
+				})
+				.catch(error => {
+					console.error('Erro ao baixar o arquivo ZIP multissetores:', error);
+				});
+		} catch (e) {
+			console.error("Erro ao baixar ZIP multissetores:", e);
+		} finally {
+			setIsLoading(false);
+		}
+	}
 
 	async function arquivarServidorAPI(idServidor) {
 		try {
@@ -181,22 +181,42 @@ async function downloadMultissetoresZip(mesEscolhido) {
 
 	const handleSelectedCheckboxChange = (id, type, valor) => {
 		if (type === "setor") {
-			setCheckedSetores(prevState => ({
-				...prevState,
-				[valor]: !prevState[valor],
-				[id]: !prevState[id]
+			setCheckedSetores(prevState => {
+				const novoEstado = { ...prevState };
 
-			}));
+				// Toggle
+				const novoValor = !prevState[valor];
+
+				if (novoValor) {
+					novoEstado[valor] = true;
+					novoEstado[id] = true;
+				} else {
+					delete novoEstado[valor];
+					delete novoEstado[id];
+				}
+
+				return novoEstado;
+			});
+
 			setCheckedServidores({});
-
 		} else if (type === "servidor") {
-			setCheckedServidores(prevState => ({
-				...prevState,
-				[id]: !prevState[id],
-			}));
+			setCheckedServidores(prevState => {
+				const novoEstado = { ...prevState };
+				const novoValor = !prevState[id];
+
+				if (novoValor) {
+					novoEstado[id] = true;
+				} else {
+					delete novoEstado[id];
+				}
+
+				return novoEstado;
+			});
+
 			setCheckedSetores({});
 		}
 	};
+
 
 	return (
 		<main className="main__servidores">
@@ -287,7 +307,6 @@ async function downloadMultissetoresZip(mesEscolhido) {
 						<FormCadastrarFuncionarios />
 					</Dialog.Root>
 
-
 					<form className="filtros">
 						<div className="filtros__container">
 							<input
@@ -296,8 +315,8 @@ async function downloadMultissetoresZip(mesEscolhido) {
 								id="servidor"
 								placeholder="Pesquisa pelo servidor"
 								className="filtros__input"
-								value={filtroNomes}
-								onChange={({ target }) => setFiltroNomes(target.value)}
+								value={opcoesDeFiltro.searchFiltro}
+								onChange={({ target }) => handleSearchChange(target)}
 							/>
 						</div>
 					</form>
@@ -306,7 +325,7 @@ async function downloadMultissetoresZip(mesEscolhido) {
 
 			{opcoesDeFiltro.checkboxFiltro === 'servidor' && (
 				<div className="container__servidores">
-					{servidores.map(servidor => {
+					{servidores.servidoresFiltrados.map(servidor => {
 						return <CardFuncionarios
 							key={servidor.id}
 							nome={servidor.nome.toUpperCase()}
@@ -322,7 +341,7 @@ async function downloadMultissetoresZip(mesEscolhido) {
 
 			<div className="container__cadastrar__button">
 				<div className="container__gerar__button">
-					<button disabled={isLoading} onClick={() => { filtro === 'servidor' ? handleGerarServidores() : converteSetoresParaPdfAPI() }} className="button__gerar__servidor">Gerar selecionados </button>
+					<button disabled={isLoading} onClick={() => { opcoesDeFiltro.checkboxFiltro === 'servidor' ? handleGerarServidores() : converteSetoresParaPdfAPI()}} className="button__gerar__servidor">Gerar selecionados</button>
 				</div>
 			</div>
 		</main>

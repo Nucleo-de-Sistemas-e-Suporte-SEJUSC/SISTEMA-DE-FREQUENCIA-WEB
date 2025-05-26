@@ -30,7 +30,7 @@ export function CardFuncionarios(props) {
 				})
 
 				await historicoLogsArquivar(usuario, servidorArquivado.nome, servidorArquivado.setor)
-				window.location.reload()
+				//window.location.reload()
 			} catch (error) {
 				console.error(error)
 			} finally {
@@ -48,7 +48,7 @@ export function CardFuncionarios(props) {
 				})
 
 				await historicoLogsArquivar(usuario, estagiarioArquivado.nome, estagiarioArquivado.setor)
-				window.location.reload()
+				//window.location.reload()
 			} catch (error) {
 				console.error(error)
 			} finally {
@@ -59,7 +59,7 @@ export function CardFuncionarios(props) {
 
 	async function historicoLogsArquivar(usuario, nomeServidor, setorServidor) {
 		const servidorOuEstagiario = identificador ? 'estagiario(a)' : 'servidor(a)'
-		const dados = await api.post("/historico-logs", {
+		await api.post("/historico-logs", {
 			nome: usuario.nome,
 			acao: "Arquivar",
 			mensagem: `O usuario de nome ${usuario.nome} arquivou o ${servidorOuEstagiario} ${nomeServidor} do setor ${setorServidor}`,
