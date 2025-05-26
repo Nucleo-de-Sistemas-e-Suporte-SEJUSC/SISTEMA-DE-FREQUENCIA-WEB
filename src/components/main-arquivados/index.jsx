@@ -13,14 +13,14 @@ export function MainArquivados(props) {
     const [funcionariosArquivados, setFuncionariosArquivados] = useState([])
     const [isLoading, setIsLoading] = useState(false)
     const [pesquisa, setPesquisa] = useState("");
+    let tipoDoFuncionario = funcionarios === 'servidores' ? 'servidores' : 'estagiarios'
 
     async function pegaFuncionariosArquivadosAPI() {
         try {
             setIsLoading(true)
-            const dados = await api.get("/servidores/arquivados")
-            const { servidores } = dados.data
-            console.log(servidores)
-            setFuncionariosArquivados(servidores)
+            const dados = await api.get(`/${tipoDoFuncionario}/arquivados`)
+            const funcionario = dados.data[tipoDoFuncionario]
+            setFuncionariosArquivados(funcionario)
           
         } catch(e) {
             console.error(e)
@@ -31,10 +31,9 @@ export function MainArquivados(props) {
 
     async function ativaFuncionariosAPI(idServidor) {
         try {
-            
             const usuario = JSON.parse(localStorage.getItem("usuario"))
-            const dados = await api.patch(`/servidores/${idServidor}/atualizar-status`)
-            const { mensagem,servidor_ativado: servidorAtivado } = await dados.data
+            const dados = await api.patch(`/${tipoDoFuncionario}/${idServidor}/atualizar-status`)
+            const { mensagem, servidor_ativado: servidorAtivado } = await dados.data
 
             toast.success(mensagem, {
                 duration: 4000,
@@ -53,7 +52,7 @@ export function MainArquivados(props) {
     }
 
     async function historicoLogsDesarArquivar(nome, nomeServidor, setorServidor) {
-        const dados = await api.post("/historico-logs", {
+        await api.post("/historico-logs", {
             nome: nome,
             acao: "Desarquivar",  
             mensagem: `O usuario de nome ${nome} desarquivou o servidor(a) ${nomeServidor} do setor ${setorServidor}`,
@@ -85,7 +84,7 @@ export function MainArquivados(props) {
 
     useEffect(() => {
         pegaFuncionariosArquivadosAPI()
-    }, [])
+    }, [funcionarios])
 
     return (
         <section className={styles["container__visualizar"]}>

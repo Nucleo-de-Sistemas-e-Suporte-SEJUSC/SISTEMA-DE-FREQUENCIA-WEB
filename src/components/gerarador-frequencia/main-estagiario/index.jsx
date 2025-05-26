@@ -70,8 +70,7 @@ export function MainEstagiario() {
         try {
             setIsLoading(true)
             const resposta = await api.patch(`/estagiarios/${idEstagiario}/arquivar`)
-            const { mensagem, estagiario_arquivado: estagiarioArquivado } = await resposta.data
-            
+            const { mensagem, estagiario_arquivado: estagiarioArquivado } = await resposta.data            
             return {
                 mensagem,
                 estagiarioArquivado

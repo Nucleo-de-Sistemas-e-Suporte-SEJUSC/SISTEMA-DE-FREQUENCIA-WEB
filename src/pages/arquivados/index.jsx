@@ -6,7 +6,7 @@ import { MainArquivados } from "../../components/main-arquivados"
 
 export function Arquivados() {
     const [menu, setMenu] = useState(false)
-    const [filtro, setFiltro] = useState("Servidores")
+    const [filtro, setFiltro] = useState("servidores")
 
     function handleFiltro(event) {
         setFiltro(event.target.value)
@@ -29,7 +29,7 @@ export function Arquivados() {
                 <div className={styles["navigation__list__buttons"]}>
                     <div className={styles["navigation__container--button"]}>
                         <div className={
-                            filtro === "Servidores" ? styles["container__input--ativo"] : styles["container__input--nao-ativo"]
+                            filtro === "servidores" ? styles["container__input--ativo"] : styles["container__input--nao-ativo"]
                         }>
 
                             <label htmlFor="servidores">
@@ -37,8 +37,8 @@ export function Arquivados() {
                                     type="radio"
                                     name="link-checado"
                                     id="servidores"
-                                    value="Servidores"
-                                    checked={filtro === "Servidores"}
+                                    value="servidores"
+                                    checked={filtro === "servidores"}
                                     onChange={handleFiltro}
                                     className={styles["ativo-input"]}
                                 />
@@ -47,7 +47,7 @@ export function Arquivados() {
                         </div>
 
                         <div className={
-                            filtro === "ESTAGIÁRIO" ? styles["container__input--ativo"] : styles["container__input--nao-ativo"]
+                            filtro === "estagiarios" ? styles["container__input--ativo"] : styles["container__input--nao-ativo"]
                         }>
 
                             <label htmlFor="estagiarios">
@@ -55,8 +55,8 @@ export function Arquivados() {
                                     type="radio"
                                     name="link-checado"
                                     id="estagiarios"
-                                    value="ESTAGIÁRIO"
-                                    checked={filtro === "ESTAGIÁRIO"}
+                                    value="estagiarios"
+                                    checked={filtro === "estagiarios"}
                                     onChange={handleFiltro}
                                     className={styles["ativo-input"]}
                                 />

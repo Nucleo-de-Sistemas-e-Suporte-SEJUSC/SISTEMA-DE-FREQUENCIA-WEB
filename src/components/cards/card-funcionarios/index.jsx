@@ -30,7 +30,7 @@ export function CardFuncionarios(props) {
 				})
 
 				await historicoLogsArquivar(usuario, servidorArquivado.nome, servidorArquivado.setor)
-				//window.location.reload()
+				window.location.reload()
 			} catch (error) {
 				console.error(error)
 			} finally {
@@ -48,7 +48,7 @@ export function CardFuncionarios(props) {
 				})
 
 				await historicoLogsArquivar(usuario, estagiarioArquivado.nome, estagiarioArquivado.setor)
-				//window.location.reload()
+				window.location.reload()
 			} catch (error) {
 				console.error(error)
 			} finally {
