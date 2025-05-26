@@ -21,8 +21,8 @@ export function MainArquivados(props) {
             const dados = await api.get(`/${tipoDoFuncionario}/arquivados`)
             const funcionario = dados.data[tipoDoFuncionario]
             setFuncionariosArquivados(funcionario)
-          
-        } catch(e) {
+
+        } catch (e) {
             console.error(e)
         } finally {
             setIsLoading(false)
@@ -33,14 +33,16 @@ export function MainArquivados(props) {
         try {
             const usuario = JSON.parse(localStorage.getItem("usuario"))
             const dados = await api.patch(`/${tipoDoFuncionario}/${idServidor}/atualizar-status`)
-            const { mensagem, servidor_ativado: servidorAtivado } = await dados.data
+            const ativadoKey = tipoDoFuncionario === 'servidores' ? 'servidor_ativado' : 'estagiario_ativado';
+            const { mensagem } = dados.data;
+            const funcionarioAtivado = dados.data[ativadoKey];
 
             toast.success(mensagem, {
                 duration: 4000,
                 icon: false
-            })
-            
-            await historicoLogsDesarArquivar(usuario.nome, servidorAtivado.nome, servidorAtivado.setor)
+            });
+
+            await historicoLogsDesarArquivar(usuario.nome, funcionarioAtivado.nome, funcionarioAtivado.setor)
             window.location.reload()
             return mensagem
         } catch (e) {
@@ -54,7 +56,7 @@ export function MainArquivados(props) {
     async function historicoLogsDesarArquivar(nome, nomeServidor, setorServidor) {
         await api.post("/historico-logs", {
             nome: nome,
-            acao: "Desarquivar",  
+            acao: "Desarquivar",
             mensagem: `O usuario de nome ${nome} desarquivou o servidor(a) ${nomeServidor} do setor ${setorServidor}`,
         })
     }
@@ -112,7 +114,7 @@ export function MainArquivados(props) {
                     </p>
                 ) : (
                     <>
-                        <CardBuscaServidores 
+                        <CardBuscaServidores
                             funcionarios={funcionariosFiltrados}
                             possuiSelecaoDoMes={false}
                         />
@@ -122,7 +124,7 @@ export function MainArquivados(props) {
                                     <summary className={styles["card__summary"]}>{funcionario.nome}</summary>
                                     <p>Arquivado</p>
                                     <div className={styles["card__details__container__button"]}>
-                                        
+
                                         <button className={`${styles["card__details__arquivar__button"]} ${styles["card__details__button"]}`} onClick={() => ativaFuncionariosAPI(funcionario.id)}>Desarquivar</button>
                                     </div>
                                 </details>
