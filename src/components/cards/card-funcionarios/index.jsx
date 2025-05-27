@@ -75,7 +75,7 @@ export function CardFuncionarios(props) {
 				<summary className={styles["card__summary"]} onClick={(e) => e.stopPropagation()}>
 					{nome}
 				</summary>
-				{quantidadeServidores > 0 && <p>{quantidadeServidores} Servidores</p>}
+				{quantidadeServidores > 0 && <p>{quantidadeServidores} {identificador === 'estagiario' ? 'Estagiario' : 'Servidores'}</p>}
 				{quantidadeServidores === 0 && <p>Nenhum servidor</p>}
 
 				<div className={styles["card__details__container__button"]}>
@@ -83,7 +83,6 @@ export function CardFuncionarios(props) {
 					<button className={`${styles["card__details__arquivar__button"]} ${styles["card__details__button"]} `} onClick={arquiva}>Arquivar</button>
 				</div>
 			</details>
-
 
 			<label onClick={e => {
 				e.stopPropagation();

@@ -13,13 +13,11 @@ export function MainServidores() {
 		arrayOfMonths,
 		opcoesDeFiltro,
 		setores,
-		filtroNomes,
 		servidores,
 		setIsLoading,
 		handleCheckboxChange,
 		handleSearchChange,
-		handleSelectedMonth,
-		setFiltroNomes
+		handleSelectedMonth
 	} = useMainServidores()
 
 	const [mensagemServidores, setMensagemServidores] = useState("")
@@ -82,6 +80,8 @@ export function MainServidores() {
 		}
 	}
 
+	console.log(checkedSetores)
+
 	async function converteSetoresParaPdfAPI() {
 		try {
 			const setoresSelecionados = Object.keys(checkedSetores);
@@ -91,6 +91,11 @@ export function MainServidores() {
 			}
 
 			setIsLoading(true);
+
+			console.log({
+				setores: setoresSelecionados,
+				mes: mesEscolhido,
+			})
 
 			// Chama a API para gerar os PDFs e o ZIP
 			await api.post(`/setores/pdf`, {
@@ -289,7 +294,7 @@ export function MainServidores() {
 							id={setor.setor}
 							quantidadeServidores={setor.quantidade}
 							isChecked={!!checkedSetores[setor.setor]}
-							onChecked={() => handleSelectedCheckboxChange(setor.setor, "setor")}
+							onChecked={() => handleSelectedCheckboxChange(setor.setor, "setor", setor.setor)}
 						/>
 					))}
 				</div>

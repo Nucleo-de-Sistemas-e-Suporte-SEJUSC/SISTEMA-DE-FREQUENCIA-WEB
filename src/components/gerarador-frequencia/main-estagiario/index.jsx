@@ -70,12 +70,12 @@ export function MainEstagiario() {
         try {
             setIsLoading(true)
             const resposta = await api.patch(`/estagiarios/${idEstagiario}/arquivar`)
-            const { mensagem, estagiario_arquivado: estagiarioArquivado } = await resposta.data            
+            const { mensagem, estagiario_arquivado: estagiarioArquivado } = await resposta.data
             return {
                 mensagem,
                 estagiarioArquivado
             }
-        } catch(e) {
+        } catch (e) {
             console.error("Error => ", e)
         } finally {
             setIsLoading(false)
@@ -85,23 +85,40 @@ export function MainEstagiario() {
     // Manipula seleção de checkboxes
     const handleCheckboxChange = (id, type, valor) => {
         if (type === "setor") {
-            setCheckedSetores(prevState => ({
-                ...prevState,
-                [valor]: !prevState[valor],
-                [id]: !prevState[id]
+            setCheckedSetores(prevState => {
+                const novoEstado = { ...prevState };
+                const novoValor = !prevState[valor];
 
-            }));
-            setCheckedEstagiarios({});
+                if (novoValor) {
+                    novoEstado[valor] = true;
+                    novoEstado[id] = true;
+                } else {
+                    delete novoEstado[valor];
+                    delete novoEstado[id];
+                }
+
+                return novoEstado;
+            });
+
+            setCheckedEstagiarios({}); // limpa seleção de estagiários
         } else if (type === "estagiario") {
+            setCheckedEstagiarios(prevState => {
+                const novoEstado = { ...prevState };
+                const novoValor = !prevState[id];
 
-            setCheckedEstagiarios(prevState => ({
-                ...prevState,
-                //nome: valor,
-                [id]: !prevState[id],
-            }));
-            setCheckedSetores({});
+                if (novoValor) {
+                    novoEstado[id] = true;
+                } else {
+                    delete novoEstado[id];
+                }
+
+                return novoEstado;
+            });
+
+            setCheckedSetores({}); // limpa seleção de setores
         }
     };
+
 
     // Atualiza lista de estagiários filtrados quando o filtro ou lista original muda
     useEffect(() => {
@@ -139,54 +156,88 @@ export function MainEstagiario() {
         setSetoresFiltrados(filtrados)
     }
 
+    async function downloadSetorZip(setor, mesEscolhido) {
+        try {
+            setIsLoading(true);
+            await api.get(`/setores/estagiarios/pdf/download-zip/${setor}/${mesEscolhido}`, { responseType: 'blob' })
+                .then(response => {
+                    const blob = new Blob([response.data], { type: 'application/zip' });
+                    const url = window.URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.download = `frequencia_mensal_${setor}_${mesEscolhido}.zip`;
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    window.URL.revokeObjectURL(url);
+                })
+                .catch(error => {
+                    console.error('Erro ao baixar o arquivo ZIP:', error);
+                });
+        } catch (e) {
+            console.error("Erro ao baixar ZIP:", e);
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
+    async function downloadMultissetoresZip(mesEscolhido) {
+        try {
+            setIsLoading(true);
+            await api.get(`/setores/estagiarios/pdf/download-zip-multissetores/${mesEscolhido}`, { responseType: 'blob' })
+                .then(response => {
+                    const blob = new Blob([response.data], { type: 'application/zip' });
+                    const url = window.URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.download = `frequencias_multissetores_${mesEscolhido}.zip`;
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    window.URL.revokeObjectURL(url);
+                })
+                .catch(error => {
+                    console.error('Erro ao baixar o arquivo ZIP multissetores:', error);
+                });
+        } catch (e) {
+            console.error("Erro ao baixar ZIP multissetores:", e);
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
     async function gerarZipSetoresAPI() {
         setIsLoading(true);
         try {
-            // Obtém o setor selecionado (por exemplo, "GTI")
-            const setorSelecionado = Object.keys(checkedSetores);
-            if (!setorSelecionado) {
+            // Filtra apenas os nomes dos setores válidos, ignorando IDs
+            const setoresSelecionados = Object.keys(checkedSetores).filter(
+                key => isNaN(Number(key)) && checkedSetores[key]
+            );
+
+            if (!setoresSelecionados || setoresSelecionados.length === 0) {
                 console.error("Nenhum setor selecionado.");
                 return;
             }
 
-            setIsLoading(true);
-            // Faz a chamada para gerar os PDFs e criar o ZIP
-            const responseGeracao = await api.post(`/setor/estagiar/pdf`, {
-                setor: setorSelecionado[1],
+            console.log({
+                setores: setoresSelecionados[0],
                 mes: mesEscolhido,
             });
 
-            await downloadSetorZip(setorSelecionado[1], mesEscolhido);
-        } catch (e) {
-            console.error("Erro ao converter setores para PDF:", e);
-        } finally {
-            setIsLoading(false);
-        }
-
-    }
-
-    async function downloadSetorZip(setor, mesEscolhido) {
-        setIsLoading(true);
-        try {
-            const response = await api.get(`/setores/estagiarios/pdf/download-zip/${setor}/${mesEscolhido}`, {
-                responseType: "blob"
+            // Envia os nomes dos setores para o backend
+            await api.post(`/setores/estagiar/pdf`, {
+                setores: setoresSelecionados,
+                mes: mesEscolhido,
             });
-            if (response.status === 200) {
-                const blob = new Blob([response.data], { type: "application/zip" });
-                const url = window.URL.createObjectURL(blob);
-                const link = document.createElement("a");
-                link.href = url;
-                link.download = `frequencia_mensal_${setor}_${mesEscolhido}.zip`;
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-                window.URL.revokeObjectURL(url);
+
+            // Usa o nome do setor na chamada de download
+            if (setoresSelecionados.length > 1) {
+                await downloadMultissetoresZip(mesEscolhido);
             } else {
-                alert("Erro ao baixar o arquivo ZIP.");
+                await downloadSetorZip(setoresSelecionados[0], mesEscolhido);
             }
         } catch (e) {
-            alert("Erro inesperado ao baixar o ZIP.");
-            console.error("Error => ", e);
+            console.error("Erro ao converter setores para PDF:", e);
         } finally {
             setIsLoading(false);
         }
@@ -209,7 +260,6 @@ export function MainEstagiario() {
             });
             if (responseGeracao.status === 200) {
                 // Não depende mais de zip_path
-                console.log("to aquiiiiii 2")
                 return true;
             } else {
                 alert("Erro ao gerar o arquivo ZIP.");
@@ -353,6 +403,7 @@ export function MainEstagiario() {
                     </form>
                 </section>
             )}
+
             {filtro === 'estagiario' && (
                 <section className="container__servidores">
                     {estagiariosFiltrados.map(estagiario => (
@@ -386,7 +437,6 @@ export function MainEstagiario() {
             )}
 
             <section className="container__cadastrar__button">
-
                 <div className="container__gerar__button">
                     <button disabled={isLoading} onClick={() => { filtro === 'estagiario' ? handleGerarEstagiarios() : handleGerarSetores() }} className="button__gerar__servidor">Gerar  selecionados </button>
                 </div>
