@@ -159,7 +159,7 @@ export function MainEstagiario() {
     async function downloadSetorZip(setor, mesEscolhido) {
         try {
             setIsLoading(true);
-            await api.get(`/setores/estagiarios/pdf/download-zip/${setor}/${mesEscolhido}`, { responseType: 'blob' })
+            await api.get(`/setores/estagiarios/${setor}/${mesEscolhido}`, { responseType: 'blob' })
                 .then(response => {
                     const blob = new Blob([response.data], { type: 'application/zip' });
                     const url = window.URL.createObjectURL(blob);
@@ -184,23 +184,23 @@ export function MainEstagiario() {
     async function downloadMultissetoresZip(mesEscolhido) {
         try {
             setIsLoading(true);
-            await api.get(`/setores/estagiarios/pdf/download-zip-multissetores/${mesEscolhido}`, { responseType: 'blob' })
+            await api.get(`/setores/estagiarios/pdf/download-zip-multiestagiarios/${mesEscolhido}`, { responseType: 'blob' })
                 .then(response => {
                     const blob = new Blob([response.data], { type: 'application/zip' });
                     const url = window.URL.createObjectURL(blob);
                     const link = document.createElement('a');
                     link.href = url;
-                    link.download = `frequencias_multissetores_${mesEscolhido}.zip`;
+                    link.download = `frequencias__multiestagiarios${mesEscolhido}.zip`;
                     document.body.appendChild(link);
                     link.click();
                     document.body.removeChild(link);
                     window.URL.revokeObjectURL(url);
                 })
                 .catch(error => {
-                    console.error('Erro ao baixar o arquivo ZIP multissetores:', error);
+                    console.error('Erro ao baixar o arquivo ZIP multiestagiarios:', error);
                 });
         } catch (e) {
-            console.error("Erro ao baixar ZIP multissetores:", e);
+            console.error("Erro ao baixar ZIP multiestagiarios:", e);
         } finally {
             setIsLoading(false);
         }
