@@ -34,7 +34,7 @@ export function useMainServidores() {
 	const [opcoesDeFiltro, setOpcoesDeFiltro] = useState({
 		checkboxFiltro: 'setor',
 		searchFiltro: '',
-		month: ''
+		month: month
 	})
 
 	useEffect(() => {

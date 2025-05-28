@@ -257,7 +257,7 @@ export function MainServidores() {
 					</div>
 
 					<div className="form__filtro__select__container">
-						<select name="meses" id="meses" className="form__filtro__select" value={month} onChange={handleSelectedMonth}>
+						<select name="meses" id="meses" className="form__filtro__select" value={opcoesDeFiltro.month} onChange={({target}) => handleSelectedMonth(target)}>
 							{arrayOfMonths.map((mes, index) => {
 								return <option key={index} value={mes}>{mes}</option>
 							})}
