@@ -6,6 +6,7 @@ import { api } from '../../../api/axios';
 
 export function FormCadastrarFuncionarios() {
 
+    // commit teste
     // Estado para cada campo do formulário
     const [formData, setFormData] = useState({
         nome: '',                  // era nomeCompleto
