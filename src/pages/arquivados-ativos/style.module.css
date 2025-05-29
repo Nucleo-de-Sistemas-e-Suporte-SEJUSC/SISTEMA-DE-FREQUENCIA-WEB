@@ -5,7 +5,8 @@
     background-color: red;
 }
 
-.botao__arquivados__ativo {
+.botao__arquivados__ativo,
+.button__cadastrar__servidor {
     border-radius: 9px;
     border: none;
     font-size: 24px;

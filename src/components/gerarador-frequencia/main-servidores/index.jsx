@@ -2,8 +2,6 @@ import "./style.css"
 import { useState } from "react";
 import { CardFuncionarios } from "../../cards/card-funcionarios";
 import { api } from "../../../api/axios";
-import * as Dialog from '@radix-ui/react-dialog';
-import { FormCadastrarFuncionarios } from "../../formularios/form-cadastrar-funcionarios";
 import { useMainServidores } from "../../../hooks/useMainServidores";
 
 export function MainServidores() {
@@ -79,8 +77,6 @@ export function MainServidores() {
 			await baixarServidoresZip();
 		}
 	}
-
-	console.log(checkedSetores)
 
 	async function converteSetoresParaPdfAPI() {
 		try {
@@ -297,15 +293,6 @@ export function MainServidores() {
 
 			{opcoesDeFiltro.checkboxFiltro === 'servidor' && (
 				<div className="container__pesquisa__gerador">
-					<Dialog.Root>
-						<Dialog.Trigger asChild>
-							<button className="button__cadastrar__servidor">
-								Cadastrar Servidor
-							</button>
-						</Dialog.Trigger>
-
-						<FormCadastrarFuncionarios />
-					</Dialog.Root>
 
 					<form className="filtros">
 						<div className="filtros__container">
