@@ -359,33 +359,6 @@ export function FormCadastrarFuncionarios() {
                             required
                         />
                     </div>
-                    <div className='container__inputs__horario'>
-                        <div>
-                            <label htmlFor="feriasinicio" className='form__dialog__label'>Ferias Inicio*</label>
-                            <input
-                                type="date"
-                                name="feriasinicio"
-                                id="feriasinicio"
-                                className='form__dialog__input'
-                                value={formData.feriasinicio}
-                                onChange={handleInputChange}
-                                required
-                            />
-                        </div>
-                        <div>
-                            <label htmlFor="feriasfinal" className='form__dialog__label'>Ferias Fim*</label>
-                            <input
-                                type="date"
-                                name="feriasfinal"
-                                id="feriasfinal"
-                                className='form__dialog__input'
-                                value={formData.feriasfinal}
-                                onChange={handleInputChange}
-                                required
-                            />
-
-                        </div>
-                    </div>
                     <div className='container__button__acoes__servidor'>
                         <Dialog.Close asChild>
                             <button type="button" className='container__button__cancelar__servidor'>Cancelar</button>

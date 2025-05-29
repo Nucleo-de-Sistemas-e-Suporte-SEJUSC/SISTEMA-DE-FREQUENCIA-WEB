@@ -4,7 +4,6 @@ import { meses } from "../../../utils/meses";
 import { CardFuncionarios } from "../../cards/card-funcionarios";
 import { api } from "../../../api/axios";
 import * as Dialog from '@radix-ui/react-dialog';
-import { FormCadastrarEstagiario } from "../../formularios/form-cadastrar-estagiarios";
 
 export function MainEstagiario() {
     const data = new Date()
@@ -370,16 +369,6 @@ export function MainEstagiario() {
             {filtro === 'estagiario' && (
 
                 <section className="container__pesquisa__gerador">
-                    <Dialog.Root>
-                        <Dialog.Trigger asChild>
-                            <button className="button__cadastrar__servidor">
-                                Cadastrar Estagiário
-                            </button>
-                        </Dialog.Trigger>
-
-                        <FormCadastrarEstagiario />
-                    </Dialog.Root>
-
                     <form action="#" className="filtros">
                         <div className="filtros__container">
                             <input

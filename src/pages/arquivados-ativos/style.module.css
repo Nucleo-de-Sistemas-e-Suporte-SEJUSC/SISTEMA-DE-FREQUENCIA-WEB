@@ -16,3 +16,11 @@
     background-color: var(--button);
     color: var(--branco);
 }
+
+.container_arquivados_ativo {
+    display: flex;
+    flex-direction: column;
+    max-width: max-content;
+    flex-wrap: wrap;
+    gap: 12px;
+}
