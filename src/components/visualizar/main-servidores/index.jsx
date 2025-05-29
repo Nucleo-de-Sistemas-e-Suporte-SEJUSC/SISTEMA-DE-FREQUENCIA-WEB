@@ -24,7 +24,7 @@ export function MainVisualizarServidores() {
     function transformarDados(data, mesFiltro) {
         const resultado = [];
         for (const setorObj of data) {
-         
+
             for (const [setor, conteudo] of Object.entries(setorObj)) {
                 // Usar mesFiltro em vez de mesSelecionado
                 if (conteudo.servidor && conteudo.servidor[mesFiltro]) {
@@ -39,7 +39,7 @@ export function MainVisualizarServidores() {
                 }
             }
         }
-     
+
         return resultado;
     }
 
@@ -64,22 +64,28 @@ export function MainVisualizarServidores() {
     });
 
     async function buscarPDF(setor, mes, nome) {
-       
         try {
-          const resposta = await fetch(`http://localhost:8000/api/servidores/pdf/view?setor=${encodeURIComponent(setor)}&mes=${encodeURIComponent(mes)}&nome=${encodeURIComponent(nome)}`); // Adicionei o id aqui
-          
-          if (!resposta.ok) {
-            throw new Error('Arquivo não encontrado ou erro na requisição');
-          }
-      
-          const blob = await resposta.blob();
-          const url = window.URL.createObjectURL(blob); 
-          window.open(url, "_blank");
-        } catch (erro) {
-          console.error("Erro ao buscar PDF:", erro);
-          alert("Erro ao buscar o PDF. Tente novamente.");
+            const response = await api.get('/servidores/pdf/view', {
+                params: { setor, mes, nome },
+                responseType: 'blob',
+            })
+
+            const blob = new Blob([response.data], { type: 'application/pdf' })
+            const url = window.URL.createObjectURL(blob)
+
+            const link = document.createElement('a')
+            link.href = url
+            link.target = '_blank'
+
+            document.body.appendChild(link)
+            link.click()
+            link.remove()
+
+            setTimeout(() => window.URL.revokeObjectURL(url), 10000)
+        } catch (error) {
+            alert('Erro ao buscar o PDF, Tente novamente.')
         }
-      }
+    }
 
     return (
         <section className={styles["container__visualizar"]}>
@@ -93,12 +99,12 @@ export function MainVisualizarServidores() {
                         onChange={(e) => setTermoBusca(e.target.value)}
                     />
                 </div>
-                <p>Servidores - Setor: {termoBusca || "GTI"} / Mês: {mesSelecionado}</p>
+                <p>Servidores / Mês: {mesSelecionado}</p>
             </form>
 
             <div className={styles["container__visualizar__content"]}>
-                <CardBuscaServidores 
-                    meses={meses} 
+                <CardBuscaServidores
+                    meses={meses}
                     mes={mesSelecionado}
                     visualizar="visualizar"
                     funcionarios={servidoresFiltrados}
@@ -107,7 +113,7 @@ export function MainVisualizarServidores() {
 
                 <CardVisualizarServidores>
                     {servidoresFiltradosComBusca.map((servidor, index) => (
-                        
+
                         <details key={index} className={styles["card__details"]}>
                             <summary className={styles["card__summary"]}>
                                 {servidor.nome}
@@ -119,16 +125,16 @@ export function MainVisualizarServidores() {
                                         <button
                                             onClick={() => buscarPDF(servidor.setor, servidor.mes, servidor.nome, servidor.id)}
                                             className={styles["card__link"]}
-                                            >
+                                        >
                                             {arquivo}
                                         </button>
                                     </div>
-                                  
+
                                 ))
                                 }
                             </div>
                         </details>
-                        
+
                     ))
                     }
                 </CardVisualizarServidores>

@@ -92,19 +92,25 @@ export function MainVisualizarEstagiarios() {
 
     async function buscarPDF(setor, mes, nome) {
         try {
-            // Remove espaços e formata o nome para corresponder ao nome do arquivo
-            const resposta = await fetch(`http://localhost:8000/api/estagiarios/pdf/view?setor=${encodeURIComponent(setor)}&mes=${encodeURIComponent(mes)}&nome=${encodeURIComponent(nome)}`);
-            
-            if (!resposta.ok) {
-                throw new Error('Arquivo não encontrado ou erro na requisição');
-            }
-        
-            const blob = await resposta.blob();
-            const url = window.URL.createObjectURL(blob); 
-            window.open(url, "_blank");
-        } catch (erro) {
+            const response = await api.get('/estagiarios/pdf/view', {
+                params: {setor, mes, nome},
+                responseType: 'blob',
+            })
 
-            alert("Erro ao buscar o PDF. Tente novamente.");
+            const blob = new Blob([response.data], {type: 'application/pdf'})
+            const url = window.URL.createObjectURL(blob)
+
+            const link = document.createElement('a')
+            link.href = url
+            link.target = '_blank'
+
+            document.body.appendChild(link)
+            link.click()
+            link.remove()
+
+            setTimeout(() => window.URL.revokeObjectURL(url), 10000)
+        } catch (error) {
+            alert('Erro ao buscar o PDF, Tente novamente.')
         }
     }
 
@@ -120,7 +126,7 @@ export function MainVisualizarEstagiarios() {
                         onChange={e => setTermoBusca(e.target.value)}
                     />
                 </div>
-                <p>Estagiários ou Setor: {termoBusca || "GTI"} / Mês: {mesSelecionado}</p>
+                <p>Estagiários / Mês: {mesSelecionado}</p>
             </form>
 
             <div className={styles["container__visualizar__content"]}>

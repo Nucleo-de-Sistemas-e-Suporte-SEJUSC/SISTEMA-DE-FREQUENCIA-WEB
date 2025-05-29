@@ -219,11 +219,6 @@ export function MainEstagiario() {
                 return;
             }
 
-            console.log({
-                setores: setoresSelecionados[0],
-                mes: mesEscolhido,
-            });
-
             // Envia os nomes dos setores para o backend
             await api.post(`/setores/estagiar/pdf`, {
                 setores: setoresSelecionados,

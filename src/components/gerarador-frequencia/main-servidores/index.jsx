@@ -92,11 +92,6 @@ export function MainServidores() {
 
 			setIsLoading(true);
 
-			console.log({
-				setores: setoresSelecionados,
-				mes: mesEscolhido,
-			})
-
 			// Chama a API para gerar os PDFs e o ZIP
 			await api.post(`/setores/pdf`, {
 				setores: setoresSelecionados,

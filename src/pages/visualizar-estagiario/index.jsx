@@ -28,7 +28,7 @@ export function VisualizarEstagiario() {
                 <div className={"navigation__list__buttons"}>
                         <div>
                             <NavLink
-                                to="/servidores"
+                                to="/visualizar/servidores"
                                 className="link"
                             >
                                 Servidores
@@ -36,7 +36,7 @@ export function VisualizarEstagiario() {
                         </div>
                         <div>
                             <NavLink
-                                to="/estagiarios"
+                                to="/visualizar/estagiarios"
                                 className="link active"
                             >
                                 Estagiários
