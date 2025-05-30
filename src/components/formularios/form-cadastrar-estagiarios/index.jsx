@@ -73,8 +73,6 @@ export function FormCadastrarEstagiarios() {
         }
     };
     
-    console.log(formData)
-
     return (
         <Dialog.Portal>
             <Dialog.Overlay className='DialogOverlay' />

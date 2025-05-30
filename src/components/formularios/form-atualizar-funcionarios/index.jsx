@@ -4,8 +4,8 @@ import { toast } from 'sonner';
 import { useState } from 'react'; // Importe o useState
 import { api } from '../../../api/axios';
 
-export function FormCadastrarFuncionarios() {
-
+export function FormAtualizarFuncionarios({ id }) {
+    //console.log(`/criar/servidores/${id}`)
     // commit teste
     // Estado para cada campo do formulário
     const [formData, setFormData] = useState({
@@ -48,33 +48,37 @@ export function FormCadastrarFuncionarios() {
         e.preventDefault();
 
         try {
-            await api.post("/criar/servidores", {
-                nome: formData.nome.toUpperCase(),
-                matricula: formData.matricula,
-                data_nascimento: formData.data_nascimento,
-                estado_civil: formData.estado_civil.toUpperCase(),
-                nacionalidade: formData.nacionalidade.toUpperCase(),
-                naturalidade: formData.naturalidade.toUpperCase(),
-                cpf: formData.cpf,
-                identidade: formData.identidade,
-                pis: formData.pis,
-                sexo: formData.sexo.toUpperCase(),
-                titulo_eleitor: formData.titulo_eleitor,
-                cargo: formData.cargo.toUpperCase(),
-                setor: formData.setor.toUpperCase(),
-                horario: `${formData.entrada}-${formData.saida}`,
-                entrada: formData.entrada,
-                saida: formData.saida,
-                data_admissao: formData.data_admissao,
-            });
+            // Remove campos vazios
+            const payload = Object.fromEntries(
+                Object.entries({
+                    nome: formData.nome.toUpperCase(),
+                    matricula: formData.matricula,
+                    data_nascimento: formData.data_nascimento,
+                    estado_civil: formData.estado_civil.toUpperCase(),
+                    nacionalidade: formData.nacionalidade.toUpperCase(),
+                    naturalidade: formData.naturalidade.toUpperCase(),
+                    cpf: formData.cpf,
+                    identidade: formData.identidade,
+                    pis: formData.pis,
+                    sexo: formData.sexo.toUpperCase(),
+                    titulo_eleitor: formData.titulo_eleitor,
+                    cargo: formData.cargo.toUpperCase(),
+                    setor: formData.setor.toUpperCase(),
+                    horario: `${formData.entrada}-${formData.saida}`,
+                    entrada: formData.entrada,
+                    saida: formData.saida,
+                    data_admissao: formData.data_admissao,
+                }).filter(([_, value]) => value !== '')
+            );
 
+            await api.put(`/servidores/${id}`, payload);
 
+            window.location.reload();
             toast.success("Cadastrado", {
-                description: "Servidor cadastrado com sucesso!",
+                description: "Servidor atualizado com sucesso!",
                 duration: 3000
             });
 
-            // Limpa o formulário após envio bem-sucedido
             setFormData({
                 nome: '',
                 matricula: '',
@@ -89,7 +93,6 @@ export function FormCadastrarFuncionarios() {
                 titulo_eleitor: '',
                 cargo: '',
                 setor: '',
-                horario: '',
                 entrada: '',
                 saida: '',
                 data_admissao: '',
@@ -103,15 +106,15 @@ export function FormCadastrarFuncionarios() {
             });
         }
     };
-    
+
     return (
         <Dialog.Portal>
             <Dialog.Overlay className='DialogOverlay' />
             <Dialog.Content className='DialogContent'>
-                <Dialog.DialogTitle className='dialog-title'>Cadastrar Servidor</Dialog.DialogTitle>
+                <Dialog.DialogTitle className='dialog-title'>Atualizar Servidor</Dialog.DialogTitle>
                 <form onSubmit={handleSubmit} className='form__dialog'>
                     <div>
-                        <label htmlFor="nome" className='form__dialog__label'>Nome Completo*</label>
+                        <label htmlFor="nome" className='form__dialog__label'>Nome Completo</label>
                         <input
                             type="text"
                             name="nome"
@@ -121,7 +124,6 @@ export function FormCadastrarFuncionarios() {
                             value={formData.nome}
                             onChange={handleInputChange}
                             maxLength='70'
-                            required
                         />
                     </div>
                     <div>
@@ -140,7 +142,7 @@ export function FormCadastrarFuncionarios() {
                         />
                     </div>
                     <div>
-                        <label htmlFor="data_nascimento" className='form__dialog__label'>Data do Nascimento*</label>
+                        <label htmlFor="data_nascimento" className='form__dialog__label'>Data do Nascimento</label>
                         <input
                             type="date"
                             name="data_nascimento"
@@ -148,11 +150,10 @@ export function FormCadastrarFuncionarios() {
                             className='form__dialog__input'
                             value={formData.data_nascimento}
                             onChange={handleInputChange}
-                            required
                         />
                     </div>
                     <div>
-                        <label htmlFor="estado_civil" className='form__dialog__label'>Estado Civil*</label>
+                        <label htmlFor="estado_civil" className='form__dialog__label'>Estado Civil</label>
                         <select
                             name="estado_civil"
                             id="estado_civil"
@@ -168,7 +169,7 @@ export function FormCadastrarFuncionarios() {
                         </select>
                     </div>
                     <div>
-                        <label htmlFor="nacionalidade" className='form__dialog__label'>Nacionalidade*</label>
+                        <label htmlFor="nacionalidade" className='form__dialog__label'>Nacionalidade</label>
                         <input
                             type="text"
                             name="nacionalidade"
@@ -178,11 +179,10 @@ export function FormCadastrarFuncionarios() {
                             value={formData.nacionalidade}
                             onChange={handleInputChange}
                             maxLength={40}
-                            required
                         />
                     </div>
                     <div>
-                        <label htmlFor="naturalidade" className='form__dialog__label'>Naturalidade*</label>
+                        <label htmlFor="naturalidade" className='form__dialog__label'>Naturalidade</label>
                         <input
                             type="text"
                             name="naturalidade"
@@ -194,11 +194,10 @@ export function FormCadastrarFuncionarios() {
                             value={formData.naturalidade}
                             onChange={handleInputChange}
                             maxLength={40}
-                            required
                         />
                     </div>
                     <div>
-                        <label htmlFor="cpf" className='form__dialog__label'>CPF*</label>
+                        <label htmlFor="cpf" className='form__dialog__label'>CPF</label>
                         <input
                             type="text"
                             name="cpf"
@@ -209,12 +208,11 @@ export function FormCadastrarFuncionarios() {
                             className='form__dialog__input'
                             value={formData.cpf}
                             onChange={handleInputChange}
-                            required
                         />
                     </div>
 
                     <div>
-                        <label htmlFor="identidade" className='form__dialog__label'>Identidade*</label>
+                        <label htmlFor="identidade" className='form__dialog__label'>Identidade</label>
                         <input
                             type="text"
                             name="identidade"
@@ -225,12 +223,11 @@ export function FormCadastrarFuncionarios() {
                             className='form__dialog__input'
                             value={formData.identidade}
                             onChange={handleInputChange}
-                            required
                         />
                     </div>
 
                     <div>
-                        <label htmlFor="pis" className='form__dialog__label'>PIS*</label>
+                        <label htmlFor="pis" className='form__dialog__label'>PIS</label>
                         <input
                             type="text"
                             name="pis"
@@ -241,18 +238,16 @@ export function FormCadastrarFuncionarios() {
                             className='form__dialog__input'
                             value={formData.pis}
                             onChange={handleInputChange}
-                            required
                         />
                     </div>
                     <div>
-                        <label htmlFor="sexo" className='form__dialog__label'>Sexo*</label>
+                        <label htmlFor="sexo" className='form__dialog__label'>Sexo</label>
                         <select
                             name="sexo"
                             id="sexo"
                             className='form__dialog__input'
                             value={formData.sexo}
                             onChange={handleInputChange}
-                            required
                         >
                             <option value="">Selecione</option>
                             <option value="MASCULINO">MASCULINO</option>
@@ -262,7 +257,7 @@ export function FormCadastrarFuncionarios() {
                     </div>
 
                     <div>
-                        <label htmlFor="titulo_eleitor" className='form__dialog__label'>Título de Eleitor*</label>
+                        <label htmlFor="titulo_eleitor" className='form__dialog__label'>Título de Eleitor</label>
                         <input
                             type="text"
                             name="titulo_eleitor"
@@ -273,11 +268,10 @@ export function FormCadastrarFuncionarios() {
                             value={formData.titulo_eleitor}
                             onChange={handleInputChange}
                             maxLength={12}
-                            required
                         />
                     </div>
                     <div>
-                        <label htmlFor="cargo" className='form__dialog__label'>Cargo*</label>
+                        <label htmlFor="cargo" className='form__dialog__label'>Cargo</label>
                         <input
                             type="text"
                             name="cargo"
@@ -292,7 +286,7 @@ export function FormCadastrarFuncionarios() {
                         />
                     </div>
                     <div>
-                        <label htmlFor="setor" className='form__dialog__label'>Setor*</label>
+                        <label htmlFor="setor" className='form__dialog__label'>Setor</label>
                         <input
                             type="text"
                             name="setor"
@@ -304,7 +298,6 @@ export function FormCadastrarFuncionarios() {
                             value={formData.setor}
                             onChange={handleInputChange}
                             maxLength={6}
-                            required
                         />
                     </div>
                     <div className='container__inputs__horario'>
@@ -316,10 +309,10 @@ export function FormCadastrarFuncionarios() {
                                 className='form__dialog__input'
                                 value={formData.entrada}
                                 onChange={handleInputChange}
-                                required
                             >
                                 <option value="">Selecione</option>
                                 <option value="08:00">08:00</option>
+                                <option value="11:00">11:00</option>
                             </select>
                         </div>
                         <div>
@@ -330,16 +323,16 @@ export function FormCadastrarFuncionarios() {
                                 className='form__dialog__input'
                                 value={formData.saida}
                                 onChange={handleInputChange}
-                                required
                             >
                                 <option value="">Selecione</option>
+                                <option value="14:00">14:00</option>
                                 <option value="17:00">17:00</option>
                             </select>
 
                         </div>
                     </div>
                     <div>
-                        <label htmlFor="data_admissao" className='form__dialog__label'>Data de Admissão*</label>
+                        <label htmlFor="data_admissao" className='form__dialog__label'>Data de Admissão</label>
                         <input
                             type="date"
                             name="data_admissao"
@@ -347,7 +340,6 @@ export function FormCadastrarFuncionarios() {
                             className='form__dialog__input'
                             value={formData.data_admissao}
                             onChange={handleInputChange}
-                            required
                         />
                     </div>
                     <div className='container__button__acoes__servidor'>
@@ -355,7 +347,7 @@ export function FormCadastrarFuncionarios() {
                             <button type="button" className='container__button__cancelar__servidor'>Cancelar</button>
                         </Dialog.Close>
                         <button type="submit" className='container__button__cadastrar__servidor'>
-                            Cadastrar Servidor
+                            Atualizar Servidor
                         </button>
                     </div>
                 </form>

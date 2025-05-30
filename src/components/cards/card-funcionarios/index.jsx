@@ -3,13 +3,15 @@ import { toast } from "sonner"
 import Checked from "../../../assets/checked.svg"
 import { api } from "../../../api/axios"
 import { useState } from "react"
+import * as Dialog from '@radix-ui/react-dialog';
+import { FormAtualizarFuncionarios } from "../../formularios/form-atualizar-funcionarios"
 
 export function CardFuncionarios(props) {
 	// <button className={`${styles["card__details__historico__button"]} ${styles["card__details__button"]} `}>Histórico</button>
 	// <button className={`${styles["card__details__atualizar__button"]} ${styles["card__details__button"]} `}>Atualizar</button>
 
 	const [isLoading, setIsLoading] = useState(false)
-	const { identificador, nome, quantidadeServidores, isChecked, onChecked, id, onArquivaServidor, onArquivaEstagiario } = props
+	const { identificador, checkboxFiltro, nome, quantidadeServidores, isChecked, onChecked, id, onArquivaServidor, onArquivaEstagiario } = props
 	const toggleDetails = (event) => {
 		const detailsElement = event.currentTarget.querySelector('details');
 		if (detailsElement) {
@@ -79,6 +81,17 @@ export function CardFuncionarios(props) {
 				{quantidadeServidores === 0 && <p>Nenhum servidor</p>}
 
 				<div className={styles["card__details__container__button"]}>
+					{
+						checkboxFiltro === 'servidor' && <Dialog.Root>
+							<Dialog.Trigger asChild>
+								<button className={styles["card__details__atualizar__button"]}>
+									Atualizar
+								</button>
+							</Dialog.Trigger>
+
+							<FormAtualizarFuncionarios id={id}/>
+						</Dialog.Root>
+					}
 
 					<button className={`${styles["card__details__arquivar__button"]} ${styles["card__details__button"]} `} onClick={arquiva}>Arquivar</button>
 				</div>
@@ -87,7 +100,7 @@ export function CardFuncionarios(props) {
 			<label onClick={e => {
 				e.stopPropagation();
 				onChecked({ target: { checked: !isChecked } });
-			}} 
+			}}
 				className={styles["container-selecionar__label"]} htmlFor={`selecionar-${id}`}>
 				<img
 					src={Checked}
