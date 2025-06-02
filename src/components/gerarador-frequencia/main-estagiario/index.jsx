@@ -156,16 +156,16 @@ export function MainEstagiario() {
     }
 
     async function downloadSetorZip(setor, mesEscolhido) {
-        console.log(`/setores/estagiarios/${setor}/${mesEscolhido}`)
+        console.log(`/setores/estagiarios/${setor.replace(/\//g, '_')}/${mesEscolhido}`)
         try {
             setIsLoading(true);
-            await api.get(`/setores/estagiarios/${setor.toLowerCase()}/${mesEscolhido}`, { responseType: 'blob' })
+            await api.get(`/setores/estagiarios/${setor.replace(/\//g, '_')}/${mesEscolhido}`, { responseType: 'blob' })
                 .then(response => {
                     const blob = new Blob([response.data], { type: 'application/zip' });
                     const url = window.URL.createObjectURL(blob);
                     const link = document.createElement('a');
                     link.href = url;
-                    link.download = `frequencia_mensal_${setor.toLowerCase()}_${mesEscolhido}.zip`;
+                    link.download = `frequencia_mensal_${setor.replace(/\//g, '_')}_${mesEscolhido}.zip`;
                     document.body.appendChild(link);
                     link.click();
                     document.body.removeChild(link);
@@ -219,14 +219,14 @@ export function MainEstagiario() {
                 return;
             }
 
-            const setoresSelecionadosFormatados = setoresSelecionados.map((setorSelecionado) => (setorSelecionado.toLowerCase()))
+            const setoresSelecionadosFormatados = 
+                setoresSelecionados.map((setorSelecionado) => (setorSelecionado.toLowerCase()))
 
             // Envia os nomes dos setores para o backend
             await api.post(`/setores/estagiar/pdf`, {
                 setores: setoresSelecionadosFormatados,
                 mes: mesEscolhido,
             });
-            console.log(setoresSelecionadosFormatados[0], mesEscolhido)
 
             // Usa o nome do setor na chamada de download
             if (setoresSelecionados.length > 1) {
