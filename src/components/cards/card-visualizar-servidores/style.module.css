@@ -1,5 +1,5 @@
 .container__visualizar__info {
-    width: 70%;
+    width: 75%;
     height: 400px;
 }
 
@@ -16,6 +16,6 @@
     overflow-x: hidden;
     height: 400px;
     border-radius: 10px;
-    padding: 10px; 
+    padding: 18px; 
 }
 

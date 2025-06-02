@@ -52,7 +52,7 @@
     border: 1px solid var(--cor-borda);
     background: #F5F5F5;
     margin-bottom: 10px;
-    
+    padding-left: 6px;
 }
 
 .card__details::after {
