@@ -21,7 +21,6 @@ export function MainServidores() {
 	const [mensagemServidores, setMensagemServidores] = useState("")
 	const [checkedSetores, setCheckedSetores] = useState({})
 	const [checkedServidores, setCheckedServidores] = useState({})
-	const [mesEscolhido, setMesEscolhido] = useState(month)
 
 	async function converteServidoresParaPdfAPI() {
 		setIsLoading(true);
@@ -29,7 +28,7 @@ export function MainServidores() {
 			const idServidores = Object.keys(checkedServidores);
 			const responseGeracao = await api.post("/servidores/pdf", {
 				funcionarios: idServidores,
-				mes: mesEscolhido
+				mes: opcoesDeFiltro.month
 			});
 
 			if (responseGeracao.status === 200) {
@@ -50,13 +49,13 @@ export function MainServidores() {
 	async function baixarServidoresZip() {
 		setIsLoading(true);
 		try {
-			const response = await api.get(`/servidores/pdf/download-zip/${mesEscolhido}`, { responseType: 'blob' });
+			const response = await api.get(`/servidores/pdf/download-zip/${opcoesDeFiltro.month}`, { responseType: 'blob' });
 			if (response.status === 200) {
 				const blob = new Blob([response.data], { type: 'application/zip' });
 				const url = window.URL.createObjectURL(blob);
 				const link = document.createElement('a');
 				link.href = url;
-				link.download = `frequencia_mensal_${mesEscolhido}.zip`;
+				link.download = `frequencia_mensal_${opcoesDeFiltro.month}.zip`;
 				document.body.appendChild(link);
 				link.click();
 				document.body.removeChild(link);
@@ -88,22 +87,22 @@ export function MainServidores() {
 
 			setIsLoading(true);
 
-			const setoresSelecionadosFormatados = 
-                setoresSelecionados.map((setorSelecionado) => (setorSelecionado.toLowerCase()))
+			const setoresSelecionadosFormatados =
+				setoresSelecionados.map((setorSelecionado) => (setorSelecionado.toLowerCase()))
 
 			// Chama a API para gerar os PDFs e o ZIP
 			await api.post(`/setores/pdf`, {
 				setores: setoresSelecionadosFormatados,
-				mes: mesEscolhido,
+				mes: opcoesDeFiltro.month,
 			});
 
 			console.log(setoresSelecionadosFormatados)
 
 			// Se for mais de um setor, chama a rota de multissetores
 			if (setoresSelecionados.length > 1) {
-				await downloadMultissetoresZip(mesEscolhido);
+				await downloadMultissetoresZip(opcoesDeFiltro.month);
 			} else {
-				await downloadSetorZip(setoresSelecionadosFormatados[0], mesEscolhido);
+				await downloadSetorZip(setoresSelecionadosFormatados[0], opcoesDeFiltro.month);
 			}
 
 		} catch (e) {
@@ -253,13 +252,12 @@ export function MainServidores() {
 					</div>
 
 					<div className="form__filtro__select__container">
-						<select name="meses" id="meses" className="form__filtro__select" value={opcoesDeFiltro.month} onChange={({target}) => handleSelectedMonth(target)}>
+						<select name="meses" id="meses" className="form__filtro__select" value={opcoesDeFiltro.month} onChange={({ target }) => handleSelectedMonth(target)}>
 							{arrayOfMonths.map((mes, index) => {
 								return <option key={index} value={mes}>{mes}</option>
 							})}
 						</select>
 					</div>
-
 				</div>
 			</form>
 
@@ -334,7 +332,7 @@ export function MainServidores() {
 
 			<div className="container__cadastrar__button">
 				<div className="container__gerar__button">
-					<button disabled={isLoading} onClick={() => { opcoesDeFiltro.checkboxFiltro === 'servidor' ? handleGerarServidores() : converteSetoresParaPdfAPI()}} className="button__gerar__servidor">Gerar selecionados</button>
+					<button disabled={isLoading} onClick={() => { opcoesDeFiltro.checkboxFiltro === 'servidor' ? handleGerarServidores() : converteSetoresParaPdfAPI() }} className="button__gerar__servidor">Gerar selecionados</button>
 				</div>
 			</div>
 		</main>

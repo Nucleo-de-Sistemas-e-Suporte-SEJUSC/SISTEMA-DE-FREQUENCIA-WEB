@@ -3,7 +3,7 @@ import axios from "axios";
 const isDev = window.location.hostname === "";
 
 export const api = axios.create({
-  baseURL: "http://12.90.4.191:8001/api",
+  baseURL: "/api",
   withCredentials: true,
   headers: {
     'Content-Type': 'application/json',
