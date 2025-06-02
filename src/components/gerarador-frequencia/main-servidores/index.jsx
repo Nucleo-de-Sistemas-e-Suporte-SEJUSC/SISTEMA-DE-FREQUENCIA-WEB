@@ -88,17 +88,22 @@ export function MainServidores() {
 
 			setIsLoading(true);
 
+			const setoresSelecionadosFormatados = 
+                setoresSelecionados.map((setorSelecionado) => (setorSelecionado.toLowerCase()))
+
 			// Chama a API para gerar os PDFs e o ZIP
 			await api.post(`/setores/pdf`, {
-				setores: setoresSelecionados,
+				setores: setoresSelecionadosFormatados,
 				mes: mesEscolhido,
 			});
+
+			console.log(setoresSelecionadosFormatados)
 
 			// Se for mais de um setor, chama a rota de multissetores
 			if (setoresSelecionados.length > 1) {
 				await downloadMultissetoresZip(mesEscolhido);
 			} else {
-				await downloadSetorZip(setoresSelecionados[0], mesEscolhido);
+				await downloadSetorZip(setoresSelecionadosFormatados[0], mesEscolhido);
 			}
 
 		} catch (e) {
@@ -109,15 +114,16 @@ export function MainServidores() {
 	}
 
 	async function downloadSetorZip(setor, mesEscolhido) {
+		console.log(`/setores/pdf/download-zip/${setor.replace(/\//g, '_')}/${mesEscolhido}`)
 		try {
 			setIsLoading(true);
-			await api.get(`/setores/pdf/download-zip/${setor}/${mesEscolhido}`, { responseType: 'blob' })
+			await api.get(`/setores/pdf/download-zip/${setor.replace(/\//g, '_')}/${mesEscolhido}`, { responseType: 'blob' })
 				.then(response => {
 					const blob = new Blob([response.data], { type: 'application/zip' });
 					const url = window.URL.createObjectURL(blob);
 					const link = document.createElement('a');
 					link.href = url;
-					link.download = `frequencia_mensal_${setor}_${mesEscolhido}.zip`;
+					link.download = `frequencia_mensal_${setor.replace(/\//g, '_')}_${mesEscolhido}.zip`;
 					document.body.appendChild(link);
 					link.click();
 					document.body.removeChild(link);
