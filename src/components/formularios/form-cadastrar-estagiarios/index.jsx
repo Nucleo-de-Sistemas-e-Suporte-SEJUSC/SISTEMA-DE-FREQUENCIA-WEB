@@ -10,7 +10,7 @@ export function FormCadastrarEstagiarios() {
     // Estado para cada campo do formulário
     const [formData, setFormData] = useState({
         nome: '',                  // era nomeCompleto
-        cargo: '',
+        cargo: 'estagiário',
         setor: '',
         entrada: '',               // era horarioEntrada
         saida: '',                 // era horarioSaida
@@ -39,7 +39,7 @@ export function FormCadastrarEstagiarios() {
         e.preventDefault();
 
         try {
-            await api.post("/criar/estagiarios", {
+            await api.post("/estagiarios", {
                 nome: formData.nome.toUpperCase(),
                 cargo: formData.cargo.toUpperCase(),
                 setor: formData.setor.toUpperCase(),
@@ -106,6 +106,7 @@ export function FormCadastrarEstagiarios() {
                             value={formData.cargo}
                             onChange={handleInputChange}
                             maxLength={50}
+                            readOnly
                             required
                         />
                     </div>
