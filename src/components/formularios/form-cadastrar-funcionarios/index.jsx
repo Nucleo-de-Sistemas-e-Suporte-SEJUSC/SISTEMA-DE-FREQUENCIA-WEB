@@ -234,7 +234,6 @@ export function FormCadastrarFuncionarios() {
                             type="text"
                             name="pis"
                             id="pis"
-                            pattern='^\d{3}\.\d{5}\.\d{2}-\d{1}$'
                             placeholder='123.45678.90-1'
                             title={'\n\n123.45678.90-1'}
                             className='form__dialog__input'
