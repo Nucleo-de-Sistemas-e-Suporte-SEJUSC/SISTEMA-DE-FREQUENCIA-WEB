@@ -34,6 +34,7 @@ export function FormCadastrarFuncionarios() {
         // nomePai: '',
     });
 
+    //pattern='^\d{3}\.\d{3}-\d\s[A-Z]$'
 
     // Função para atualizar o estado quando os inputs mudam
     const handleInputChange = (e) => {
@@ -131,7 +132,6 @@ export function FormCadastrarFuncionarios() {
                             name="matricula"
                             id="matricula"
                             title={'\n\n123.456-7 A'}
-                            pattern='^\d{3}\.\d{3}-\d\s[A-Z]$'
                             placeholder='123.456-7 A'
                             className='form__dialog__input'
                             value={formData.matricula}
@@ -219,6 +219,7 @@ export function FormCadastrarFuncionarios() {
                             type="text"
                             name="identidade"
                             id="identidade"
+                            pattern='^\d{7}-\d{1}$'
                             placeholder='1234567-8'
                             title={'\n\n1234567-8'}
                             className='form__dialog__input'
@@ -234,6 +235,7 @@ export function FormCadastrarFuncionarios() {
                             type="text"
                             name="pis"
                             id="pis"
+                            pattern='^\d{3}\.\d{5}\.\d{2}-\d{1}$'
                             placeholder='123.45678.90-1'
                             title={'\n\n123.45678.90-1'}
                             className='form__dialog__input'

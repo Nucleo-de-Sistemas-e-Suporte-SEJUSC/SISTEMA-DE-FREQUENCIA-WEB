@@ -25,6 +25,8 @@ export function FormAtualizarFuncionarios({ id }) {
         entrada: '',               // era horarioEntrada
         saida: '',                 // era horarioSaida
         data_admissao: '',
+        feriasinicio: '',
+        feriasfinal: '',
         // Campos não usados pelo backend:
         // servicoMilitar: '',
         // condicaoJuridica: '',
@@ -68,6 +70,8 @@ export function FormAtualizarFuncionarios({ id }) {
                     entrada: formData.entrada,
                     saida: formData.saida,
                     data_admissao: formData.data_admissao,
+                    feriasinicio: formData.feriasinicio,
+                    feriasfinal: formData.feriasfinal,
                 }).filter(([_, value]) => value !== '')
             );
 
@@ -96,6 +100,8 @@ export function FormAtualizarFuncionarios({ id }) {
                 entrada: '',
                 saida: '',
                 data_admissao: '',
+                feriasinicio: '',
+                feriasfinal: '',
             });
 
         } catch (error) {
@@ -123,7 +129,7 @@ export function FormAtualizarFuncionarios({ id }) {
                             className='form__dialog__input'
                             value={formData.nome}
                             onChange={handleInputChange}
-                            maxLength='70'
+                            maxLength={70}
                         />
                     </div>
                     <div>
@@ -133,12 +139,11 @@ export function FormAtualizarFuncionarios({ id }) {
                             name="matricula"
                             id="matricula"
                             title={'\n\n123.456-7 A'}
-                            pattern='^\d{3}\.\d{3}-\d\s[A-Z]$'
                             placeholder='123.456-7 A'
                             className='form__dialog__input'
                             value={formData.matricula}
                             onChange={handleInputChange}
-                            maxLength={11}
+                            maxLength={20}
                         />
                     </div>
                     <div>
@@ -187,7 +192,6 @@ export function FormAtualizarFuncionarios({ id }) {
                             type="text"
                             name="naturalidade"
                             id="naturalidade"
-                            pattern='^[A-Za-zÀ-ÿ\s]+\/[A-Za-z]{2}$'
                             title={'\n\nMato Grosso do Sul/MS'}
                             placeholder='Mato Grosso do Sul/MS'
                             className='form__dialog__input'
@@ -217,7 +221,6 @@ export function FormAtualizarFuncionarios({ id }) {
                             type="text"
                             name="identidade"
                             id="identidade"
-                            pattern='^\d{7}-\d{1}$'
                             placeholder='1234567-8'
                             title={'\n\n1234567-8'}
                             className='form__dialog__input'
@@ -232,7 +235,6 @@ export function FormAtualizarFuncionarios({ id }) {
                             type="text"
                             name="pis"
                             id="pis"
-                            pattern='^\d{3}\.\d{5}\.\d{2}-\d{1}$'
                             placeholder='123.45678.90-1'
                             title={'\n\n123.45678.90-1'}
                             className='form__dialog__input'
@@ -267,7 +269,7 @@ export function FormAtualizarFuncionarios({ id }) {
                             className='form__dialog__input'
                             value={formData.titulo_eleitor}
                             onChange={handleInputChange}
-                            maxLength={12}
+                            maxLength={20}
                         />
                     </div>
                     <div>
@@ -282,7 +284,7 @@ export function FormAtualizarFuncionarios({ id }) {
                             title={'\n\nNão é permitido números'}
                             value={formData.cargo}
                             onChange={handleInputChange}
-                            maxLength={50}
+                            maxLength={70}
                         />
                     </div>
                     <div>
@@ -294,10 +296,9 @@ export function FormAtualizarFuncionarios({ id }) {
                             className='form__dialog__input'
                             placeholder='ASCOM'
                             title={'\n\nNão é permitido números'}
-                            pattern='^[A-Za-zÀ-ÿ\s]+$'
                             value={formData.setor}
                             onChange={handleInputChange}
-                            maxLength={6}
+                            maxLength={70}
                         />
                     </div>
                     <div className='container__inputs__horario'>
@@ -341,6 +342,30 @@ export function FormAtualizarFuncionarios({ id }) {
                             value={formData.data_admissao}
                             onChange={handleInputChange}
                         />
+                    </div>
+                    <div className='container__inputs__horario'>
+                        <div>
+                            <label htmlFor="feriasinicio" className='form__dialog__label'>Ferias Início</label>
+                            <input
+                                type="date"
+                                name="feriasinicio"
+                                id="feriasinicio"
+                                className='form__dialog__input'
+                                value={formData.feriasinicio}
+                                onChange={handleInputChange}
+                            />
+                        </div>
+                        <div>
+                            <label htmlFor="feriasfinal" className='form__dialog__label'>Ferias Final</label>
+                            <input
+                                type="date"
+                                name="feriasfinal"
+                                id="feriasfinal"
+                                className='form__dialog__input'
+                                value={formData.feriasfinal}
+                                onChange={handleInputChange}
+                            />
+                        </div>
                     </div>
                     <div className='container__button__acoes__servidor'>
                         <Dialog.Close asChild>

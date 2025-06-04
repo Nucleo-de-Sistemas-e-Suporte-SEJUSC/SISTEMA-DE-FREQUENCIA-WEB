@@ -6,6 +6,7 @@ import { Header } from "../../components/comuns/header";
 import * as Dialog from '@radix-ui/react-dialog';
 import { FormCadastrarFuncionarios } from "../../components/formularios/form-cadastrar-funcionarios";
 import { FormCadastrarEstagiarios } from "../../components/formularios/form-cadastrar-estagiarios";
+import { FormCadastrarFeriados } from "../../components/formularios/form-cadastrar-feriados";
 
 export function ArquivadosAtivos() {
     const [menu, setMenu] = useState(false)
@@ -28,6 +29,17 @@ export function ArquivadosAtivos() {
                     <NavLink to="/arquivados">
                         <button className={styles["botao__arquivados__ativo"]}>Arquivados</button>
                     </NavLink>
+
+                    <Dialog.Root>
+                        <Dialog.Trigger asChild>
+                            <button className={styles["button__cadastrar__servidor"]}>
+                                Cadastrar Feriados
+                            </button>
+                        </Dialog.Trigger>
+
+                        <FormCadastrarFeriados />
+                    </Dialog.Root>
+
                     <Dialog.Root>
                         <Dialog.Trigger asChild>
                             <button className={styles["button__cadastrar__servidor"]}>
