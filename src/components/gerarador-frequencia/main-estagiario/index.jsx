@@ -219,7 +219,7 @@ export function MainEstagiario() {
                 return;
             }
 
-            const setoresSelecionadosFormatados = 
+            const setoresSelecionadosFormatados =
                 setoresSelecionados.map((setorSelecionado) => (setorSelecionado.toLowerCase()))
 
             // Envia os nomes dos setores para o backend
@@ -252,6 +252,10 @@ export function MainEstagiario() {
         setIsLoading(true);
         try {
             const idServidores = Object.keys(checkedEstagiarios);
+            console.log({
+                mes: mesEscolhido,
+                estagiarios: idServidores
+            })
             const responseGeracao = await api.post("/estagiario/pdf", {
                 mes: mesEscolhido,
                 estagiarios: idServidores
