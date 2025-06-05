@@ -93,7 +93,9 @@ export function CardFuncionarios(props) {
 						</Dialog.Root>
 					}
 
-					<button className={`${styles["card__details__arquivar__button"]} ${styles["card__details__button"]} `} onClick={arquiva}>Arquivar</button>
+					{ 
+						checkboxFiltro === 'servidor' && <button className={`${styles["card__details__arquivar__button"]} ${styles["card__details__button"]} `} onClick={arquiva}>Arquivar</button>
+					}
 				</div>
 			</details>
 
