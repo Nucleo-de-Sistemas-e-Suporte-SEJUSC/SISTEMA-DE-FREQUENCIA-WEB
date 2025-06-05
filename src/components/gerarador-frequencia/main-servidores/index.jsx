@@ -88,7 +88,7 @@ export function MainServidores() {
 			setIsLoading(true);
 
 			const setoresSelecionadosFormatados =
-				setoresSelecionados.map((setorSelecionado) => (setorSelecionado.toLowerCase()))
+				setoresSelecionados.map((setorSelecionado) => (setorSelecionado.toLowerCase().trim()))
 
 			// Chama a API para gerar os PDFs e o ZIP
 			await api.post(`/setores/pdf`, {
