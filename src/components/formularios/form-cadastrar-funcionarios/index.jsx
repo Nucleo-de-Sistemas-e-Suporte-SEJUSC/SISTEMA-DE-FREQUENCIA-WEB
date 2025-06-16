@@ -333,6 +333,7 @@ export function FormCadastrarFuncionarios() {
                                 required
                             >
                                 <option value="">Selecione</option>
+                                <option value="14:00">14:00</option>
                                 <option value="17:00">17:00</option>
                             </select>
 

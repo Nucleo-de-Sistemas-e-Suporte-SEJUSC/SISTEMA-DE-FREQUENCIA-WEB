@@ -109,7 +109,7 @@ export function FormCadastrarFeriados() {
                             <button type="button" className='container__button__cancelar__servidor'>Cancelar</button>
                         </Dialog.Close>
                         <button type="submit" className='container__button__cadastrar__servidor'>
-                            Cadastrar Estagiário
+                            Cadastrar Feriados
                         </button>
                     </div>
                 </form>

@@ -125,7 +125,6 @@ export function FormAtualizarFuncionarios({ id }) {
                             type="text"
                             name="nome"
                             id="nome"
-                            placeholder='José da Silva Vasconelos'
                             className='form__dialog__input'
                             value={formData.nome}
                             onChange={handleInputChange}
