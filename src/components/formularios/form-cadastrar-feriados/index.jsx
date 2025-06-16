@@ -10,11 +10,12 @@ export function FormCadastrarFeriados() {
     // Estado para cada campo do formulário
     const [formData, setFormData] = useState({
         dataFeriado: '',
+        dataFacultativo: '',
         descricao: '',
         estado: 'AM'
     });
 
-    console.log(formData)
+    //console.log(Boolean(formData.dataFacultativo))
 
 
     // Função para atualizar o estado quando os inputs mudam
@@ -32,8 +33,9 @@ export function FormCadastrarFeriados() {
         try {
             await api.post("/feriados-municipais", {
                 data: formData.dataFeriado,
+                ponto_facultativo: Boolean(formData.dataFacultativo),
                 descricao: formData.descricao,
-                estado: formData.estado
+                estado: formData.estado,
             });
 
 
@@ -45,6 +47,7 @@ export function FormCadastrarFeriados() {
             // Limpa o formulário após envio bem-sucedido
             setFormData({
                 dataFeriado: '',
+                dataFacultativo: '',
                 descricao: '',
                 estado: ''
             });
@@ -62,7 +65,7 @@ export function FormCadastrarFeriados() {
         <Dialog.Portal>
             <Dialog.Overlay className='DialogOverlay' />
             <Dialog.Content className='DialogContent'>
-                <Dialog.DialogTitle className='dialog-title'>Cadastrar Feriados</Dialog.DialogTitle>
+                <Dialog.DialogTitle className='dialog-title'>Cadastrar Feriados/Pontos Facultativos</Dialog.DialogTitle>
                 <form onSubmit={handleSubmit} className='form__dialog'>
                     <div>
                         <label htmlFor="dataFeriado" className='form__dialog__label'>Data*</label>
@@ -77,7 +80,22 @@ export function FormCadastrarFeriados() {
                         />
                     </div>
                     <div>
-                        <label htmlFor="descricao" className='form__dialog__label'>Descrição*</label>
+                        <label htmlFor="dataFacultativo" className='form__dialog__label'>Ponto Facultativo*</label>
+                        <select
+                            name="dataFacultativo"
+                            id="dataFacultativo"
+                            className='form__dialog__input'
+                            value={formData.dataFacultativo}
+                            onChange={handleInputChange}
+                            required
+                        >
+                            <option value="">Selecione</option>
+                            <option value="true">SIM</option>
+                            <option value="false">NÃO</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label htmlFor="descricao" className='form__dialog__label'>Descrição</label>
                         <input
                             type="text"
                             name="descricao"
@@ -87,7 +105,6 @@ export function FormCadastrarFeriados() {
                             value={formData.descricao}
                             onChange={handleInputChange}
                             maxLength={70}
-                            required
                         />
                     </div>
                     <div>
