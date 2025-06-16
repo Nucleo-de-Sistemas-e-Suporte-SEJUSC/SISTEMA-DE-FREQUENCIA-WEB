@@ -218,6 +218,7 @@ export function MainServidores() {
 		}
 	};
 
+
 	return (
 		<main className="main__servidores">
 
@@ -320,6 +321,7 @@ export function MainServidores() {
 							key={servidor.id}
 							nome={servidor.nome.toUpperCase()}
 							id={servidor.id}
+							servidor={servidor}
 							checkboxFiltro={opcoesDeFiltro.checkboxFiltro}
 							isChecked={!!checkedServidores[servidor.id]}
 							onChecked={() => handleSelectedCheckboxChange(servidor.id, "servidor", servidor.nome)}

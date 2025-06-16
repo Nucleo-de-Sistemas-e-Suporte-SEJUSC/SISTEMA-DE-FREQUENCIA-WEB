@@ -4,29 +4,31 @@ import { toast } from 'sonner';
 import { useState } from 'react'; // Importe o useState
 import { api } from '../../../api/axios';
 
-export function FormAtualizarFuncionarios({ id }) {
+export function FormAtualizarFuncionarios({ id, servidor }) {
     //console.log(`/criar/servidores/${id}`)
     // commit teste
     // Estado para cada campo do formulário
+    //console.log(servidor)
+
     const [formData, setFormData] = useState({
-        nome: '',                  // era nomeCompleto
-        matricula: '',
+        nome: servidor.nome,                  // era nomeCompleto
+        matricula: servidor.matricula,
         data_nascimento: '',       // era dataDoNascimento
-        estado_civil: '',          // era estadoCivil
-        nacionalidade: '',
-        naturalidade: '',
-        identidade: '',            // era rg
-        cpf: '',
-        pis: '',                   // era pisPasep
-        sexo: '',
-        titulo_eleitor: '',        // era tituloEleitor
-        cargo: '',
-        setor: '',
-        entrada: '',               // era horarioEntrada
-        saida: '',                 // era horarioSaida
-        data_admissao: '',
-        feriasinicio: '',
-        feriasfinal: '',
+        estado_civil: servidor.estado_civil,          // era estadoCivil
+        nacionalidade: servidor.nacionalidade,
+        naturalidade: servidor.naturalidade,
+        identidade: servidor.identidade,            // era rg
+        cpf: servidor.cpf,
+        pis: servidor.pis,                   // era pisPasep
+        sexo: servidor.sexo,
+        titulo_eleitor: servidor.titulo_eleitor,        // era tituloEleitor
+        cargo: servidor.cargo,
+        setor: servidor.setor,
+        entrada: servidor.horarioentrada.split(":").slice(0, 2).join(":"),               // era horarioEntrada
+        saida: servidor.horariosaida.split(":").slice(0, 2).join(":"),                 // era horarioSaida
+        data_admissao: servidor.data_admissao,
+        feriasinicio: servidor.feriasinicio,
+        feriasfinal: servidor.feriasfinal,
         // Campos não usados pelo backend:
         // servicoMilitar: '',
         // condicaoJuridica: '',
@@ -166,10 +168,10 @@ export function FormAtualizarFuncionarios({ id }) {
                             onChange={handleInputChange}
                         >
                             <option value="">Selecione</option>
-                            <option value="solteiro">SOLTEIRO</option>
-                            <option value="casado">CASADO</option>
-                            <option value="divorcido">DIVORCIADO</option>
-                            <option value="viuvo">VIUVO</option>
+                            <option value="SOLTEIRO">SOLTEIRO</option>
+                            <option value="CASADO">CASADO</option>
+                            <option value="DIVORCIADO">DIVORCIADO</option>
+                            <option value="VIUVO">VIUVO</option>
                         </select>
                     </div>
                     <div>
@@ -312,7 +314,6 @@ export function FormAtualizarFuncionarios({ id }) {
                             >
                                 <option value="">Selecione</option>
                                 <option value="08:00">08:00</option>
-                                <option value="11:00">11:00</option>
                             </select>
                         </div>
                         <div>

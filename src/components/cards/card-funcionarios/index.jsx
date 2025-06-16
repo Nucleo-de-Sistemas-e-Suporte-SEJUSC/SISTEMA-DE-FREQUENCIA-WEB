@@ -11,7 +11,7 @@ export function CardFuncionarios(props) {
 	// <button className={`${styles["card__details__atualizar__button"]} ${styles["card__details__button"]} `}>Atualizar</button>
 
 	const [isLoading, setIsLoading] = useState(false)
-	const { identificador, checkboxFiltro, nome, quantidadeServidores, isChecked, onChecked, id, onArquivaServidor, onArquivaEstagiario } = props
+	const { identificador, checkboxFiltro, nome, quantidadeServidores, isChecked, onChecked, id, servidor, onArquivaServidor, onArquivaEstagiario } = props
 	const toggleDetails = (event) => {
 		const detailsElement = event.currentTarget.querySelector('details');
 		if (detailsElement) {
@@ -89,7 +89,7 @@ export function CardFuncionarios(props) {
 								</button>
 							</Dialog.Trigger>
 
-							<FormAtualizarFuncionarios id={id}/>
+							<FormAtualizarFuncionarios id={id} servidor={servidor}/>
 						</Dialog.Root>
 					}
 

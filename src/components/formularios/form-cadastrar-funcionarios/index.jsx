@@ -219,7 +219,7 @@ export function FormCadastrarFuncionarios() {
                             type="text"
                             name="identidade"
                             id="identidade"
-                            pattern='^\d{7}-\d{1}$'
+                            
                             placeholder='1234567-8'
                             title={'\n\n1234567-8'}
                             className='form__dialog__input'
