@@ -8,7 +8,7 @@ export function FormAtualizarFuncionarios({ id, servidor }) {
     //console.log(`/criar/servidores/${id}`)
     // commit teste
     // Estado para cada campo do formulário
-    //console.log(servidor)
+    console.log(servidor.feriasfinal)
 
     const [formData, setFormData] = useState({
         nome: servidor.nome,                  // era nomeCompleto
@@ -27,8 +27,8 @@ export function FormAtualizarFuncionarios({ id, servidor }) {
         entrada: servidor.horarioentrada.split(":").slice(0, 2).join(":"),               // era horarioEntrada
         saida: servidor.horariosaida.split(":").slice(0, 2).join(":"),                 // era horarioSaida
         data_admissao: servidor.data_admissao,
-        feriasinicio: servidor.feriasinicio,
-        feriasfinal: servidor.feriasfinal,
+        feriasinicio: '',
+        feriasfinal: '',
         // Campos não usados pelo backend:
         // servicoMilitar: '',
         // condicaoJuridica: '',
