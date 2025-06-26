@@ -8,7 +8,7 @@ export function FormAtualizarFuncionarios({ id, servidor }) {
     //console.log(`/criar/servidores/${id}`)
     // commit teste
     // Estado para cada campo do formulário
-    console.log(servidor.feriasfinal)
+    //console.log(servidor.feriasfinal)
 
     const [formData, setFormData] = useState({
         nome: servidor.nome,                  // era nomeCompleto

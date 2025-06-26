@@ -300,10 +300,9 @@ export function FormCadastrarFuncionarios() {
                             className='form__dialog__input'
                             placeholder='ASCOM'
                             title={'\n\nNão é permitido números'}
-                            pattern='^[A-Za-zÀ-ÿ\s]+$'
                             value={formData.setor}
                             onChange={handleInputChange}
-                            maxLength={6}
+                            maxLength={70}
                             required
                         />
                     </div>

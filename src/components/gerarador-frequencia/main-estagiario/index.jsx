@@ -397,9 +397,11 @@ export function MainEstagiario() {
                     {estagiariosFiltrados.map(estagiario => (
                         <CardFuncionarios
                             identificador={'estagiario'}
+                            checkboxFiltro={filtro}
                             nome={estagiario.nome}
                             id={estagiario.id}
                             key={estagiario.id}
+                            estagiario={estagiario}
                             isChecked={!!checkedEstagiarios[estagiario.id]}
                             onArquivaEstagiario={() => arquivarEstagiarioAPI(estagiario.id)}
                             onChecked={() => handleCheckboxChange(estagiario.id, "estagiario")}

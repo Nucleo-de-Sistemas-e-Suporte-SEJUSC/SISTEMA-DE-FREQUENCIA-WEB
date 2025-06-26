@@ -5,13 +5,14 @@ import { api } from "../../../api/axios"
 import { useState } from "react"
 import * as Dialog from '@radix-ui/react-dialog';
 import { FormAtualizarFuncionarios } from "../../formularios/form-atualizar-funcionarios"
+import { FormAtualizarEstagiarios } from "../../formularios/form-atualizar-estagiarios"
 
 export function CardFuncionarios(props) {
 	// <button className={`${styles["card__details__historico__button"]} ${styles["card__details__button"]} `}>Histórico</button>
 	// <button className={`${styles["card__details__atualizar__button"]} ${styles["card__details__button"]} `}>Atualizar</button>
 
 	const [isLoading, setIsLoading] = useState(false)
-	const { identificador, checkboxFiltro, nome, quantidadeServidores, isChecked, onChecked, id, servidor, onArquivaServidor, onArquivaEstagiario } = props
+	const { identificador, checkboxFiltro, nome, quantidadeServidores, isChecked, onChecked, id, servidor, estagiario, onArquivaServidor, onArquivaEstagiario } = props
 	const toggleDetails = (event) => {
 		const detailsElement = event.currentTarget.querySelector('details');
 		if (detailsElement) {
@@ -89,12 +90,24 @@ export function CardFuncionarios(props) {
 								</button>
 							</Dialog.Trigger>
 
-							<FormAtualizarFuncionarios id={id} servidor={servidor}/>
+							<FormAtualizarFuncionarios id={id} servidor={servidor} />
 						</Dialog.Root>
 					}
 
-					 <button className={`${styles["card__details__arquivar__button"]} ${styles["card__details__button"]} `} onClick={arquiva}>Arquivar</button>
-				
+					{
+						checkboxFiltro === 'estagiario' && <Dialog.Root>
+							<Dialog.Trigger asChild>
+								<button className={styles["card__details__atualizar__button"]}>
+									Atualizar
+								</button>
+							</Dialog.Trigger>
+
+							<FormAtualizarEstagiarios id={id} estagiario={estagiario} />
+						</Dialog.Root>
+					}
+
+					<button className={`${styles["card__details__arquivar__button"]} ${styles["card__details__button"]} `} onClick={arquiva}>Arquivar</button>
+
 				</div>
 			</details>
 
