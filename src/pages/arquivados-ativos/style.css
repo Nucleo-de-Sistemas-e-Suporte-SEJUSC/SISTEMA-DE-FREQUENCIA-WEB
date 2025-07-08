@@ -1,6 +1,6 @@
 .home__titulo {
     font-size: 48px;
-    padding-left: 20px ;
+    padding-left: 20px;
     color: var(--button);
     background-color: red;
 }
@@ -23,4 +23,23 @@
     max-width: max-content;
     flex-wrap: wrap;
     gap: 12px;
+}
+
+.container_form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.container_label {
+    display: flex;
+}
+
+.button_enviar_documento {
+    border: none;
+    padding: 8px;
+    color: #fff;
+    border-radius: 8px;
+    cursor: pointer;
+    background-color: var(--roxo);
 }

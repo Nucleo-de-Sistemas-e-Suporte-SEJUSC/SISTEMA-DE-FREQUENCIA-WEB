@@ -1,10 +1,10 @@
 import './style.css'
 import * as Dialog from "@radix-ui/react-dialog";
 import { toast } from 'sonner';
-import { useState } from 'react'; // Importe o useState
+import React, { useState } from 'react'; // Importe o useState
 import { api } from '../../../api/axios';
 
-export function FormCadastrarFuncionarios() {
+export function FormCadastrarFuncionarios({ setUploadData, setIsDialogOpen }) {
 
     // commit teste
     // Estado para cada campo do formulário
@@ -49,7 +49,7 @@ export function FormCadastrarFuncionarios() {
         e.preventDefault();
 
         try {
-            await api.post("/criar/servidores", {
+            const response = await api.post("/criar/servidores", {
                 nome: formData.nome.toUpperCase(),
                 matricula: formData.matricula,
                 data_nascimento: formData.data_nascimento,
@@ -69,6 +69,13 @@ export function FormCadastrarFuncionarios() {
                 data_admissao: formData.data_admissao,
             });
 
+            const { data } = response
+
+            setUploadData((prevValues) => ({
+                ...prevValues,
+                funcionarioId: data.servidor.id,
+                openModal: true
+            }))
 
             toast.success("Cadastrado", {
                 description: "Servidor cadastrado com sucesso!",
@@ -96,6 +103,8 @@ export function FormCadastrarFuncionarios() {
                 data_admissao: '',
             });
 
+            setIsDialogOpen(false)
+
         } catch (error) {
             const message = error?.response?.data?.erro || error.message || 'Erro desconhecido';
             toast.error("Erro ao cadastrar", {
@@ -104,7 +113,7 @@ export function FormCadastrarFuncionarios() {
             });
         }
     };
-    
+
     return (
         <Dialog.Portal>
             <Dialog.Overlay className='DialogOverlay' />
@@ -219,7 +228,7 @@ export function FormCadastrarFuncionarios() {
                             type="text"
                             name="identidade"
                             id="identidade"
-                            
+
                             placeholder='1234567-8'
                             title={'\n\n1234567-8'}
                             className='form__dialog__input'
