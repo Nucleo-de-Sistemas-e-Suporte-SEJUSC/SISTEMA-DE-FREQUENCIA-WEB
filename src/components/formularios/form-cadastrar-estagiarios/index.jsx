@@ -4,7 +4,7 @@ import { toast } from 'sonner';
 import { useState } from 'react'; // Importe o useState
 import { api } from '../../../api/axios';
 
-export function FormCadastrarEstagiarios() {
+export function FormCadastrarEstagiarios({ setUploadData, setIsDialogEstagiariosOpen }) {
 
     // commit teste
     // Estado para cada campo do formulário
@@ -39,7 +39,7 @@ export function FormCadastrarEstagiarios() {
         e.preventDefault();
 
         try {
-            await api.post("/estagiarios", {
+            const response = await api.post("/estagiarios", {
                 nome: formData.nome.toUpperCase(),
                 cargo: formData.cargo.toUpperCase(),
                 setor: formData.setor.toUpperCase(),
@@ -48,6 +48,13 @@ export function FormCadastrarEstagiarios() {
                 saida: formData.saida,
             });
 
+            const { data } = response
+
+            setUploadData((prevValues) => ({
+                ...prevValues,
+                estagiarioId: data.id,
+                openModal: true
+            }))
 
             toast.success("Cadastrado", {
                 description: "Estagiário cadastrado com sucesso!",
@@ -63,6 +70,8 @@ export function FormCadastrarEstagiarios() {
                 entrada: '',
                 saida: '',
             });
+
+            setIsDialogEstagiariosOpen(false)
 
         } catch (error) {
             const message = error?.response?.data?.erro || error.message || 'Erro desconhecido';

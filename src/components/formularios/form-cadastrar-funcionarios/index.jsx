@@ -4,7 +4,7 @@ import { toast } from 'sonner';
 import React, { useState } from 'react'; // Importe o useState
 import { api } from '../../../api/axios';
 
-export function FormCadastrarFuncionarios({ setUploadData, setIsDialogOpen }) {
+export function FormCadastrarFuncionarios({ setUploadData, setIsDialogFuncionariosOpen }) {
 
     // commit teste
     // Estado para cada campo do formulário
@@ -103,7 +103,7 @@ export function FormCadastrarFuncionarios({ setUploadData, setIsDialogOpen }) {
                 data_admissao: '',
             });
 
-            setIsDialogOpen(false)
+            setIsDialogFuncionariosOpen(false)
 
         } catch (error) {
             const message = error?.response?.data?.erro || error.message || 'Erro desconhecido';

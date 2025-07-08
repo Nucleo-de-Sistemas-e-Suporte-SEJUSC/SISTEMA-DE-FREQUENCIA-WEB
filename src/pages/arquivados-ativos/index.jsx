@@ -13,7 +13,8 @@ import { api } from "../../api/axios";
 
 export function ArquivadosAtivos() {
     const [menu, setMenu] = React.useState(false)
-    const [isDialogOpen, setIsDialogOpen] = React.useState(false);
+    const [isDialogFuncionariosOpen, setIsDialogFuncionariosOpen] = React.useState(false);
+    const [isDialogEstagiariosOpen, setIsDialogEstagiariosOpen] = React.useState(false);
     const [uploadData, setUploadData] = React.useState({
         openModal: false,
         tipoDocumento: null,
@@ -22,7 +23,7 @@ export function ArquivadosAtivos() {
         file: null
     });
 
-    console.log(uploadData)
+    //console.log(uploadData)
 
     const { file, funcionarioId, estagiarioId, tipoDocumento, openModal } = uploadData
 
@@ -53,7 +54,6 @@ export function ArquivadosAtivos() {
                 estagiarioId: null,
                 file: null
             }))
-            console.log(response.data)
         } catch (error) {
             const message = error.response?.data?.error || 'Erro desconhecido'
             toast.error(`Erro: ${message}`)
@@ -144,7 +144,7 @@ export function ArquivadosAtivos() {
                         <FormCadastrarFeriados />
                     </Dialog.Root>
 
-                    <Dialog.Root open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+                    <Dialog.Root open={isDialogFuncionariosOpen} onOpenChange={setIsDialogFuncionariosOpen}>
                         <Dialog.Trigger asChild>
                             <button className="button__cadastrar__servidor">
                                 Cadastrar Servidor
@@ -153,18 +153,21 @@ export function ArquivadosAtivos() {
 
                         <FormCadastrarFuncionarios
                             setUploadData={setUploadData}
-                            setIsDialogOpen={setIsDialogOpen}
+                            setIsDialogFuncionariosOpen={setIsDialogFuncionariosOpen}
                         />
                     </Dialog.Root>
 
-                    <Dialog.Root>
+                    <Dialog.Root open={isDialogEstagiariosOpen} onOpenChange={setIsDialogEstagiariosOpen}>
                         <Dialog.Trigger asChild>
                             <button className="button__cadastrar__servidor">
                                 Cadastrar Estagiário
                             </button>
                         </Dialog.Trigger>
 
-                        <FormCadastrarEstagiarios />
+                        <FormCadastrarEstagiarios 
+                            setUploadData={setUploadData}
+                            setIsDialogEstagiariosOpen={setIsDialogEstagiariosOpen}
+                        />
                     </Dialog.Root>
                 </main>
             </section>
