@@ -6,6 +6,7 @@ import { useState } from "react"
 import * as Dialog from '@radix-ui/react-dialog';
 import { FormAtualizarFuncionarios } from "../../formularios/form-atualizar-funcionarios"
 import { FormAtualizarEstagiarios } from "../../formularios/form-atualizar-estagiarios"
+import { FormAnexarEstagiario } from "../../formularios/form-anexar-estagiarios"
 
 export function CardFuncionarios(props) {
 	// <button className={`${styles["card__details__historico__button"]} ${styles["card__details__button"]} `}>Histórico</button>
@@ -82,6 +83,7 @@ export function CardFuncionarios(props) {
 				{quantidadeServidores === 0 && <p>Nenhum servidor</p>}
 
 				<div className={styles["card__details__container__button"]}>
+
 					{
 						checkboxFiltro === 'servidor' && <Dialog.Root>
 							<Dialog.Trigger asChild>
@@ -92,6 +94,21 @@ export function CardFuncionarios(props) {
 
 							<FormAtualizarFuncionarios id={id} servidor={servidor} />
 						</Dialog.Root>
+					}
+
+					{
+						checkboxFiltro === 'estagiario' && (
+
+							<Dialog.Root>
+								<Dialog.Trigger asChild>
+									<button className={styles["card__details__anexar__button"]}>
+										Anexar
+									</button>
+								</Dialog.Trigger>
+
+								<FormAnexarEstagiario nome={nome} />
+							</Dialog.Root>
+						)
 					}
 
 					{
@@ -107,7 +124,6 @@ export function CardFuncionarios(props) {
 					}
 
 					<button className={`${styles["card__details__arquivar__button"]} ${styles["card__details__button"]} `} onClick={arquiva}>Arquivar</button>
-
 				</div>
 			</details>
 

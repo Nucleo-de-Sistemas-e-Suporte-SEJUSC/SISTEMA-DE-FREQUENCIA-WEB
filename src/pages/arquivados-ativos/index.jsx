@@ -23,8 +23,6 @@ export function ArquivadosAtivos() {
         file: null
     });
 
-    //console.log(uploadData)
-
     const { file, funcionarioId, estagiarioId, tipoDocumento, openModal } = uploadData
 
     const handleSubmit = async (event) => {

@@ -8,7 +8,7 @@ export function FormAtualizarEstagiarios({ id, estagiario }) {
 
     // commit teste
     // Estado para cada campo do formulário
-    console.log(estagiario)
+    //console.log(estagiario)
     const [formData, setFormData] = useState({
         nome: estagiario.nome,                  // era nomeCompleto
         cargo: 'estagiário',
@@ -86,7 +86,7 @@ export function FormAtualizarEstagiarios({ id, estagiario }) {
         <Dialog.Portal>
             <Dialog.Overlay className='DialogOverlay' />
             <Dialog.Content className='DialogContent'>
-                <Dialog.DialogTitle className='dialog-title'>Atualizar Estagiários</Dialog.DialogTitle>
+                <Dialog.DialogTitle className='dialog-title'>Atualizar Estagiário</Dialog.DialogTitle>
                 <form onSubmit={handleSubmit} className='form__dialog'>
                     <div>
                         <label htmlFor="nome" className='form__dialog__label'>Nome Completo*</label>

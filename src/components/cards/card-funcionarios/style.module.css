@@ -13,7 +13,6 @@
     border: 1px solid var(--cor-borda);
     padding: 15px;
     background: #F5F5F5;
-
 }
 
 .card__summary {
@@ -43,8 +42,7 @@
 }
 
 .card__details__container__button {
-    text-align: end;
-    padding: 0 40px;
+    padding-top: 20px;
 }
 
 .card__details__container__button button {
@@ -113,6 +111,16 @@
 
 .card__details__atualizar__button {
     background-color: var(--laranja);
+    color: #202020;
+    border: none;
+    border-radius: 8px;
+    padding: 8px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.card__details__anexar__button {
+    background-color: var(--verde);
     color: #202020;
     border: none;
     border-radius: 8px;
