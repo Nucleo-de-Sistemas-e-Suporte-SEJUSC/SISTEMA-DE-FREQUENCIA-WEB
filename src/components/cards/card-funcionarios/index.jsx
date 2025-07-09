@@ -7,6 +7,7 @@ import * as Dialog from '@radix-ui/react-dialog';
 import { FormAtualizarFuncionarios } from "../../formularios/form-atualizar-funcionarios"
 import { FormAtualizarEstagiarios } from "../../formularios/form-atualizar-estagiarios"
 import { FormAnexarEstagiario } from "../../formularios/form-anexar-estagiarios"
+import { FormAnexarFuncionario } from "../../formularios/form-anexar-funcionarios"
 
 export function CardFuncionarios(props) {
 	// <button className={`${styles["card__details__historico__button"]} ${styles["card__details__button"]} `}>Histórico</button>
@@ -84,6 +85,22 @@ export function CardFuncionarios(props) {
 
 				<div className={styles["card__details__container__button"]}>
 
+
+					{
+						checkboxFiltro === 'servidor' && (
+
+							<Dialog.Root>
+								<Dialog.Trigger asChild>
+									<button className={styles["card__details__anexar__button"]}>
+										Anexar
+									</button>
+								</Dialog.Trigger>
+
+								<FormAnexarFuncionario nome={nome} />
+							</Dialog.Root>
+						)
+					}
+					
 					{
 						checkboxFiltro === 'servidor' && <Dialog.Root>
 							<Dialog.Trigger asChild>
