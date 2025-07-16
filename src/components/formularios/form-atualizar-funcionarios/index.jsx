@@ -10,6 +10,10 @@ export function FormAtualizarFuncionarios({ id, servidor }) {
     // Estado para cada campo do formulário
     //console.log(servidor.feriasfinal)
 
+    const [beneficiarios, setBeneficiarios] = useState([
+        { nome: '', parentesco: '', data_nascimento: '' }
+    ])
+
     const [formData, setFormData] = useState({
         nome: servidor.nome,                  // era nomeCompleto
         matricula: servidor.matricula,
@@ -24,6 +28,7 @@ export function FormAtualizarFuncionarios({ id, servidor }) {
         titulo_eleitor: servidor.titulo_eleitor,        // era tituloEleitor
         cargo: servidor.cargo,
         setor: servidor.setor,
+        beneficiarios: beneficiarios,
         entrada: servidor.horarioentrada.split(":").slice(0, 2).join(":"),               // era horarioEntrada
         saida: servidor.horariosaida.split(":").slice(0, 2).join(":"),                 // era horarioSaida
         data_admissao: servidor.data_admissao,
@@ -38,6 +43,15 @@ export function FormAtualizarFuncionarios({ id, servidor }) {
         // nomePai: '',
     });
 
+    const handleChange = (index, field, value) => {
+        const updated = [...beneficiarios]
+        updated[index][field] = value
+        setBeneficiarios(updated)
+    }
+
+    const handleAdd = () => {
+        setBeneficiarios([...beneficiarios, { nome: '', parentesco: '', data_nascimento: '' }])
+    }
 
     // Função para atualizar o estado quando os inputs mudam
     const handleInputChange = (e) => {
@@ -74,10 +88,11 @@ export function FormAtualizarFuncionarios({ id, servidor }) {
                     data_admissao: formData.data_admissao,
                     feriasinicio: formData.feriasinicio,
                     feriasfinal: formData.feriasfinal,
+                    beneficiarios: formData.beneficiarios.length > 0 ? formData.beneficiarios : undefined
                 }).filter(([_, value]) => value !== '')
             );
 
-            await api.put(`/servidores/${id}`, payload);
+            await api.patch(`/servidores/${id}`, payload);
 
             window.location.reload();
             toast.success("Cadastrado", {
@@ -301,6 +316,45 @@ export function FormAtualizarFuncionarios({ id, servidor }) {
                             onChange={handleInputChange}
                             maxLength={70}
                         />
+                    </div>
+                    <div>
+                        {beneficiarios.map((beneficiario, index) => (
+                            <div key={index}>
+                                <h3 className='form__dialog__label'>Beneficiarios</h3>
+                                <label htmlFor="nome_beneficiario" className='form__dialog__label'>Nome</label>
+                                <input
+                                    type="text"
+                                    name="nome_beneficiario"
+                                    id="nome_beneficiario"
+                                    placeholder="João Ribeiro da Costa"
+                                    value={beneficiario.nome}
+                                    className='form__dialog__input'
+                                    maxLength={70}
+                                    onChange={(e) => handleChange(index, 'nome', e.target.value)}
+                                />
+                                <label htmlFor="parentesco_beneficiario" className='form__dialog__label'>Parentesco</label>
+                                <input
+                                    type="text"
+                                    name="parentesco_beneficiario"
+                                    id="parentesco_beneficiario"
+                                    className='form__dialog__input'
+                                    placeholder="FILHO(A)"
+                                    value={beneficiario.parentesco}
+                                    onChange={(e) => handleChange(index, 'parentesco', e.target.value)}
+                                />
+                                <label htmlFor="data_beneficiario" className='form__dialog__label'>Data de Nascimento</label>
+                                <input
+                                    type="date"
+                                    name="data_beneficiario"
+                                    id="data_beneficiario"
+                                    className='form__dialog__input'
+                                    value={beneficiario.data_nascimento}
+                                    onChange={(e) => handleChange(index, 'data_nascimento', e.target.value)}
+                                />
+                            </div>
+                        ))}
+
+                        <button type="button" className='container__button__adicionar__beneficario' onClick={handleAdd}>Adicionar Beneficiário</button>
                     </div>
                     <div className='container__inputs__horario'>
                         <div>
