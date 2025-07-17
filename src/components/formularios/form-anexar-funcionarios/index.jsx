@@ -1,13 +1,57 @@
+import React from 'react';
 import * as Dialog from '@radix-ui/react-dialog'
 import './style.css'
+import { toast } from 'sonner';
+import { api } from '../../../api/axios';
 
-export function FormAnexarFuncionario({ nome }) {
+export function FormAnexarFuncionario({ nome, id }) {
+    const [uploadData, setUploadData] = React.useState({
+        tipoDocumento: null,
+        funcionarioId: id,
+        files: []
+    });
+
+    const { files, funcionarioId, tipoDocumento } = uploadData
+
+    const handleSubmit = async (event) => {
+        event.preventDefault()
+
+        if (!files) return
+
+        const formData = new FormData()
+        files.forEach((file) => {
+            formData.append('files', file);
+        });
+        if (funcionarioId) formData.append('funcionario_id', funcionarioId)
+        if (tipoDocumento) formData.append('tipo_documento', tipoDocumento)
+
+        try {
+            const response = await api.post('/documentos', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            })
+
+            toast.success('Upload realizado com sucesso!')
+            setUploadData(() => ({
+                tipoDocumento: null,
+                funcionarioId: null,
+                files: null
+            }))
+        } catch (error) {
+            const message = error.response?.data?.error || 'Erro desconhecido'
+            toast.error(`Erro: ${message}`)
+            console.error(error)
+        }
+
+    }
+
     return (
         <Dialog.Portal>
             <Dialog.Overlay className='DialogOverlay' />
             <Dialog.Content className='DialogContent'>
                 <Dialog.DialogTitle className='dialog-title'>Anexar Arquivos</Dialog.DialogTitle>
-                <form className="container_form">
+                <form onSubmit={handleSubmit} className="container_form">
                     <h3>Funcionário: {nome}</h3>
                     <h4>Documentos</h4>
 
@@ -21,7 +65,15 @@ export function FormAnexarFuncionario({ nome }) {
                                 type="file"
                                 id="rh"
                                 name="rh"
-                                required
+                                onChange={({ currentTarget }) => {
+                                    const newFile = currentTarget.files?.[0];
+                                    if (newFile) {
+                                        setUploadData((prevValues) => ({
+                                            ...prevValues,
+                                            files: [...prevValues.files, newFile]
+                                        }));
+                                    }
+                                }}
                             />
                         </label>
                     </div>
@@ -36,7 +88,15 @@ export function FormAnexarFuncionario({ nome }) {
                                 type="file"
                                 id="titulo_de_eleitor"
                                 name="titulo_de_eleitor"
-                                required
+                                onChange={({ currentTarget }) => {
+                                    const newFile = currentTarget.files?.[0];
+                                    if (newFile) {
+                                        setUploadData((prevValues) => ({
+                                            ...prevValues,
+                                            files: [...prevValues.files, newFile]
+                                        }));
+                                    }
+                                }}
                             />
                         </label>
                     </div>
@@ -51,7 +111,15 @@ export function FormAnexarFuncionario({ nome }) {
                                 type="file"
                                 id="cpf"
                                 name="cpf"
-                                required
+                                onChange={({ currentTarget }) => {
+                                    const newFile = currentTarget.files?.[0];
+                                    if (newFile) {
+                                        setUploadData((prevValues) => ({
+                                            ...prevValues,
+                                            files: [...prevValues.files, newFile]
+                                        }));
+                                    }
+                                }}
                             />
                         </label>
                     </div>
@@ -66,7 +134,15 @@ export function FormAnexarFuncionario({ nome }) {
                                 type="file"
                                 id="pis_pased"
                                 name="pis_pased"
-                                required
+                                onChange={({ currentTarget }) => {
+                                    const newFile = currentTarget.files?.[0];
+                                    if (newFile) {
+                                        setUploadData((prevValues) => ({
+                                            ...prevValues,
+                                            files: [...prevValues.files, newFile]
+                                        }));
+                                    }
+                                }}
                             />
                         </label>
                     </div>
@@ -81,7 +157,15 @@ export function FormAnexarFuncionario({ nome }) {
                                 type="file"
                                 id="certidao_reservista"
                                 name="certidao_reservista"
-                                required
+                                onChange={({ currentTarget }) => {
+                                    const newFile = currentTarget.files?.[0];
+                                    if (newFile) {
+                                        setUploadData((prevValues) => ({
+                                            ...prevValues,
+                                            files: [...prevValues.files, newFile]
+                                        }));
+                                    }
+                                }}
                             />
                         </label>
                     </div>
@@ -96,7 +180,15 @@ export function FormAnexarFuncionario({ nome }) {
                                 type="file"
                                 id="comprovante_de_escolaridade"
                                 name="comprovante_de_escolaridade"
-                                required
+                                onChange={({ currentTarget }) => {
+                                    const newFile = currentTarget.files?.[0];
+                                    if (newFile) {
+                                        setUploadData((prevValues) => ({
+                                            ...prevValues,
+                                            files: [...prevValues.files, newFile]
+                                        }));
+                                    }
+                                }}
                             />
                         </label>
                     </div>
@@ -111,7 +203,15 @@ export function FormAnexarFuncionario({ nome }) {
                                 type="file"
                                 id="foto"
                                 name="foto"
-                                required
+                                onChange={({ currentTarget }) => {
+                                    const newFile = currentTarget.files?.[0];
+                                    if (newFile) {
+                                        setUploadData((prevValues) => ({
+                                            ...prevValues,
+                                            files: [...prevValues.files, newFile]
+                                        }));
+                                    }
+                                }}
                             />
                         </label>
                     </div>
@@ -126,7 +226,15 @@ export function FormAnexarFuncionario({ nome }) {
                                 type="file"
                                 id="certidao_de_ascimento"
                                 name="certidao_de_nascimento"
-                                required
+                                onChange={({ currentTarget }) => {
+                                    const newFile = currentTarget.files?.[0];
+                                    if (newFile) {
+                                        setUploadData((prevValues) => ({
+                                            ...prevValues,
+                                            files: [...prevValues.files, newFile]
+                                        }));
+                                    }
+                                }}
                             />
                         </label>
                     </div>
@@ -141,7 +249,15 @@ export function FormAnexarFuncionario({ nome }) {
                                 type="file"
                                 id="curriculo"
                                 name="curriculo"
-                                required
+                                onChange={({ currentTarget }) => {
+                                    const newFile = currentTarget.files?.[0];
+                                    if (newFile) {
+                                        setUploadData((prevValues) => ({
+                                            ...prevValues,
+                                            files: [...prevValues.files, newFile]
+                                        }));
+                                    }
+                                }}
                             />
                         </label>
                     </div>

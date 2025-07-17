@@ -138,7 +138,7 @@ export function CardFuncionarios(props) {
 									</button>
 								</Dialog.Trigger>
 
-								<FormAnexarFuncionario nome={nome} />
+								<FormAnexarFuncionario nome={nome} id={id} />
 							</Dialog.Root>
 						)
 					}
