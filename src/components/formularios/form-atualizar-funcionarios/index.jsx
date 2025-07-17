@@ -8,7 +8,7 @@ export function FormAtualizarFuncionarios({ id, servidor }) {
     //console.log(`/criar/servidores/${id}`)
     // commit teste
     // Estado para cada campo do formulário
-    //console.log(servidor.feriasfinal)
+    //console.log(servidor)
 
     const [formData, setFormData] = useState({
         nome: servidor.nome,                  // era nomeCompleto
@@ -29,16 +29,18 @@ export function FormAtualizarFuncionarios({ id, servidor }) {
         ],
         entrada: servidor.horarioentrada.split(":").slice(0, 2).join(":"),               // era horarioEntrada
         saida: servidor.horariosaida.split(":").slice(0, 2).join(":"),                 // era horarioSaida
-        data_admissao: servidor.data_admissao,
+        data_admissao: '',
         feriasinicio: '',
         feriasfinal: '',
-        // Campos não usados pelo backend:
-        // servicoMilitar: '',
-        // condicaoJuridica: '',
-        // carteiraProfissional: '',
-        // carteiraSaude: '',
-        // nomeMae: '',
-        // nomePai: '',
+        servicoMilitar: servidor.servico_militar,
+        carteiraProfissional: servidor.carteira_profissional,
+        nomeMae: servidor.nome_mae,
+        nomePai: servidor.nome_pai,
+        vencimentoOuSalario: servidor.vencimento_ou_salario,
+        endereco: servidor.endereco,
+        dataDesligamento: '',
+        inicioAtividades: '',
+        descansoSemanal: servidor.descanso_semanal
     });
 
     //console.log(formData.beneficiarios)
@@ -99,7 +101,17 @@ export function FormAtualizarFuncionarios({ id, servidor }) {
                     data_admissao: formData.data_admissao,
                     feriasinicio: formData.feriasinicio,
                     feriasfinal: formData.feriasfinal,
-                    beneficiarios: formData.beneficiarios.length > 0 ? formData.beneficiarios : undefined
+                    beneficiarios: formData.beneficiarios
+                        .filter(b => b.nome !== '' && b.parentesco !== '' && b.data_nascimento !== ''),
+                    servico_militar: formData.servicoMilitar,
+                    nome_mae: formData.nomeMae,
+                    nome_pai: formData.nomePai,
+                    vencimento_ou_salario: formData.vencimentoOuSalario,
+                    carteira_profissional: formData.carteiraProfissional,
+                    endereco: formData.endereco,
+                    data_desligamento: formData.dataDesligamento,
+                    inicio_atividades: formData.inicioAtividades,
+                    descanso_semanal: formData.descansoSemanal
                 }).filter(([_, value]) => value !== '')
             );
 
@@ -133,6 +145,12 @@ export function FormAtualizarFuncionarios({ id, servidor }) {
                 data_admissao: '',
                 feriasinicio: '',
                 feriasfinal: '',
+                servico_militar: '',
+                nome_mae: '',
+                nome_pai: '',
+                carteiraProfissional: '',
+                vencimentoOuSalario: '',
+                endereco: '',
             });
 
         } catch (error) {
@@ -289,6 +307,97 @@ export function FormAtualizarFuncionarios({ id, servidor }) {
                     </div>
 
                     <div>
+                        <label htmlFor="nomeMae" className='form__dialog__label'>Nome da Mãe</label>
+                        <input
+                            type="text"
+                            name="nomeMae"
+                            id="nomeMae"
+                            placeholder='Francisca Marlene'
+                            className='form__dialog__input'
+                            value={formData.nomeMae}
+                            onChange={handleInputChange}
+                        />
+                    </div>
+
+                    <div>
+                        <label htmlFor="nomePai" className='form__dialog__label'>Nome do Pai</label>
+                        <input
+                            type="text"
+                            name="nomePai"
+                            id="nomePai"
+                            placeholder='José Alves Neto'
+                            className='form__dialog__input'
+                            value={formData.nomePai}
+                            onChange={handleInputChange}
+                        />
+                    </div>
+
+                    <div>
+                        <label htmlFor="servicoMilitar" className='form__dialog__label'>Serviço Militar</label>
+                        <input
+                            type="text"
+                            name="servicoMilitar"
+                            id="servicoMilitar"
+                            placeholder=''
+                            className='form__dialog__input'
+                            value={formData.servicoMilitar}
+                            onChange={handleInputChange}
+                        />
+                    </div>
+
+                    <div>
+                        <label htmlFor="carteiraProfissional" className='form__dialog__label'>Carteira Profissional</label>
+                        <input
+                            type="text"
+                            name="carteiraProfissional"
+                            id="carteiraProfissional"
+                            placeholder='123456/AM'
+                            className='form__dialog__input'
+                            value={formData.carteiraProfissional}
+                            onChange={handleInputChange}
+                        />
+                    </div>
+
+                    <div>
+                        <label htmlFor="vencimentoOuSalario" className='form__dialog__label'>Vencimento Ou Salario</label>
+                        <input
+                            type="number"
+                            name="vencimentoOuSalario"
+                            id="vencimentoOuSalario"
+                            placeholder='2400'
+                            className='form__dialog__input'
+                            value={formData.vencimentoOuSalario}
+                            onChange={handleInputChange}
+                        />
+                    </div>
+
+                    <div>
+                        <label htmlFor="endereco" className='form__dialog__label'>Endereço</label>
+                        <input
+                            type="text"
+                            name="endereco"
+                            id="endereco"
+                            placeholder='Avenida dos Testes, 456, Bairro da Interface, São Paulo-SP'
+                            className='form__dialog__input'
+                            value={formData.endereco}
+                            onChange={handleInputChange}
+                        />
+                    </div>
+
+                    <div>
+                        <label htmlFor="descansoSemanal" className='form__dialog__label'>Descanço Semanal</label>
+                        <input
+                            type="text"
+                            name="descansoSemanal"
+                            id="descansoSemanal"
+                            placeholder=''
+                            className='form__dialog__input'
+                            value={formData.descansoSemanal}
+                            onChange={handleInputChange}
+                        />
+                    </div>
+
+                    <div>
                         <label htmlFor="titulo_eleitor" className='form__dialog__label'>Título de Eleitor</label>
                         <input
                             type="text"
@@ -411,6 +520,32 @@ export function FormAtualizarFuncionarios({ id, servidor }) {
                             onChange={handleInputChange}
                         />
                     </div>
+
+                    <div>
+                        <label htmlFor="inicioAtividades" className='form__dialog__label'>Início de Atividades</label>
+                        <input
+                            type="date"
+                            name="inicioAtividades"
+                            id="inicioAtividades"
+                            className='form__dialog__input'
+                            value={formData.inicioAtividades}
+                            onChange={handleInputChange}
+                        />
+                    </div>
+
+                    <div>
+                        <label htmlFor="dataDesligamento" className='form__dialog__label'>Data de Desligamento</label>
+                        <input
+                            type="date"
+                            name="dataDesligamento"
+                            id="dataDesligamento"
+                            placeholder=''
+                            className='form__dialog__input'
+                            value={formData.dataDesligamento}
+                            onChange={handleInputChange}
+                        />
+                    </div>
+
                     <div className='container__inputs__horario'>
                         <div>
                             <label htmlFor="feriasinicio" className='form__dialog__label'>Ferias Início</label>
