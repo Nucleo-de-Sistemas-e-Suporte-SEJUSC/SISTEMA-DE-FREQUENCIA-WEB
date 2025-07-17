@@ -6,12 +6,12 @@ import { api } from '../../../api/axios';
 
 export function FormAnexarFuncionario({ nome, id }) {
     const [uploadData, setUploadData] = React.useState({
-        tipoDocumento: null,
+        tiposDocumento: [],
         funcionarioId: id,
         files: []
     });
 
-    const { files, funcionarioId, tipoDocumento } = uploadData
+    const { files, funcionarioId, tiposDocumento } = uploadData
 
     const handleSubmit = async (event) => {
         event.preventDefault()
@@ -19,14 +19,15 @@ export function FormAnexarFuncionario({ nome, id }) {
         if (!files) return
 
         const formData = new FormData()
-        files.forEach((file) => {
+        files.forEach((file, index) => {
             formData.append('files', file);
+            formData.append('tipos_documento', tiposDocumento[index] || 'Não especificado');
         });
         if (funcionarioId) formData.append('funcionario_id', funcionarioId)
-        if (tipoDocumento) formData.append('tipo_documento', tipoDocumento)
+        if (tiposDocumento) formData.append('tipo_documento', tiposDocumento)
 
         try {
-            const response = await api.post('/documentos', formData, {
+            await api.post('/documentos', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
@@ -38,6 +39,7 @@ export function FormAnexarFuncionario({ nome, id }) {
                 funcionarioId: null,
                 files: null
             }))
+            window.location.reload();
         } catch (error) {
             const message = error.response?.data?.error || 'Erro desconhecido'
             toast.error(`Erro: ${message}`)
@@ -56,21 +58,22 @@ export function FormAnexarFuncionario({ nome, id }) {
                     <h4>Documentos</h4>
 
                     <div className="container_label">
+
                         <label
                             className="content_label"
                         >
-                            RH*
+                            RH
                             <input
                                 className=""
                                 type="file"
-                                id="rh"
                                 name="rh"
                                 onChange={({ currentTarget }) => {
                                     const newFile = currentTarget.files?.[0];
                                     if (newFile) {
                                         setUploadData((prevValues) => ({
                                             ...prevValues,
-                                            files: [...prevValues.files, newFile]
+                                            files: [...prevValues.files, newFile],
+                                            tiposDocumento: [...prevValues.tiposDocumento, 'rh']
                                         }));
                                     }
                                 }}
@@ -79,21 +82,22 @@ export function FormAnexarFuncionario({ nome, id }) {
                     </div>
 
                     <div className="container_label">
+
                         <label
                             className="content_label"
                         >
-                            Título de Eleitor*
+                            Título de Eleitor
                             <input
                                 className=""
                                 type="file"
-                                id="titulo_de_eleitor"
                                 name="titulo_de_eleitor"
                                 onChange={({ currentTarget }) => {
                                     const newFile = currentTarget.files?.[0];
                                     if (newFile) {
                                         setUploadData((prevValues) => ({
                                             ...prevValues,
-                                            files: [...prevValues.files, newFile]
+                                            files: [...prevValues.files, newFile],
+                                            tiposDocumento: [...prevValues.tiposDocumento, 'titulo_de_eleitor']
                                         }));
                                     }
                                 }}
@@ -102,21 +106,22 @@ export function FormAnexarFuncionario({ nome, id }) {
                     </div>
 
                     <div className="container_label">
+
                         <label
                             className="content_label"
                         >
-                            CPF*
+                            CPF
                             <input
                                 className=""
                                 type="file"
-                                id="cpf"
                                 name="cpf"
                                 onChange={({ currentTarget }) => {
                                     const newFile = currentTarget.files?.[0];
                                     if (newFile) {
                                         setUploadData((prevValues) => ({
                                             ...prevValues,
-                                            files: [...prevValues.files, newFile]
+                                            files: [...prevValues.files, newFile],
+                                            tiposDocumento: [...prevValues.tiposDocumento, 'cpf']
                                         }));
                                     }
                                 }}
@@ -125,21 +130,22 @@ export function FormAnexarFuncionario({ nome, id }) {
                     </div>
 
                     <div className="container_label">
+
                         <label
                             className="content_label"
                         >
-                            PIS/PASED*
+                            PIS/PASED
                             <input
                                 className=""
                                 type="file"
-                                id="pis_pased"
                                 name="pis_pased"
                                 onChange={({ currentTarget }) => {
                                     const newFile = currentTarget.files?.[0];
                                     if (newFile) {
                                         setUploadData((prevValues) => ({
                                             ...prevValues,
-                                            files: [...prevValues.files, newFile]
+                                            files: [...prevValues.files, newFile],
+                                            tiposDocumento: [...prevValues.tiposDocumento, 'pis_pased']
                                         }));
                                     }
                                 }}
@@ -148,21 +154,22 @@ export function FormAnexarFuncionario({ nome, id }) {
                     </div>
 
                     <div className="container_label">
+
                         <label
                             className="content_label"
                         >
-                            Certidão Reservista (Se Homem)*
+                            Certidão Reservista (Se Homem)
                             <input
                                 className=""
                                 type="file"
-                                id="certidao_reservista"
                                 name="certidao_reservista"
                                 onChange={({ currentTarget }) => {
                                     const newFile = currentTarget.files?.[0];
                                     if (newFile) {
                                         setUploadData((prevValues) => ({
                                             ...prevValues,
-                                            files: [...prevValues.files, newFile]
+                                            files: [...prevValues.files, newFile],
+                                            tiposDocumento: [...prevValues.tiposDocumento, 'certidao_reservista']
                                         }));
                                     }
                                 }}
@@ -171,21 +178,22 @@ export function FormAnexarFuncionario({ nome, id }) {
                     </div>
 
                     <div className="container_label">
+
                         <label
                             className="content_label"
                         >
-                            Comprovante de Escolaridade*
+                            Comprovante de Escolaridade
                             <input
                                 className=""
                                 type="file"
-                                id="comprovante_de_escolaridade"
                                 name="comprovante_de_escolaridade"
                                 onChange={({ currentTarget }) => {
                                     const newFile = currentTarget.files?.[0];
                                     if (newFile) {
                                         setUploadData((prevValues) => ({
                                             ...prevValues,
-                                            files: [...prevValues.files, newFile]
+                                            files: [...prevValues.files, newFile],
+                                            tiposDocumento: [...prevValues.tiposDocumento, 'comprovante_de_escolaridade']
                                         }));
                                     }
                                 }}
@@ -194,21 +202,22 @@ export function FormAnexarFuncionario({ nome, id }) {
                     </div>
 
                     <div className="container_label">
+
                         <label
                             className="content_label"
                         >
-                            Foto 3x4*
+                            Foto 3x4
                             <input
                                 className=""
                                 type="file"
-                                id="foto"
                                 name="foto"
                                 onChange={({ currentTarget }) => {
                                     const newFile = currentTarget.files?.[0];
                                     if (newFile) {
                                         setUploadData((prevValues) => ({
                                             ...prevValues,
-                                            files: [...prevValues.files, newFile]
+                                            files: [...prevValues.files, newFile],
+                                            tiposDocumento: [...prevValues.tiposDocumento, 'foto']
                                         }));
                                     }
                                 }}
@@ -217,21 +226,22 @@ export function FormAnexarFuncionario({ nome, id }) {
                     </div>
 
                     <div className="container_label">
+
                         <label
                             className="content_label"
                         >
-                            Certidão de Nascimento*
+                            Certidão de Nascimento
                             <input
                                 className=""
                                 type="file"
-                                id="certidao_de_ascimento"
                                 name="certidao_de_nascimento"
                                 onChange={({ currentTarget }) => {
                                     const newFile = currentTarget.files?.[0];
                                     if (newFile) {
                                         setUploadData((prevValues) => ({
                                             ...prevValues,
-                                            files: [...prevValues.files, newFile]
+                                            files: [...prevValues.files, newFile],
+                                            tiposDocumento: [...prevValues.tiposDocumento, 'certidao_de_ascimento']
                                         }));
                                     }
                                 }}
@@ -240,21 +250,22 @@ export function FormAnexarFuncionario({ nome, id }) {
                     </div>
 
                     <div className="container_label">
+
                         <label
                             className="content_label"
                         >
-                            Currículo*
+                            Currículo
                             <input
                                 className=""
                                 type="file"
-                                id="curriculo"
                                 name="curriculo"
                                 onChange={({ currentTarget }) => {
                                     const newFile = currentTarget.files?.[0];
                                     if (newFile) {
                                         setUploadData((prevValues) => ({
                                             ...prevValues,
-                                            files: [...prevValues.files, newFile]
+                                            files: [...prevValues.files, newFile],
+                                            tiposDocumento: [...prevValues.tiposDocumento, 'curriculo']
                                         }));
                                     }
                                 }}
