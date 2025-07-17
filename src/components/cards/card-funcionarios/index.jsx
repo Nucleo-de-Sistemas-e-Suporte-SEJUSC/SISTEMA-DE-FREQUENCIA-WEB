@@ -62,6 +62,48 @@ export function CardFuncionarios(props) {
 		}
 	}
 
+	const gerarFichaFuncional = async () => {
+		try {
+			const response = await api.post(`servidores/${id}/gerar-ficha-funcional`)
+			if (response.status === 201) {
+				const documentoId = response.data.documento_id
+				downloadFichaFuncional(documentoId)
+			}
+		} catch (error) {
+			console.log(error)
+		}
+	}
+
+	const downloadFichaFuncional = async (documentoId) => {
+		try {
+			const response = await api.get(`/fichas-funcionais/download/${documentoId}`, {
+				responseType: 'blob'
+			});
+
+			const url = window.URL.createObjectURL(new Blob([response.data]))
+			const link = document.createElement('a')
+			link.href = url
+
+			const contentDisposition = response.headers['content-disposition']
+			let fileName = 'ficha-funcional.pdf'
+
+			if (contentDisposition) {
+				const fileNameMatch = contentDisposition.match(/filename="?(.+)"?/)
+				if (fileNameMatch?.[1]) {
+					fileName = fileNameMatch[1]
+				}
+			}
+
+			link.setAttribute('download', fileName)
+			document.body.appendChild(link)
+			link.click()
+			link.remove()
+
+		} catch (error) {
+			console.error('Erro ao baixar o arquivo:', error)
+		}
+	}
+
 	async function historicoLogsArquivar(usuario, nomeServidor, setorServidor) {
 		const servidorOuEstagiario = identificador ? 'estagiario(a)' : 'servidor(a)'
 		await api.post("/historico-logs", {
@@ -100,7 +142,7 @@ export function CardFuncionarios(props) {
 							</Dialog.Root>
 						)
 					}
-					
+
 					{
 						checkboxFiltro === 'servidor' && <Dialog.Root>
 							<Dialog.Trigger asChild>
@@ -141,6 +183,7 @@ export function CardFuncionarios(props) {
 					}
 
 					<button className={`${styles["card__details__arquivar__button"]} ${styles["card__details__button"]} `} onClick={arquiva}>Arquivar</button>
+					<button className={`${styles["card__details__gerar__button"]} ${styles["card__details__button"]} `} onClick={gerarFichaFuncional}>Gerar Ficha</button>
 				</div>
 			</details>
 
