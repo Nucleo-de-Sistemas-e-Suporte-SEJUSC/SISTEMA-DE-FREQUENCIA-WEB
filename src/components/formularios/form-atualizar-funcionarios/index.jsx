@@ -10,10 +10,6 @@ export function FormAtualizarFuncionarios({ id, servidor }) {
     // Estado para cada campo do formulário
     //console.log(servidor.feriasfinal)
 
-    const [beneficiarios, setBeneficiarios] = useState([
-        { nome: '', parentesco: '', data_nascimento: '' }
-    ])
-
     const [formData, setFormData] = useState({
         nome: servidor.nome,                  // era nomeCompleto
         matricula: servidor.matricula,
@@ -28,7 +24,9 @@ export function FormAtualizarFuncionarios({ id, servidor }) {
         titulo_eleitor: servidor.titulo_eleitor,        // era tituloEleitor
         cargo: servidor.cargo,
         setor: servidor.setor,
-        beneficiarios: beneficiarios,
+        beneficiarios: [
+            { nome: '', parentesco: '', data_nascimento: '' }
+        ],
         entrada: servidor.horarioentrada.split(":").slice(0, 2).join(":"),               // era horarioEntrada
         saida: servidor.horariosaida.split(":").slice(0, 2).join(":"),                 // era horarioSaida
         data_admissao: servidor.data_admissao,
@@ -43,14 +41,27 @@ export function FormAtualizarFuncionarios({ id, servidor }) {
         // nomePai: '',
     });
 
+    //console.log(formData.beneficiarios)
+
     const handleChange = (index, field, value) => {
-        const updated = [...beneficiarios]
-        updated[index][field] = value
-        setBeneficiarios(updated)
+        setFormData((prevData) => {
+            const updated = [...prevData.beneficiarios]
+            updated[index][field] = value
+            return {
+                ...prevData,
+                beneficiarios: updated
+            }
+        })
     }
 
     const handleAdd = () => {
-        setBeneficiarios([...beneficiarios, { nome: '', parentesco: '', data_nascimento: '' }])
+        setFormData((prevData) => ({
+            ...prevData,
+            beneficiarios: [
+                ...prevData.beneficiarios,
+                { nome: '', parentesco: '', data_nascimento: '' }
+            ]
+        }))
     }
 
     // Função para atualizar o estado quando os inputs mudam
@@ -114,6 +125,9 @@ export function FormAtualizarFuncionarios({ id, servidor }) {
                 titulo_eleitor: '',
                 cargo: '',
                 setor: '',
+                beneficiarios: [
+                    { nome: '', parentesco: '', data_nascimento: '' }
+                ],
                 entrada: '',
                 saida: '',
                 data_admissao: '',
@@ -318,9 +332,9 @@ export function FormAtualizarFuncionarios({ id, servidor }) {
                         />
                     </div>
                     <div>
-                        {beneficiarios.map((beneficiario, index) => (
+                        {formData.beneficiarios.map((beneficiario, index) => (
                             <div key={index}>
-                                <h3 className='form__dialog__label'>Beneficiarios</h3>
+                                <h3 className='form__dialog__label'>Beneficiarios - max: 14</h3>
                                 <label htmlFor="nome_beneficiario" className='form__dialog__label'>Nome</label>
                                 <input
                                     type="text"

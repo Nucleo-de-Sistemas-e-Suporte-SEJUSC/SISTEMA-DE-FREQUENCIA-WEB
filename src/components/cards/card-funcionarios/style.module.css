@@ -139,3 +139,7 @@
     background-color: var(--cinza);
     cursor: not-allowed;
 }
+
+.card__details__gerar__button {
+    background-color: var(--roxo);
+}
