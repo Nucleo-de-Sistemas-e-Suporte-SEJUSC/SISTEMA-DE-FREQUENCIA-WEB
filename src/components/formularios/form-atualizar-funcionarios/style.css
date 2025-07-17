@@ -98,3 +98,12 @@
     cursor: pointer;
     background-color: var(--roxo);
 }
+
+.container__button__adicionar__beneficario {
+    border: none;
+    padding: 8px;
+    color: var(--branco);
+    border-radius: 8px;
+    cursor: pointer;
+    background-color: var(--roxo);
+}
