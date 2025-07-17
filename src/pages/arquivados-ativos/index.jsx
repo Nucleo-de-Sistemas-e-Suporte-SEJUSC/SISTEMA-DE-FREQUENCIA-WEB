@@ -34,11 +34,10 @@ export function ArquivadosAtivos() {
         formData.append('file', file)
         if (funcionarioId) formData.append('funcionario_id', funcionarioId)
         if (estagiarioId) formData.append('estagiario_id', estagiarioId)
-        if (estagiarioId) formData.append('estagiario_id', estagiarioId)
         if (tipoDocumento) formData.append('tipo_documento', tipoDocumento)
 
         try {
-            const response = await api.post('documentos', formData, {
+            const response = await api.post('/documentos', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
